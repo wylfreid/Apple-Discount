@@ -1,0 +1,303 @@
+import React, { useState, useRef, useEffect } from "react";
+
+import { Row, Container, Col } from "reactstrap";
+
+import { useParams } from "react-router-dom";
+import Helmet from "./../components/Helmet/Helmet";
+import CommonSection from "./../components/UI/CommonSection";
+
+import "../styles/product-details.css";
+import { motion } from "framer-motion";
+import ProductList from './../components/UI/ProductList';
+import { useDispatch } from 'react-redux';
+import { cartActions } from './../redux/slices/cartSlice';
+import { toast } from 'react-toastify';
+
+import { collection, addDoc } from "firebase/firestore";
+
+import { db } from "../firebase.config";
+
+import useGetData from "./../custom-hooks/useGetData";
+import { doc, getDoc } from "firebase/firestore";
+import UseAuth from './../custom-hooks/useAuth';
+
+
+
+const ProductDetails = () => {
+
+  const { data: products, loading } = useGetData("products");
+
+  const { data: reviews} = useGetData("reviews");
+
+  const [product, setProduct] = useState({});
+
+  const { id } = useParams();
+
+  const [tab, setTab] = useState("desc");
+  const reviewUser = useRef('');
+  const reviewMsg = useRef('')
+
+  const dispatch = useDispatch();
+
+  const { currentUser } = UseAuth();
+
+
+  const [rating, setRating] = useState(0);
+
+  const [productReview, setProductReview] = useState(0);
+
+
+  const docRef = doc(db, 'products', id);
+
+  useEffect(() =>{
+    const getProduct = async() =>{
+      const docSnap = await getDoc(docRef);
+
+      if(docSnap.exists()){
+        setProduct(docSnap.data());
+      }else{
+        console.log('no products!');
+      }
+    }
+
+    getProduct();
+  }, [id])
+
+  useEffect(()=>{
+
+    if (reviews.length > 0) {
+      
+      let reviews_list = [];
+  
+      for (let index = 0; index < reviews.length; index++) {
+        
+        if(reviews[index].productId === id){
+          reviews_list[index] = reviews[index];
+        }
+        
+      }
+  
+      setProductReview(reviews_list);
+    }
+
+  },[reviews, id])
+
+
+  const {
+    imgUrl,
+    productName,
+    price,
+    //avgRating,
+    //reviews,
+    description,
+    shortDesc,
+    category
+  } = product;
+
+  const relatedProducts = products.filter(item=> item.category === category).filter(item=> item.id !== id)
+
+  const submitHandler = async (e) =>{
+    e.preventDefault();
+
+    if (rating > 0) {
+      const reviewUserName = reviewUser.current.value;
+      const reviewUserMsg = reviewMsg.current.value;
+  
+      // =========== add review to the firebase database ===========================
+  
+      try {
+        const docRef = await collection(db, "reviews");
+  
+          const reviewObj = {
+            userId: currentUser.uid,
+            productId: id,
+            author: reviewUserName,
+            text: reviewUserMsg,
+            rating: rating 
+          }
+  
+          await addDoc(docRef,  reviewObj);
+      
+          toast.success('Review Submitted');
+  
+      } catch (error) {
+        toast.error("Review not Submitted");
+      }
+    }else{
+      toast.error("please rate!");
+    }
+    
+    
+
+  }
+
+  const addToCart = () => {
+    dispatch(
+      cartActions.addItem({
+        id: id,
+        productName: productName,
+        price: price,
+        imgUrl: imgUrl,
+      })
+    );
+    toast.success('product added to the cart');
+  };
+
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  }, [id])
+
+
+  return (
+    <Helmet title={productName}>
+      <CommonSection title={productName} />
+
+      <section className="pt-0 pb-0">
+        <Container>
+          <Row>
+            <Col lg="6" className="d-flex align-items-center justify-content-lg-end justify-content-md-center justify-content-sm-center">
+              <img className="img_product-details" src={imgUrl} alt=""/>
+            </Col>
+            <Col lg="6">
+              <div className="product__details" >
+                <h2>{productName}</h2>
+                <div className="product__rating d-flex align-items-center gap-5 mb-3">
+                  <div>
+                    <span>
+                      <i className="ri-star-s-fill"></i>
+                    </span>
+                    <span>
+                      <i className="ri-star-s-fill"></i>
+                    </span>
+                    <span>
+                      <i className="ri-star-s-fill"></i>
+                    </span>
+                    <span>
+                      <i className="ri-star-s-fill"></i>
+                    </span>
+                    <span>
+                      <i className="ri-star-half-s-line"></i>
+                    </span>
+                  </div>
+
+                  <p>
+                    {/*(<span>{avgRating}</span>ratings)*/}
+                  </p>
+                </div>
+                <div className="d-flex align-items-center gap-5">
+                  <span className="product__price"> ${price}</span>
+                  <span>Category : {category?.toUpperCase()} </span>
+                </div>
+                
+                <p className="mt-3"> {shortDesc} </p>
+
+                <motion.button
+                  whileTap={{ scale: 1.2 }}
+                  className="buy__btn mt-4"
+                  onClick={addToCart}
+                >
+                  Add to Cart
+                </motion.button>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      <section className="pt-0">
+        <Container>
+          <Row>
+            <Col lg="12" className="col__tab-wrapper">
+              <div className="tab__wrapper d-flex align-items-center gap-5">
+                <h6
+                  className={`${tab === "desc" ? "active__tab" : ""}`}
+                  onClick={() => setTab("desc")}
+                >
+                  Description
+                </h6>
+                <h6
+                  className={`${tab === "rev" ? "active__tab" : ""}`}
+                  onClick={() => setTab("rev")}
+                >
+                  Reviews ({productReview.length})
+                </h6>
+              </div>
+
+              {tab === "desc" ? (
+                <div className="tab__content mt-5">
+                  <p> {description} </p>
+                </div>
+              ) : (
+                <div className="product__review mt-5">
+                  <div className="review__wrapper">
+                    <ul>
+                      {productReview?.map((review, index) => (
+                        <li key={index} className="mb-4">
+                          <h6>{review.author}</h6>
+                          <div className="d-flex align-items-center justify-content-start gap-1">
+                            <span>{review.rating}</span> 
+                            <i style={{color: "coral"}} className="ri-star-s-fill"></i>
+                            <span>(rating)</span>
+                          </div> 
+                        
+                          <p> {review.text} </p>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="review__form">
+                      <h4>Leave your experience</h4>
+                      <form action="" onSubmit={submitHandler}>
+                        <div className="form__group">
+                          <input type="text" placeholder="Enter name" ref ={reviewUser} required />
+                        </div>
+
+                        <div className="form__group d-flex align-items-center gap-5 rating__group">
+                          <motion.span whileTap={{scale: 1.2}} onClick={() => setRating(1)} className={rating >= 1 ? "star__active" : "" } >
+                            1<i className="ri-star-s-fill"></i>
+                          </motion.span>
+                          <motion.span whileTap={{scale: 1.2}} onClick={() => setRating(2)} className={rating >= 2 ? "star__active" : "" }>
+                            2<i className="ri-star-s-fill"></i>
+                          </motion.span>
+                          <motion.span whileTap={{scale: 1.2}} onClick={() => setRating(3)} className={rating >= 3 ? "star__active" : "" }>
+                            3<i className="ri-star-s-fill"></i>
+                          </motion.span>
+                          <motion.span whileTap={{scale: 1.2}} onClick={() => setRating(4)} className={rating >= 4 ? "star__active" : "" }>
+                            4<i className="ri-star-s-fill"></i>
+                          </motion.span>
+                          <motion.span whileTap={{scale: 1.2}} onClick={() => setRating(5)} className={rating >= 5 ? "star__active" : "" }>
+                            5<i className="ri-star-s-fill"></i>
+                          </motion.span>
+                        </div>
+
+                        <div className="form__group">
+                          <textarea ref={reviewMsg} rows={4} placeholder="Review Message..." required/>
+                        </div>
+
+                        <motion.button
+                          type="submit"
+                          whileTap={{ scale: 1.2 }}
+                          className="buy__btn"
+                        >
+                          Submit
+                        </motion.button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </Col>
+
+            <Col lg='12' className="mt-5">
+              <h2 className="related__title">You might also like</h2>
+            </Col>
+
+            <ProductList data={relatedProducts} />
+          </Row>
+        </Container>
+      </section>
+    </Helmet>
+  );
+};
+
+export default ProductDetails;
