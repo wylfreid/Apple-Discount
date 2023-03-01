@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { auth, db } from './../../firebase.config';
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { toast } from 'react-toastify';
-
-
+import useGetData from './../../custom-hooks/useGetData';
+import UseAuth from './../../custom-hooks/useAuth';
 
 const SendMessage = ({ scroll }) => {
+
+
+  const { currentUser } = UseAuth();
+
+  const { data: usersData, loading } = useGetData("users");
+
   const [message, setMessage] = useState("");
+  const [receiverId, setReceiverId] = useState();
+
+
 
   const sendMessage = async (event) => {
     event.preventDefault();
@@ -14,13 +23,14 @@ const SendMessage = ({ scroll }) => {
       toast.warning("Enter valid message");
       return;
     }
-    const { uid, displayName, photoURL } = auth.currentUser;
+    
+    
     await addDoc(collection(db, "messages"), {
       text: message,
-      name: displayName,
-      avatar: photoURL,
+      name: currentUser.displayName,
+      avatar: currentUser.photoURL,
       createdAt: serverTimestamp(),
-      uid,
+      uid: currentUser.uid,
     });
     setMessage("");
     scroll.current.scrollIntoView({ behavior: "smooth" });

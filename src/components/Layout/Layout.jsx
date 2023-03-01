@@ -4,6 +4,7 @@ import Footer from "../Footer/Footer";
 import Routers from "./../../routers/Routers";
 import AdminNav from "./../../admin/AdminNav";
 import { useLocation } from "react-router-dom";
+import ChatBox from '../chats/ChatBox';
 
 const Layout = () => {
   const location = useLocation();
@@ -16,6 +17,9 @@ const Layout = () => {
       <div>
         <Routers />
       </div>
+      
+      {!location.pathname.startsWith("/dashboard") && <ChatBox />}
+      
       <Footer />
     </>
   );

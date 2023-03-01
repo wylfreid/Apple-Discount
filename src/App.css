@@ -72,6 +72,10 @@ section {
   overflow-x: auto !important;
 }
 
+.pointer{
+  cursor: pointer;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 3px;

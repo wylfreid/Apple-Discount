@@ -1,13 +1,12 @@
 import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from './../../firebase.config';
+import UseAuth from './../../custom-hooks/useAuth';
 
 const Message = ({ message }) => {
-  const [user] = useAuthState(auth);
+  const { currentUser } = UseAuth();
   console.log(message.avatar);
   return (
     <div
-      className={`chat-bubble ${message.uid === user.uid ? "right" : ""}`}>
+      className={`chat-bubble ${message.uid === currentUser.uid ? "right" : ""}`}>
       <img
         className="chat-bubble__left"
         src={message.avatar}

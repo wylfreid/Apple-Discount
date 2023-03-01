@@ -52,6 +52,13 @@ const cartSlice = createSlice({
         0
       );
     },
+
+    deleteAllItems: (state, action) => {
+
+        state.cartItems.length = 0;
+        state.totalQuantity = 0;
+        state.totalAmount = 0;
+    },
   },
 });
 

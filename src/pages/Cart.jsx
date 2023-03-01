@@ -6,7 +6,7 @@ import { Row, Container, Col } from "reactstrap";
 import { motion } from "framer-motion";
 import { cartActions } from "./../redux/slices/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { toast } from "react-toastify";
 
@@ -15,9 +15,20 @@ const Cart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
 
+
+  const navigate = useNavigate();
+
   useEffect(()=>{
     window.scrollTo(0, 0);
   })
+
+  const goToCheckOut = () =>{
+    if (cartItems.length > 0) {
+      navigate("/checkout");
+    }else{
+      toast.error("Veuillez ajouter un article au panier!")
+    }
+  }
 
   return (
     <Helmet title="Cart">
@@ -60,13 +71,15 @@ const Cart = () => {
               <p className="fs-6 mt-2">taxes and shipping will calculate in checkout</p>
               <p className="fs-6 mt-2">Payment will be made on delivery</p>
               <div>
-                <motion.button whileTap={{scale: 0.9}} className="buy__btn w-100 mt-5 ">
-                  <Link to='/checkout'>Checkout</Link>
+                <motion.button whileTap={{scale: 0.9}} className="buy__btn w-100 mt-5 " onClick={goToCheckOut}>
+                  <span>Checkout</span>
                 </motion.button>
 
-                <motion.button whileTap={{scale: 0.9}} className="buy__btn w-100 mt-3">
-                  <Link to='/shop'>Continue Shopping</Link>
-                </motion.button>
+                <Link to='/shop'>
+                  <motion.button whileTap={{scale: 0.9}} className="buy__btn w-100 mt-3">
+                    Continue Shopping
+                  </motion.button>
+                </Link>
               </div>
             </Col>
           </Row>

@@ -73,7 +73,8 @@ const Home = () => {
                 <p className="hero__subtitle"> Trending products in {year} </p>
                 <h2>Apple products at the best prices</h2>
                 <p className="hero__desc">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, magni.
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Voluptatem, magni.
                 </p>
 
                 <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
@@ -93,41 +94,45 @@ const Home = () => {
 
       <Services />
 
-      {trendingProducts.length > 0 && <section className="trending__products">
-        <Container>
-          <Row>
-            <Col lg="12" className="text-center">
-              <h2 className="section__title"> Trending Product </h2>
-            </Col>
+      {trendingProducts.length > 0 && (
+        <section className="trending__products">
+          <Container>
+            <Row>
+              <Col lg="12" className="text-center">
+                <h2 className="section__title"> Trending Product </h2>
+              </Col>
 
-            {loading ? (
-              <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
-                loading.....
-              </h5>
-            ) : (
-              <ProductList data={trendingProducts} />
-            )}
-          </Row>
-        </Container>
-      </section>}
+              {loading ? (
+                <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
+                  loading.....
+                </h5>
+              ) : (
+                <ProductList data={trendingProducts} />
+              )}
+            </Row>
+          </Container>
+        </section>
+      )}
 
-      {bestSalesProducts.length > 0 && <section className="best__sales">
-        <Container>
-          <Row>
-            <Col lg="12" className="text-center">
-              <h2 className="section__title"> Best Sales </h2>
-            </Col>
+      {bestSalesProducts.length > 0 && (
+        <section className="best__sales">
+          <Container>
+            <Row>
+              <Col lg="12" className="text-center">
+                <h2 className="section__title"> Best Sales </h2>
+              </Col>
 
-            {loading ? (
-              <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
-                loading.....
-              </h5>
-            ) : (
-              <ProductList data={bestSalesProducts} />
-            )}
-          </Row>
-        </Container>
-      </section>}
+              {loading ? (
+                <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
+                  loading.....
+                </h5>
+              ) : (
+                <ProductList data={bestSalesProducts} />
+              )}
+            </Row>
+          </Container>
+        </section>
+      )}
 
       <section className="timer_count">
         <Container>
@@ -140,12 +145,14 @@ const Home = () => {
 
               <Clock />
 
-              <motion.button
-                whileTap={{ scale: 1.2 }}
-                className="buy__btn store__btn mt-4"
-              >
-                <Link to="/shop">Go to Auction</Link>
-              </motion.button>
+              <Link to="/auction">
+                <motion.button
+                  whileTap={{ scale: 1.2 }}
+                  className="buy__btn store__btn mt-4"
+                >
+                  Go to Auction
+                </motion.button>
+              </Link>
             </Col>
 
             <Col lg="6" md="12" className="text-end counter__img">

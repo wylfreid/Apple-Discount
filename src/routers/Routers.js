@@ -16,9 +16,11 @@ import AllProducts from "./../admin/AllProducts";
 import Dashboard from './../admin/Dashboard';
 import Users from './../admin/Users';
 import History from './../pages/History';
+
 import Orders from '../admin/Orders';
 import Chats from '../admin/Chats';
-
+import AdminRoute from './AdminRoute';
+import Auction from './../pages/Auction';
 
 
 const Routers = () => {
@@ -33,6 +35,11 @@ const Routers = () => {
       <Route path="/*" element={<ProtectedRoute />}>
         <Route path="checkout" element={<Checkout />} />
         <Route path="history" element={<History />} />
+        <Route path="auction" element={<Auction />} />
+      </Route>
+
+
+      <Route path="/*" element={<AdminRoute />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="dashboard/all-products" element={<AllProducts />} />
         <Route path="dashboard/add-product" element={<AddProducts />} />

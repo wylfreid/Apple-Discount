@@ -24,6 +24,8 @@ const Checkout = () => {
 
   const cartItems = useSelector((state) => state.cart.cartItems);
 
+  const dispatch = useDispatch();
+
   const [enterName, setEnterName] = useState("");
   const [enterPhone, setEnterPhone] = useState("");
   const [enterEmail, setEnterEmail] = useState("");
@@ -54,6 +56,10 @@ const Checkout = () => {
 
   const addorder = async (e) => {
     e.preventDefault();
+
+    if (enterName != "" && enterPhone != "" && enterEmail != "" && enterAdress != "" && enterCity != "" && enterPostalCode != "" && enterCountry != "") {
+      
+    
     setLoading(true);
 
     // =========== add order to the firebase database ===========================
@@ -82,12 +88,22 @@ const Checkout = () => {
 
       toast.success("order successfully added");
 
+      cleanCart();
+
       navigate("/shop");
     } catch (error) {
       setLoading(false);
       toast.error("order not added");
     }
+
+      }else{
+        toast.error("Veuillez remplir tous les champs!")
+      }
   };
+
+  const cleanCart = () =>{
+    dispatch(cartActions.deleteAllItems());
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);

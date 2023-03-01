@@ -105,9 +105,9 @@ import useGetData from "./../custom-hooks/useGetData";
             <div className="filter__widget">
               <select onChange={handleFilter}>
               <option>Filter By Category</option>
-                <option value="sofa">Sofa</option>
                 <option value="mobile">Mobile</option>
-                <option value="chair">Chair</option>
+                <option value="tablet">Tablet</option>
+                <option value="laptop">Laptop</option>
                 <option value="watch">Watch</option>
                 <option value="wireless">Wireless</option>
               </select>

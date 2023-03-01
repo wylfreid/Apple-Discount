@@ -19,8 +19,8 @@
 }
 
 .admin__nav-top-right img{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50px;
     cursor: pointer;
     object-fit: cover;
@@ -75,4 +75,37 @@
 
 .active__admin-menu{
     background: whitesmoke;
+}
+
+
+.profile{
+    position: relative;
+    z-index: 9;
+}
+
+
+
+.profile__actions{
+    position: absolute;
+    top: 140%;
+    left: -60px;
+    width: 150px;
+    z-index: 10;
+    padding: 10px 0px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: var(--card-bg-01);
+    line-height: 30px;
+    display: none;
+    cursor: pointer;
+}
+
+.show__profileActions{
+    display: block !important;
+}
+
+
+.profile__actions a i{
+    padding-bottom: 0; 
 }

@@ -83,6 +83,8 @@
     cursor: pointer;
     border-radius: 50%;
     object-fit: cover;
+    border-width: 5px;
+    border-color: var(--primary-color);
 }
 
 .nav__icons .profile{
