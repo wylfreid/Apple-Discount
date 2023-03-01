@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import "./header.css";
@@ -9,13 +9,17 @@ import logo from "../../assets/images/eco-logo.png";
 import userIcon from "../../assets/images/user-icon.png";
 
 import { Container, Row } from "reactstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
 import UseAuth from "./../../custom-hooks/useAuth";
 import { signOut } from "firebase/auth";
 import { auth } from './../../firebase.config';
 import { toast } from "react-toastify";
+
+import { favoritesActions } from './../../redux/slices/favoriteSlice';
+import useGetData from './../../custom-hooks/useGetData';
+
 
 
 
@@ -39,11 +43,46 @@ const Header = () => {
 
   const { currentUser } = UseAuth();
 
+  const { data: products, loading } = useGetData("products");
+
   const headerRef = useRef(null);
 
   const menuRef = useRef(null);
 
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+
+  const totalFavouritesQuantity = useSelector((state) => state.favorites.totalQuantity);
+  
+  const dispatch = useDispatch();
+
+  const [storageItem, setStorageItem] = useState(() => JSON.parse(localStorage.getItem("favourites") || "[]"))
+
+  useEffect(()=>{
+
+    let favouriteList = [];
+        for (let i = 0; i < storageItem.length; i++) {
+            for (let index = 0; index < products.length; index++) {
+                if (storageItem[i] === products[index].id) {
+                    favouriteList.push(products[index]);
+                }
+                
+            }
+        }
+
+    for (let index = 0; index < favouriteList.length; index++) {
+      
+      dispatch(
+        favoritesActions.addItem({
+          id: favouriteList[index].id,
+          productName: favouriteList[index].productName,
+          price: favouriteList[index].price,
+          imgUrl: favouriteList[index].imgUrl,
+          category: favouriteList[index].category
+        })
+      );
+      
+    }
+  },[products, storageItem])
 
 
   const profileActionsRef = useRef(null);
@@ -83,6 +122,10 @@ const Header = () => {
     navigate("/cart");
   };
 
+  const NavigateToFavourites = () => {
+    navigate("/favourites");
+  };
+
   const toggleProfileActions = () =>{
      profileActionsRef.current.classList.toggle("show__profileActions")
     //console.log(profileActionsRef.current);  
@@ -120,9 +163,9 @@ const Header = () => {
             </div>
 
             <div className="nav__icons">
-              <span className="fav__icon">
+              <span className="fav__icon" onClick={NavigateToFavourites}>
                 <i className="ri-heart-line"></i>
-                <span className="badge">1</span>
+                <span className="badge"> {totalFavouritesQuantity} </span>
               </span>
               <span className="cart__icon" onClick={NavigateToCart}>
                 <i className="ri-shopping-bag-line"></i>

@@ -11,6 +11,8 @@ import { motion } from "framer-motion";
 import ProductList from './../components/UI/ProductList';
 import { useDispatch } from 'react-redux';
 import { cartActions } from './../redux/slices/cartSlice';
+import { favoritesActions } from './../redux/slices/favoriteSlice';
+
 import { toast } from 'react-toastify';
 
 import { collection, addDoc } from "firebase/firestore";
@@ -20,6 +22,7 @@ import { db } from "../firebase.config";
 import useGetData from "./../custom-hooks/useGetData";
 import { doc, getDoc } from "firebase/firestore";
 import UseAuth from './../custom-hooks/useAuth';
+
 
 
 
@@ -44,8 +47,11 @@ const ProductDetails = () => {
 
   const [rating, setRating] = useState(0);
 
-  const [productReview, setProductReview] = useState(0);
+  const [color, setColor] = useState("default");
+  const [storage, setStorage] = useState("default");
 
+
+  const [productReview, setProductReview] = useState(0);
 
   const docRef = doc(db, 'products', id);
 
@@ -136,6 +142,8 @@ const ProductDetails = () => {
       cartActions.addItem({
         id: id,
         productName: productName,
+        storage: storage,
+        color: color,
         price: price,
         imgUrl: imgUrl,
       })
@@ -147,6 +155,41 @@ const ProductDetails = () => {
     window.scrollTo(0, 0);
   }, [id])
 
+
+
+  const [storageItem, setStorageItem] = useState(() => JSON.parse(localStorage.getItem("favourites") || "[]"))
+
+  const isFavourited = storageItem.includes(id)
+
+  const handleToggleFavourite = () => {
+    if (!isFavourited) {
+
+      const newStorageItem = [...storageItem, id]
+      setStorageItem(newStorageItem);
+      localStorage.setItem("favourites", JSON.stringify(newStorageItem))
+
+      dispatch(
+        favoritesActions.addItem({
+          id: id,
+          productName: productName,
+          price: price,
+          imgUrl: imgUrl,
+          category: category,
+          storage: storage,
+          color: color
+        })
+      );
+
+      toast.success('product added to favorites');
+
+    } else {
+
+      const newStorageItem = storageItem.filter((savedId) => savedId !== id)
+      setStorageItem(newStorageItem);
+      localStorage.setItem("favourites", JSON.stringify(newStorageItem))
+      toast.success('product removed from favorites');
+    }
+  }
 
   return (
     <Helmet title={productName}>
@@ -181,7 +224,7 @@ const ProductDetails = () => {
                   </div>
 
                   <p>
-                    {/*(<span>{avgRating}</span>ratings)*/}
+                    {<span>({productReview.length} ratings)</span>}
                   </p>
                 </div>
                 <div className="d-flex align-items-center gap-5">
@@ -191,13 +234,54 @@ const ProductDetails = () => {
                 
                 <p className="mt-3"> {shortDesc} </p>
 
-                <motion.button
-                  whileTap={{ scale: 1.2 }}
-                  className="buy__btn mt-4"
-                  onClick={addToCart}
-                >
-                  Add to Cart
-                </motion.button>
+                
+                <div  className='d-flex align-items-center gap-5 pt-1'>
+
+                <div className="filter__widget">
+                      <select onChange={e=> setStorage(e.target.value)} >
+                      <option>storage</option>
+                        <option value="64">64GO</option>
+                        <option value="128">128GO</option>
+                        <option value="512">512GO</option>
+                        <option value="1000">1000GO</option>
+                      </select>
+                    </div>
+
+                  <div className="filter__widget">
+                    <select onChange={e=> setColor(e.target.value)}>
+                    <option>Color</option>
+                      <option value="black">Black</option>
+                      <option value="white">White</option>
+                      <option value="red">Red</option>
+                    </select>
+                  </div>
+                  
+                </div>
+                
+                
+                
+
+                <div className="d-flex align-items-center gap-2">
+
+                  <motion.button
+                    whileTap={{ scale: 1.2 }}
+                    className="buy__btn mt-4"
+                    onClick={addToCart}
+                  >
+                    Add to Cart
+                  </motion.button>
+
+                  <div style={{color: isFavourited ? 'coral' : '#0a1d37'}} className="d-flex align-items-center justify-content-center pt-4 pointer"
+                  
+                  onClick={handleToggleFavourite}>
+
+                    <span className="fav__icon">
+                        <i className="ri-heart-fill"></i>
+                    </span>
+                    Add to favorites
+                  </div>
+                </div>
+                
               </div>
             </Col>
           </Row>
@@ -207,7 +291,7 @@ const ProductDetails = () => {
       <section className="pt-0">
         <Container>
           <Row>
-            <Col lg="12" className="col__tab-wrapper">
+            <Col lg="12" className="col__tab-wrapper mt-md-5">
               <div className="tab__wrapper d-flex align-items-center gap-5">
                 <h6
                   className={`${tab === "desc" ? "active__tab" : ""}`}

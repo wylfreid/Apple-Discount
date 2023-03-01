@@ -62,7 +62,7 @@ import useGetData from "./../custom-hooks/useGetData";
     const searchTerm = e.target.value;
 
     const searchedProducts= products.filter(
-      (item) => item.productName.toLowerCase().includes(searchTerm.toLowerCase())
+      (item) => item.productName.toLowerCase().includes(searchTerm.toLowerCase()) || item.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
     
     setProductsData(searchedProducts);

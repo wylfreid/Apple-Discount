@@ -46,6 +46,8 @@ const Cart = () => {
                     <tr>
                       <th>Image</th>
                       <th>Title</th>
+                      <th>Storage(GO)</th>
+                      <th>Color</th>
                       <th>Price</th>
                       <th>Qty</th>
                       <th>Delete</th>
@@ -99,19 +101,23 @@ const Tr = ({ item }) => {
   }
   return (
     <tr>
-      <td>
+      <td className='align-middle'>
         <img src={item.imgUrl} alt="" />
       </td>
-      <td>{item.productName}</td>
-      <td> {item.price} </td>
-      <td> {item.quantity} </td>
-      <td>
-        <span className="delete__product">
-          <i
-            className="ri-delete-bin-line"
-            onClick={deleteProduct}
-          ></i>
-        </span>
+      <td className='align-middle'>{item.productName}</td>
+      <td className='align-middle'>{item.storage}</td>
+      <td className='align-middle'>{item.color}</td>
+      <td className='align-middle'> {item.price} </td>
+      <td className='align-middle'> {item.quantity} </td>
+      <td className='align-middle'>
+      <motion.button className="btn btn-danger">
+          <span className="delete__product">
+            <i
+              className="ri-delete-bin-line"
+              onClick={deleteProduct}
+            ></i>
+          </span>
+        </motion.button>
       </td>
     </tr>
   );

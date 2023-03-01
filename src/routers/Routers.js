@@ -21,6 +21,8 @@ import Orders from '../admin/Orders';
 import Chats from '../admin/Chats';
 import AdminRoute from './AdminRoute';
 import Auction from './../pages/Auction';
+import Favourites from './../pages/Favourites';
+
 
 
 const Routers = () => {
@@ -31,6 +33,7 @@ const Routers = () => {
       <Route path="shop" element={<Shop />} />
       <Route path="shop/:id" element={<ProductDetails />} />
       <Route path="cart" element={<Cart />} />
+      <Route path="favourites" element={<Favourites />} />
 
       <Route path="/*" element={<ProtectedRoute />}>
         <Route path="checkout" element={<Checkout />} />
