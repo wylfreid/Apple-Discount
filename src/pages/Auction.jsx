@@ -41,6 +41,14 @@ const Auction = () => {
                       {auctions[auctions?.length - 1]?.shortDesc}
                     </p>
 
+                    <h6 className="text-center p-2">
+                      Start price : ${auctions[auctions?.length - 1]?.startPrice}
+                    </h6>
+
+                    <h6 className="text-center p-2" style={{color: "coral"}}>
+                      current price : ${auctions[auctions?.length - 1]?.currentPrice}
+                    </h6>
+
                     <div className="d-flex justify-content-center p-2">
                       <ClockVariant
                         stopTime={auctions[auctions?.length - 1]?.endDate}
