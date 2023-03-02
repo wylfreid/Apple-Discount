@@ -27,8 +27,6 @@ const favoriteSlice = createSlice({
         });
       } else {
         existingItem.quantity++;
-        existingItem.totalPrice =
-          Number(existingItem.totalPrice) + Number(newItem.price);
       }
 
      

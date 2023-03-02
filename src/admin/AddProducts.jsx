@@ -6,9 +6,6 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const AddProducts = () => {
   const [enterTitle, setEnterTitle] = useState("");
   const [enterShortDesc, setEnterhortDesc] = useState("");
@@ -16,6 +13,8 @@ const AddProducts = () => {
   const [enterCategory, setEnterCategory] = useState("");
   const [enterPrice, setEnterPrice] = useState("");
   const [enterProductImg, setEnterProductImg] = useState(null);
+
+  const [trending, setTrending] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -34,7 +33,8 @@ const AddProducts = () => {
         `productImages/${Date.now() + enterProductImg.name}`
       );
 
-      const uploadTask = uploadBytesResumable(storageRef, enterProductImg).then(() => {
+      const uploadTask = uploadBytesResumable(storageRef, enterProductImg).then(
+        () => {
           getDownloadURL(storageRef).then(async (downloadURL) => {
             await addDoc(docRef, {
               productName: enterTitle,
@@ -43,6 +43,7 @@ const AddProducts = () => {
               category: enterCategory,
               price: enterPrice,
               imgUrl: downloadURL,
+              trending: trending
             });
           });
 
@@ -51,8 +52,8 @@ const AddProducts = () => {
           toast.success("product successfully added");
 
           navigate("/dashboard/all-products");
-        });
-  
+        }
+      );
     } catch (err) {
       setLoading(false);
       toast.error("product not added");
@@ -66,7 +67,6 @@ const AddProducts = () => {
       <Container>
         <Row>
           <Col lg="12">
-
             {loading ? (
               <h4 className="py-5">Loading......</h4>
             ) : (
@@ -78,7 +78,7 @@ const AddProducts = () => {
                     <input
                       required
                       type="text"
-                      placeholder="Double Sofa"
+                      placeholder="Iphone 14...."
                       value={enterTitle}
                       onChange={(e) => setEnterTitle(e.target.value)}
                     />
@@ -89,7 +89,7 @@ const AddProducts = () => {
                     <input
                       required
                       type="text"
-                      placeholder="lorem......."
+                      placeholder="Short Description......."
                       value={enterShortDesc}
                       onChange={(e) => setEnterhortDesc(e.target.value)}
                     />
@@ -146,6 +146,25 @@ const AddProducts = () => {
                       />
                     </FormGroup>
                   </div>
+
+                  
+
+                    <div className="form-check mb-3 mt-2" >
+                      <label className="form-check-label" for="flexCheckDefault" style={{cursor: "pointer"}}>
+                        Trending Product
+                      </label>
+                      <input
+                      style={{cursor: "pointer"}}
+                        className="form-check-input"
+                        type="checkbox"
+                        checked = {trending}
+                        id="flexCheckDefault"
+
+                        onChange={e => setTrending(!trending)}
+                      />
+                      
+                    </div>
+                 
 
                   <button className="buy__btn" type="submit">
                     Add Product

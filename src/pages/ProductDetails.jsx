@@ -23,12 +23,13 @@ import useGetData from "./../custom-hooks/useGetData";
 import { doc, getDoc } from "firebase/firestore";
 import UseAuth from './../custom-hooks/useAuth';
 
+import {useSelector} from 'react-redux';
 
 
 
 const ProductDetails = () => {
 
-  const { data: products, loading } = useGetData("products");
+  const products = useSelector((state) => state.products.products);
 
   const { data: reviews} = useGetData("reviews");
 

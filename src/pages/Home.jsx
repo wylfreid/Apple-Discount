@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 //import products from "../assets/data/products";
@@ -19,10 +19,14 @@ import Clock from "./../components/UI/Clock";
 
 import counterImg from "../assets/images/iPhone_13_Pro_max.png";
 
-import useGetData from "./../custom-hooks/useGetData";
+import { useSelector, useDispatch } from "react-redux";
 
 const Home = () => {
-  const { data: products, loading } = useGetData("products");
+  const products = useSelector((state) => state.products.products);
+
+  const auctions = useSelector((state) => state.auctions.auctionItems);
+
+  const btnRef = useRef();
 
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [bestSalesProducts, setBestSalesProducts] = useState([]);
@@ -32,12 +36,16 @@ const Home = () => {
 
   const year = new Date().getFullYear();
 
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const filteredTrendingProducts = products.filter(
       (item) => item.category === "mobile"
     );
     const filteredBestSalesProducts = products.filter(
-      (item) => item.category === "sofa"
+      (item) => item.category === "laptop"
     );
 
     const filteredMobileProducts = products.filter(
@@ -62,6 +70,16 @@ const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   });
+
+  useEffect(() => {
+    if (auctions.length > 0) {
+      btnRef.current.click();
+    }
+  }, [auctions]);
+
+  const handleGoToAuction = () => {
+    navigate("/auction");
+  };
 
   return (
     <Helmet title={"Home"}>
@@ -102,7 +120,7 @@ const Home = () => {
                 <h2 className="section__title"> Trending Product </h2>
               </Col>
 
-              {loading ? (
+              {products.length < 0 ? (
                 <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
                   loading.....
                 </h5>
@@ -122,7 +140,7 @@ const Home = () => {
                 <h2 className="section__title"> Best Sales </h2>
               </Col>
 
-              {loading ? (
+              {products.length < 0 ? (
                 <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
                   loading.....
                 </h5>
@@ -134,33 +152,37 @@ const Home = () => {
         </section>
       )}
 
-      <section className="timer_count">
-        <Container>
-          <Row>
-            <Col lg="6" md="12" className="count__down-col">
-              <div className="clock__top-content">
-                <h4 className="text-white fs-6 mb-2">Limited Offers</h4>
-                <h3 className="text-white fs-5 mb-3">Iphone 13 pro max</h3>
-              </div>
+      {auctions.length > 0 && (
+        <section className="timer_count">
+          <Container>
+            <Row>
+              <Col lg="6" md="12" className="count__down-col">
+                <div className="clock__top-content">
+                  <h4 className="text-white fs-6 mb-2">Limited Offers</h4>
+                  <h3 className="text-white fs-5 mb-3">
+                    {auctions[auctions?.length - 1]?.productName}
+                  </h3>
+                </div>
 
-              <Clock />
+                <Clock stopTime={auctions[auctions?.length - 1]?.endDate} />
 
-              <Link to="/auction">
-                <motion.button
-                  whileTap={{ scale: 1.2 }}
-                  className="buy__btn store__btn mt-4"
-                >
-                  Go to Auction
-                </motion.button>
-              </Link>
-            </Col>
+                <Link to="/auction">
+                  <motion.button
+                    whileTap={{ scale: 1.2 }}
+                    className="buy__btn store__btn mt-4"
+                  >
+                    Go to Auction
+                  </motion.button>
+                </Link>
+              </Col>
 
-            <Col lg="6" md="12" className="text-end counter__img">
-              <img src={counterImg} alt="" />
-            </Col>
-          </Row>
-        </Container>
-      </section>
+              <Col lg="6" md="12" className="text-end counter__img">
+                <img src={auctions[auctions?.length - 1]?.imgUrl} alt="" />
+              </Col>
+            </Row>
+          </Container>
+        </section>
+      )}
 
       <section className="new__arrivals">
         <Container>
@@ -169,7 +191,7 @@ const Home = () => {
               <h2 className="section__title"> New Arrivals </h2>
             </Col>
 
-            {loading ? (
+            {products.length < 0 ? (
               <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
                 loading.....
               </h5>
@@ -177,7 +199,7 @@ const Home = () => {
               <ProductList data={mobileProducts} />
             )}
 
-            {loading ? (
+            {products.length < 0 ? (
               <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
                 loading.....
               </h5>
@@ -195,7 +217,7 @@ const Home = () => {
               <h2 className="section__title"> Popular in Category </h2>
             </Col>
 
-            {loading ? (
+            {products.length < 0 ? (
               <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
                 loading.....
               </h5>
@@ -205,6 +227,67 @@ const Home = () => {
           </Row>
         </Container>
       </section>
+
+      <button
+        ref={btnRef}
+        type="button"
+        className="btn btn-primary d-none"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      ></button>
+
+      <div
+        className="modal fade auction__popup "
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div
+              type="button"
+              className="close  position-absolute text-end fs-1"
+              data-dismiss="modal"
+              aria-label="Close"
+              style={{ right: 10, top: 0, zIndex: 1000 }}
+            >
+              <span aria-hidden="true">&times;</span>
+            </div>
+            <div className="modal-body p-4">
+              <div className="text-center">
+                <h5>Une nouvelle vente aux enchères a démarrée!</h5>
+              </div>
+
+              <div className="d-flex justify-content-center p-2">
+                <img src={auctions[auctions?.length - 1]?.imgUrl} alt="" />
+              </div>
+
+              <h6 className="text-center">
+                {auctions[auctions?.length - 1]?.productName}
+              </h6>
+
+              <p className="text-center">
+                {auctions[auctions?.length - 1]?.shortDesc}
+              </p>
+
+              <div className="d-flex justify-content-center mb-2 mt-1">
+                <motion.button
+                  whileTap={{ scale: 1.2 }}
+                  type="button"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                  className="buy__btn"
+                  onClick={handleGoToAuction}
+                >
+                  Go to Auction
+                </motion.button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </Helmet>
   );
 };

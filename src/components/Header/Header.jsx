@@ -17,8 +17,11 @@ import { signOut } from "firebase/auth";
 import { auth } from './../../firebase.config';
 import { toast } from "react-toastify";
 
-import { favoritesActions } from './../../redux/slices/favoriteSlice';
 import useGetData from './../../custom-hooks/useGetData';
+
+import { favoritesActions } from './../../redux/slices/favoriteSlice';
+import { auctionsActions } from './../../redux/slices/auctionSlice';
+import { productActions } from './../../redux/slices/productSlice';
 
 
 
@@ -45,19 +48,39 @@ const Header = () => {
 
   const { data: products, loading } = useGetData("products");
 
-  const headerRef = useRef(null);
+  const { data: auctionsData } = useGetData("auctions");
 
-  const menuRef = useRef(null);
 
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
 
   const totalFavouritesQuantity = useSelector((state) => state.favorites.totalQuantity);
+
+  
+
+  const headerRef = useRef(null);
+
+  const menuRef = useRef(null);
   
   const dispatch = useDispatch();
 
   const [storageItem, setStorageItem] = useState(() => JSON.parse(localStorage.getItem("favourites") || "[]"))
 
   useEffect(()=>{
+    for (let index = 0; index < products.length; index++) {
+      dispatch(
+        productActions.addItem({
+          id: products[index].id,
+          productName: products[index].productName,
+          shortDesc: products[index].shortDesc,
+          description: products[index].description,
+          price: products[index].price,
+          imgUrl: products[index].imgUrl,
+          category: products[index].category,
+          trending: products[index].trending,
+        })
+      );
+      
+    }
 
     let favouriteList = [];
         for (let i = 0; i < storageItem.length; i++) {
@@ -130,6 +153,33 @@ const Header = () => {
      profileActionsRef.current.classList.toggle("show__profileActions")
     //console.log(profileActionsRef.current);  
   };
+
+
+  useEffect(() => {
+    const filteredAuctions = auctionsData.filter((item) => item.active === true);
+
+    if (filteredAuctions.length > 0) {
+      
+      for (let index = 0; index < filteredAuctions.length; index++) {
+        dispatch(
+          auctionsActions.addItem({
+            id: filteredAuctions[index].id,
+            productName: filteredAuctions[index].productName,
+            shortDesc: filteredAuctions[index].shortDesc,
+            description: filteredAuctions[index].description,
+            category: filteredAuctions[index].category,
+            startPrice: filteredAuctions[index].startPrice,
+            currentPrice: filteredAuctions[index].startPrice,
+            endDate: filteredAuctions[index].endDate,
+            imgUrl: filteredAuctions[index].imgUrl,
+            active: filteredAuctions[index].active
+          })
+        );
+        
+      }
+
+    }
+  }, [auctionsData]);
 
   return (
     <header className="header" ref={headerRef}>

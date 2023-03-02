@@ -9,11 +9,12 @@ import '../styles/shop.css'
 //import products from './../assets/data/products';
 import ProductList from './../components/UI/ProductList';
 
-import useGetData from "./../custom-hooks/useGetData";
+
+import {useSelector} from 'react-redux';
 
  const Shop = () => {
 
-  const { data: products, loading } = useGetData("products");
+  const products = useSelector((state) => state.products.products);
 
   const [productsData, setProductsData] = useState(products);
 

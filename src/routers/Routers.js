@@ -22,6 +22,9 @@ import Chats from '../admin/Chats';
 import AdminRoute from './AdminRoute';
 import Auction from './../pages/Auction';
 import Favourites from './../pages/Favourites';
+import AdminAuction from '../admin/AdminAuction';
+
+
 
 
 
@@ -46,6 +49,7 @@ const Routers = () => {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="dashboard/all-products" element={<AllProducts />} />
         <Route path="dashboard/add-product" element={<AddProducts />} />
+        <Route path="dashboard/auction" element={<AdminAuction />} />
         <Route path="dashboard/users" element={<Users />} />
         <Route path="dashboard/orders" element={<Orders />} />
         <Route path="dashboard/chats" element={<Chats />} />

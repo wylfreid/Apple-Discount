@@ -76,9 +76,13 @@ const AdminNav = () => {
                     <i className="ri-message-2-line"></i>
                   </motion.span>
                 </Link>
-                <motion.span whileTap={{ scale: 1.2 }}>
-                  <i className="ri-message-3-line"></i>
-                </motion.span>
+
+                <Link to="/dashboard/auction">
+
+                  <motion.span whileTap={{ scale: 1.2 }}>
+                    <i className="ri-message-3-line"></i>
+                  </motion.span>
+                </Link>
 
                 <div className="profile">
                   <motion.img

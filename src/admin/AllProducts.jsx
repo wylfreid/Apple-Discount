@@ -25,12 +25,14 @@ const AllProducts = () => {
         <Row>
           <Col lg="12">
             <div className="d-flex justify-content-center">
+            <Link to="/dashboard/add-product">
               <motion.button
                 whileTap={{ scale: 1.2 }}
                 className="buy__btn  mb-4"
               >
-                <Link to="/dashboard/add-product">Add Product</Link>
+                Add Product
               </motion.button>
+              </Link>
             </div>
 
             <table className="table">
