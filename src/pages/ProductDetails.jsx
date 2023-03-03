@@ -194,7 +194,7 @@ const ProductDetails = () => {
 
   return (
     <Helmet title={productName}>
-      <CommonSection title={productName} />
+      <CommonSection title=""/>
 
       <section className="pt-0 pb-0">
         <Container>

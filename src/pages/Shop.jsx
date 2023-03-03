@@ -103,7 +103,7 @@ import {useSelector} from 'react-redux';
       <Container>
         <Row>
           <Col lg='3' md='6' className='col__filter-widget'>
-            <div className="filter__widget">
+            <div className="filter__widget mb-md-4">
               <select onChange={handleFilter}>
               <option>Filter By Category</option>
                 <option value="mobile">Mobile</option>
@@ -115,7 +115,7 @@ import {useSelector} from 'react-redux';
             </div>
           </Col>
           <Col lg='3' md='6' className='text-end col__filter-widget'>
-          <div className="filter__widget">
+          <div className="filter__widget mb-md-4">
               <select onChange={handleSort}>
               <option>Sort By</option>
                 <option value="asc">Price: Low to High</option>

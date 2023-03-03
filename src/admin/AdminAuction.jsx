@@ -17,6 +17,7 @@ const AdminAuction = () => {
   const [enterDescription, setEnterDescription] = useState("");
   const [enterCategory, setEnterCategory] = useState("");
   const [enterPrice, setEnterPrice] = useState("");
+  const [enterStep, setEnterStep] = useState("");
   const [enterDate, setEnterDate] = useState("");
   const [enterProductImg, setEnterProductImg] = useState(null);
   const [Loading, setLoading] = useState(false);
@@ -47,6 +48,7 @@ const AdminAuction = () => {
               category: enterCategory,
               startPrice: enterPrice,
               currentPrice: enterPrice,
+              step: enterStep,
               endDate: enterDate,
               imgUrl: downloadURL,
               active: true,
@@ -261,16 +263,31 @@ const AdminAuction = () => {
                     </FormGroup>
                   </div>
 
-                  <FormGroup className="form__group">
-                    <span>End Date</span>
-                    <input
-                      required
-                      type="datetime-local"
-                      placeholder="Description......."
-                      value={enterDate}
-                      onChange={(e) => setEnterDate(e.target.value)}
-                    />
-                  </FormGroup>
+                  <div className="d-flex align-items-center justify-content-between gap-5">
+
+                  <FormGroup className="form__group w-50">
+                      <span>Step</span>
+                      <input
+                        required
+                        type="number"
+                        placeholder="$50"
+                        value={enterStep}
+                        onChange={(e) => setEnterStep(e.target.value)}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="form__group">
+                      <span>End Date</span>
+                      <input
+                        required
+                        type="datetime-local"
+                        placeholder="Description......."
+                        value={enterDate}
+                        onChange={(e) => setEnterDate(e.target.value)}
+                      />
+                    </FormGroup>
+                  </div>
+
 
                   <div>
                     <FormGroup className="form__group">

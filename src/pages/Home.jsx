@@ -20,11 +20,23 @@ import Clock from "./../components/UI/Clock";
 import counterImg from "../assets/images/iPhone_13_Pro_max.png";
 
 import { useSelector, useDispatch } from "react-redux";
+import UseAuth from './../custom-hooks/useAuth';
+
+import {doc, updateDoc } from "firebase/firestore";
+
+import { db } from "../firebase.config";
+
+import { toast } from 'react-toastify';
+
 
 const Home = () => {
   const products = useSelector((state) => state.products.products);
 
   const auctions = useSelector((state) => state.auctions.auctionItems);
+
+  const users = useSelector((state) => state.users.users);
+
+  const { currentUser } = UseAuth();
 
   const btnRef = useRef();
 
@@ -78,7 +90,21 @@ const Home = () => {
   }, [auctions]);
 
   const handleGoToAuction = () => {
-    navigate("/auction");
+
+    const user = users.filter(
+      (user) => user.uid === currentUser.uid
+    );
+
+    handleToggleSubscribe(user[0])
+
+    navigate('/auction')
+  };
+
+
+
+  const handleToggleSubscribe = async (user) => {
+    await updateDoc(doc(db, "users", user.uid), { participant: !user.participant });
+    toast.success("you are currently participating in the auction!");
   };
 
   return (
@@ -210,7 +236,7 @@ const Home = () => {
         </Container>
       </section>
 
-      <section className="popular__category">
+      {popularProducts.length > 0 && <section className="popular__category">
         <Container>
           <Row>
             <Col lg="12" className="text-center mb-5">
@@ -226,7 +252,7 @@ const Home = () => {
             )}
           </Row>
         </Container>
-      </section>
+      </section>}
 
       <button
         ref={btnRef}

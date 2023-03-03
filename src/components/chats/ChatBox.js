@@ -50,7 +50,8 @@ const ChatBox = () => {
     <div className="wrapper_chat">
       <motion.div
         whileTap={{ scale: 1.2 }}
-        className="chat_messenger shadow p-1 bg-white rounded"
+        className="chat_messenger rounded"
+        style={{background: "transparent"}}
         onClick={() => onChat()}
       >
         <svg x="0" y="0" width="60px" height="60px">
@@ -79,7 +80,7 @@ const ChatBox = () => {
         </svg>
       </motion.div>
       {currentUser && activeChat && (
-        <div className="active_chat animate__animated animate__jackInTheBox">
+        <div className="active_chat animate__animated animate__jackInTheBox ">
           <div style={{ width: "100%" }}>
             <div className="card card-bordered fix_boderChat">
               <div className="card-header">

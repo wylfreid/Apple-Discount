@@ -5,7 +5,7 @@ import "./header.css";
 
 import { motion } from "framer-motion";
 
-import logo from "../../assets/images/eco-logo.png";
+import logo from "../../assets/images/logo.png";
 import userIcon from "../../assets/images/user-icon.png";
 
 import { Container, Row } from "reactstrap";
@@ -22,6 +22,8 @@ import useGetData from './../../custom-hooks/useGetData';
 import { favoritesActions } from './../../redux/slices/favoriteSlice';
 import { auctionsActions } from './../../redux/slices/auctionSlice';
 import { productActions } from './../../redux/slices/productSlice';
+import { usersActions } from './../../redux/slices/userSlice';
+
 
 
 
@@ -49,6 +51,8 @@ const Header = () => {
   const { data: products, loading } = useGetData("products");
 
   const { data: auctionsData } = useGetData("auctions");
+
+  const { data: users} = useGetData("users");
 
 
   const totalQuantity = useSelector((state) => state.cart.totalQuantity);
@@ -169,7 +173,8 @@ const Header = () => {
             description: filteredAuctions[index].description,
             category: filteredAuctions[index].category,
             startPrice: filteredAuctions[index].startPrice,
-            currentPrice: filteredAuctions[index].startPrice,
+            currentPrice: filteredAuctions[index].currentPrice,
+            step: filteredAuctions[index].step,
             endDate: filteredAuctions[index].endDate,
             imgUrl: filteredAuctions[index].imgUrl,
             active: filteredAuctions[index].active
@@ -181,16 +186,33 @@ const Header = () => {
     }
   }, [auctionsData]);
 
+
+  useEffect(() => {
+
+      for (let index = 0; index < users.length; index++) {
+        dispatch(
+          usersActions.addUser({
+            admin: users[index].admin,
+            participant: users[index].participant,
+            uid: users[index].uid,
+            displayName: users[index].displayName,
+            email: users[index].email,
+            photoURL: users[index].photoURL,
+          })
+        );
+    }
+  }, [users]);
+
   return (
     <header className="header" ref={headerRef}>
       <Container>
         <Row>
           <div className="nav__wrapper">
             <div className="logo">
-              <img src={logo} alt="logo" />
+              
               <div>
                 <Link to="/home">
-                  <h1>Apple Discount</h1>
+                <img src={logo} alt="logo" />
                 </Link>
               </div>
             </div>

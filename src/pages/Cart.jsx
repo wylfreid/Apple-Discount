@@ -110,11 +110,10 @@ const Tr = ({ item }) => {
       <td className='align-middle'> {item.price} </td>
       <td className='align-middle'> {item.quantity} </td>
       <td className='align-middle'>
-      <motion.button className="btn btn-danger">
+      <motion.button className="btn btn-danger" onClick={deleteProduct}>
           <span className="delete__product">
             <i
               className="ri-delete-bin-line"
-              onClick={deleteProduct}
             ></i>
           </span>
         </motion.button>
