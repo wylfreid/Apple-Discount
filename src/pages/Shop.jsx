@@ -25,20 +25,20 @@ import {useSelector} from 'react-redux';
 
   const handleFilter = e=>{
     const filterValue = e.target.value;
-    if(filterValue ==='sofa'){
-      const filteredProducts= products.filter(
-        (item) => item.category === "sofa"
-      );
-      setProductsData(filteredProducts);
-    }else if(filterValue ==='mobile'){
+    if(filterValue ==='mobile'){
       const filteredProducts= products.filter(
         (item) => item.category === "mobile"
       );
       setProductsData(filteredProducts);
-    }
-    else if(filterValue ==='chair'){
+    }else if(filterValue ==='tablet'){
       const filteredProducts= products.filter(
-        (item) => item.category === "chair"
+        (item) => item.category === "tablet"
+      );
+      setProductsData(filteredProducts);
+    }
+    else if(filterValue ==='laptop'){
+      const filteredProducts= products.filter(
+        (item) => item.category === "laptop"
       );
       setProductsData(filteredProducts);
     }
@@ -68,10 +68,10 @@ import {useSelector} from 'react-redux';
     
     setProductsData(searchedProducts);
   }
-
+  console.log(productsData);
   const handleSort = (e) =>{
 
-      const filteredPoducts = productsData.sort((a, b) => {
+      const filteredPoducts = productsData.slice().sort((a, b) => {
         const {price} = a;
         const {price: priceB} = b;
 
@@ -88,6 +88,8 @@ import {useSelector} from 'react-redux';
       setProductsData([]);
 
       setProductsData(productsData=> ([...productsData, ...filteredPoducts]));
+
+      
 
   }
 

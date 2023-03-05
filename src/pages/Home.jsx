@@ -54,7 +54,7 @@ const Home = () => {
 
   useEffect(() => {
     const filteredTrendingProducts = products.filter(
-      (item) => item.category === "mobile"
+      (item) => item.trending === true
     );
     const filteredBestSalesProducts = products.filter(
       (item) => item.category === "laptop"
@@ -91,13 +91,20 @@ const Home = () => {
 
   const handleGoToAuction = () => {
 
-    const user = users.filter(
-      (user) => user.uid === currentUser.uid
-    );
+    if (currentUser) {
+      
+      const user = users.filter(
+        (user) => user.uid === currentUser.uid
+      );
+  
+      handleToggleSubscribe(user[0])
+  
+      navigate('/auction')
+    }else{
+      toast.warning("Veuillez vous connecter!");
+      navigate('/login')
+    }
 
-    handleToggleSubscribe(user[0])
-
-    navigate('/auction')
   };
 
 
@@ -143,7 +150,7 @@ const Home = () => {
           <Container>
             <Row>
               <Col lg="12" className="text-center">
-                <h2 className="section__title"> Trending Product </h2>
+                <h2 className="section__title"> Trending Products </h2>
               </Col>
 
               {products.length < 0 ? (
@@ -265,7 +272,7 @@ const Home = () => {
       <div
         className="modal fade auction__popup "
         id="exampleModal"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"

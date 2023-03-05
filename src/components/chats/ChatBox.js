@@ -13,6 +13,7 @@ import { motion } from "framer-motion";
 
 import UseAuth from "./../../custom-hooks/useAuth";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ChatBox = () => {
   const { currentUser } = UseAuth();
@@ -21,9 +22,12 @@ const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const scroll = useRef();
 
+  const navigate = useNavigate();
+
   const onChat = () => {
     if (!currentUser) {
       toast.warning("Veuillez vous connecter!");
+      navigate('/login');
     } else {
       setActiveChat(!activeChat);
     }

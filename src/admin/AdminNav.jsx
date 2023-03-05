@@ -80,7 +80,7 @@ const AdminNav = () => {
                 <Link to="/dashboard/auction">
 
                   <motion.span whileTap={{ scale: 1.2 }}>
-                    <i className="ri-message-3-line"></i>
+                    <i className="ri-auction-line"></i>
                   </motion.span>
                 </Link>
 

@@ -16,7 +16,7 @@
     border-radius: 5px;
 }
 
-.checkout__cart h6, h4{
+.checkout__cart h6, .checkout__cart h4{
     display: flex;
     align-items: center;
     justify-content: space-between;

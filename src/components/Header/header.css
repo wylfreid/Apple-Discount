@@ -82,10 +82,13 @@
     height: 30px;
     cursor: pointer;
     border-radius: 50%;
+    border-style: solid;
     object-fit: cover;
-    border-width: 5px;
+    border-width: 1px;
     border-color: var(--primary-color);
+    margin-bottom: 10px;
 }
+
 
 .nav__icons .profile{
     position: relative;
@@ -185,6 +188,10 @@
 
     .mobile__menu span i{
         font-size: 1.1rem !important;
+    }
+
+    .nav__item{
+        border: 1px solid #dee2e6 !important;
     }
 
     .logo img{

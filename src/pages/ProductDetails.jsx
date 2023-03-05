@@ -54,6 +54,8 @@ const ProductDetails = () => {
 
   const [productReview, setProductReview] = useState(0);
 
+  const [priceForSize, setPriceForSize] = useState(null);
+
   const docRef = doc(db, 'products', id);
 
   useEffect(() =>{
@@ -145,7 +147,7 @@ const ProductDetails = () => {
         productName: productName,
         storage: storage,
         color: color,
-        price: price,
+        price: priceForSize ? priceForSize : price,
         imgUrl: imgUrl,
       })
     );
@@ -155,6 +157,24 @@ const ProductDetails = () => {
   useEffect(()=>{
     window.scrollTo(0, 0);
   }, [id])
+
+  const handleChangeStorage = (e) =>{
+    if (e.target.value === "64GO") {
+      setPriceForSize(product.storage.size_64.price)
+      setStorage(e.target.value)
+    }else if (e.target.value === "128GO") {
+      setPriceForSize(product.storage.size_128.price)
+      setStorage(e.target.value)
+    }else if (e.target.value === "512GO") {
+      setPriceForSize(product.storage.size_512.price)
+      setStorage(e.target.value)
+    }else if (e.target.value === "1TO") {
+      setPriceForSize(product.storage.size_1000.price)
+      setStorage(e.target.value)
+    }else{
+      setPriceForSize(null)
+    }
+  }
 
 
 
@@ -173,7 +193,7 @@ const ProductDetails = () => {
         favoritesActions.addItem({
           id: id,
           productName: productName,
-          price: price,
+          price: priceForSize ? priceForSize : price,
           imgUrl: imgUrl,
           category: category,
           storage: storage,
@@ -229,33 +249,42 @@ const ProductDetails = () => {
                   </p>
                 </div>
                 <div className="d-flex align-items-center gap-5">
-                  <span className="product__price"> ${price}</span>
+                  <span className="product__price"> ${ priceForSize ? priceForSize : price}</span>
                   <span>Category : {category?.toUpperCase()} </span>
                 </div>
                 
                 <p className="mt-3"> {shortDesc} </p>
 
                 
-                <div  className='d-flex align-items-center gap-5 pt-1'>
+                <div  className='d-flex align-items-center gap-5 pt-3'>
 
-                <div className="filter__widget">
-                      <select onChange={e=> setStorage(e.target.value)} >
+                    {product.storage && <div className="filter__widget">
+                      <select onChange={handleChangeStorage} >
                       <option>storage</option>
-                        <option value="64">64GO</option>
-                        <option value="128">128GO</option>
-                        <option value="512">512GO</option>
-                        <option value="1000">1000GO</option>
-                      </select>
-                    </div>
 
-                  <div className="filter__widget">
+                      {
+                        Object.keys(product.storage).map(function(key, value) {
+                          
+                          return <option key={key} value={product.storage[key].storage}>{product.storage[key].storage}</option>
+                          
+                      })
+                      }
+                      
+                      </select>
+                    </div>}
+
+                  {product.colors && <div className="filter__widget">
                     <select onChange={e=> setColor(e.target.value)}>
                     <option>Color</option>
-                      <option value="black">Black</option>
-                      <option value="white">White</option>
-                      <option value="red">Red</option>
+                    {
+                        (product.colors).trim().split(',').map((color, index) =>(
+
+                          <option key={index} value={color}>{color}</option>
+                        )
+                      )
+                      }
                     </select>
-                  </div>
+                  </div>}
                   
                 </div>
                 

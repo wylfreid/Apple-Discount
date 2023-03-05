@@ -3,26 +3,35 @@ import React,{useState ,useEffect } from 'react'
 import UseAuth from '../custom-hooks/useAuth';
 import { Navigate, Outlet } from 'react-router-dom';
 import useGetData from './../custom-hooks/useGetData';
+import {useNavigate} from "react-router-dom";
+import { useSelector } from 'react-redux';
+
 
 
 const AdminRoute = () => {
 
-  const { data: usersData, loading } = useGetData("users");
+  const { data: usersData} = useGetData("users");
 
   const {currentUser} = UseAuth();
+
+  const navigate = useNavigate();
 
 
   const validate = ()=>{
     let test = false
-    for (let index = 0; index < usersData.length; index++) {
-      if (currentUser.uid === usersData[index].uid) {
-        if (usersData[index].admin === true) {
-          test = true
-          
-        }
+    if (currentUser) {
+      
+      const user = usersData.filter(
+        (item) => item.uid === currentUser.uid && item.admin === true
+      );
+  
+      if (user.length) {
+        test = true;
       }
-      console.log(test);
+ 
     }
+    
+
     return test
   }
 

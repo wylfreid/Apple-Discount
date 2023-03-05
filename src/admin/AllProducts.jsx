@@ -41,6 +41,7 @@ const AllProducts = () => {
                   <th>Image</th>
                   <th>Title</th>
                   <th>Category</th>
+                  <th>Trending</th>
                   <th>Price</th>
                   <th>Action</th>
                 </tr>
@@ -48,11 +49,13 @@ const AllProducts = () => {
 
               <tbody>
                 {loading ? (
+                  <tr>
                   <td colSpan="5">
                     <h3 className="py-5 d-flex justify-content-center text-center fw-bold">
                       loading.....
                     </h3>
                   </td>
+                </tr>
                 ) : productsData.length > 0 ? (
                   productsData.map((item, index) => (
                     <tr key={index}>
@@ -61,6 +64,7 @@ const AllProducts = () => {
                       </td>
                       <td>{item.productName}</td>
                       <td>{item.category}</td>
+                      <td>{item.trending ? "activated" : "disabled"}</td>
                       <td>{item.price}</td>
                       <td>
                         <button

@@ -21,9 +21,13 @@
 .admin__nav-top-right img{
     width: 30px;
     height: 30px;
-    border-radius: 50px;
     cursor: pointer;
+    border-radius: 50%;
+    border-style: solid;
     object-fit: cover;
+    border-width: 1px;
+    border-color: #0a1d37;
+    margin-bottom: 10px;
 }
 
 .admin__nav-top-right{

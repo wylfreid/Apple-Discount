@@ -15,7 +15,13 @@ const AddProducts = () => {
   const [enterProductImg, setEnterProductImg] = useState(null);
 
   const [trending, setTrending] = useState(false);
+  const [storagePrices, setStoragePrices] = useState(null);
+  const [colors, setColors] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [active, setActive] = useState(false);
+
+  const [active1, setActive1] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,7 +49,9 @@ const AddProducts = () => {
               category: enterCategory,
               price: enterPrice,
               imgUrl: downloadURL,
-              trending: trending
+              trending: trending,
+              storage: storagePrices,
+              colors: colors
             });
           });
 
@@ -61,6 +69,9 @@ const AddProducts = () => {
 
     //console.log(product);
   };
+
+
+
 
   return (
     <section>
@@ -148,9 +159,10 @@ const AddProducts = () => {
                   </div>
 
                   
+                  <div className="d-flex align-items-center gap-5">
 
                     <div className="form-check mb-3 mt-2" >
-                      <label className="form-check-label" for="flexCheckDefault" style={{cursor: "pointer"}}>
+                      <label className="form-check-label" htmlFor="flexCheckDefault" style={{cursor: "pointer"}}>
                         Trending Product
                       </label>
                       <input
@@ -164,6 +176,41 @@ const AddProducts = () => {
                       />
                       
                     </div>
+
+                    <div className="form-check mb-3 mt-2" >
+                      <label className="form-check-label" htmlFor="flexCheckDefault1" style={{cursor: "pointer"}}>
+                        Storage
+                      </label>
+                      <input
+                      style={{cursor: "pointer"}}
+                        className="form-check-input"
+                        type="checkbox"
+                        checked = {active}
+                        onChange={e=>setActive(!active)}
+                        id="flexCheckDefault1"
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                      />
+                      
+                    </div>
+
+                    <div className="form-check mb-3 mt-2" >
+                      <label className="form-check-label" htmlFor="flexCheckDefault2" style={{cursor: "pointer"}}>
+                        Color
+                      </label>
+                      <input
+                      style={{cursor: "pointer"}}
+                        className="form-check-input"
+                        type="checkbox"
+                        checked = {active1}
+                        onChange={e=>setActive1(!active1)}
+                        id="flexCheckDefault2"
+                        data-toggle="modal"
+                        data-target="#exampleModal1"
+                      />
+                      
+                    </div>
+                  </div>
                  
 
                   <button className="buy__btn" type="submit">
@@ -174,6 +221,133 @@ const AddProducts = () => {
             )}
           </Col>
         </Row>
+
+
+
+        <div
+        className="modal fade auction__popup "
+        id="exampleModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div
+              type="button"
+              className="close  position-absolute text-end fs-1"
+              data-dismiss="modal"
+              aria-label="Close"
+              style={{ right: 10, top: 0, zIndex: 1000 }}
+              onClick={e=> [setStoragePrices(null), setActive(!active)]}
+            >
+              <span aria-hidden="true">&times;</span>
+            </div>
+            <div className="modal-body p-4">
+            <div className="d-flex align-items-center justify-content-between gap-5">
+                    <FormGroup className="form__group w-50">
+                      <span>64GO</span>
+                      <input
+                        required
+                        type="number"
+                        placeholder="$100"
+                        value={storagePrices?.size_64?.price}
+                        onChange={(e) => setStoragePrices({...storagePrices, size_64:{ storage: "64GO", price: e.target.value}})}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="form__group w-50">
+                      <span>128GO</span>
+                      <input
+                        required
+                        type="number"
+                        placeholder="$100"
+                        value={storagePrices?.size_128?.price}
+                        onChange={(e) => setStoragePrices({...storagePrices, size_128:{ storage: "128GO", price: e.target.value}})}
+                      />
+                    </FormGroup>
+                    
+            </div>
+
+            <div className="d-flex align-items-center justify-content-between gap-5">
+                    <FormGroup className="form__group w-50">
+                      <span>512GO</span>
+                      <input
+                        required
+                        type="number"
+                        placeholder="$100"
+                        value={storagePrices?.size_512?.price}
+                        onChange={(e) => setStoragePrices({...storagePrices, size_512:{ storage: "512GO", price: e.target.value}})}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="form__group w-50">
+                      <span>1TO</span>
+                      <input
+                        required
+                        type="number"
+                        placeholder="$100"
+                        value={storagePrices?.size_1000?.price}
+                        onChange={(e) => setStoragePrices({...storagePrices, size_1000:{ storage: "1TO", price: e.target.value}})}
+                      />
+                    </FormGroup>
+                    
+            </div>
+            </div>
+
+            <div class="modal-footer d-flex align-items-center justify-content-center">
+            <button type="button" class="buy__btn w-100" data-dismiss="modal"
+              aria-label="Close">Save</button>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="modal fade auction__popup "
+        id="exampleModal1"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div
+              type="button"
+              className="close  position-absolute text-end fs-1"
+              data-dismiss="modal"
+              aria-label="Close"
+              style={{ right: 10, top: 0, zIndex: 1000 }}
+              onClick={e=> [setColors(null), setActive1(!active1)]}
+            >
+              <span aria-hidden="true">&times;</span>
+            </div>
+            <div className="modal-body p-4">
+                    <FormGroup className="form__group w-100">
+                      <span>Colors list</span>
+                      <input
+                      className="w-100"
+                        required
+                        type="text"
+                        placeholder="Color list..."
+                        value={colors}
+                        onChange={(e) => setColors(e.target.value)}
+                      />
+                    </FormGroup>
+
+                    
+            
+            </div>
+
+            <div class="modal-footer d-flex align-items-center justify-content-center">
+            <button type="button" class="buy__btn w-100" data-dismiss="modal"
+              aria-label="Close">Save</button>
+          </div>
+          </div>
+        </div>
+      </div>
       </Container>
     </section>
   );

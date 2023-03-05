@@ -220,7 +220,7 @@ const Header = () => {
             <div className="navigation" ref={menuRef} onClick={menuToggle}>
               <ul className="menu p-0">
                 {nav__links.map((item, index) => (
-                  <li className="nav__item" key={index}>
+                  <li className="nav__item w-100 d-flex align-items-center justify-content-center" key={index}>
                     <NavLink
                       to={item.path}
                       className={(navClass) =>
@@ -244,12 +244,14 @@ const Header = () => {
                 <span className="badge">{totalQuantity}</span>
               </span>
               <div className="profile">
-                <motion.img
-                  whileTap={{ scale: 1.2 }}
-                  src={currentUser ? currentUser.photoURL : userIcon}
-                  alt=""
-                  onClick={toggleProfileActions}
-                />
+                <div className="profil__img">
+                  <motion.img
+                    whileTap={{ scale: 1.2 }}
+                    src={currentUser ? currentUser.photoURL : userIcon}
+                    alt=""
+                    onClick={toggleProfileActions}
+                  />
+                </div>
 
                 <div className="profile__actions text-center" 
                 ref={profileActionsRef} 
