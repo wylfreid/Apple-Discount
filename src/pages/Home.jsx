@@ -22,7 +22,7 @@ import counterImg from "../assets/images/iPhone_13_Pro_max.png";
 import { useSelector, useDispatch } from "react-redux";
 import UseAuth from './../custom-hooks/useAuth';
 
-import {doc, updateDoc } from "firebase/firestore";
+import {doc,addDoc, updateDoc, serverTimestamp, collection } from "firebase/firestore";
 
 import { db } from "../firebase.config";
 
@@ -32,9 +32,13 @@ import { toast } from 'react-toastify';
 const Home = () => {
   const products = useSelector((state) => state.products.products);
 
-  const auctions = useSelector((state) => state.auctions.auctionItems);
+  const auctionsList = useSelector((state) => state.auctions.auctionItems);
+
+  const [auctions, setAuctions] = useState([]);
 
   const users = useSelector((state) => state.users.users);
+
+  const attendees = useSelector((state) => state.attendees.attendees);
 
   const { currentUser } = UseAuth();
 
@@ -84,29 +88,72 @@ const Home = () => {
   });
 
   useEffect(() => {
-    if (auctions.length > 0) {
+    
+    setAuctions(auctionsList)
+    if (auctions.length > 0 && attendees.length <= 20 && auctions[0]?.active === true) {
       btnRef.current.click();
     }
-  }, [auctions]);
+  }, [auctionsList, auctions]);
 
   const handleGoToAuction = () => {
 
-    if (currentUser) {
-      
-      const user = users.filter(
-        (user) => user.uid === currentUser.uid
-      );
-  
-      handleToggleSubscribe(user[0])
-  
+    const attendee = attendees.filter(
+      (item) => item.uid === currentUser.uid
+    );
+
+
+    if(attendees?.length > 20){
+      toast.error("the maximum number of participants has been reached!");
+    }else if(attendee.length !== 0){
       navigate('/auction')
-    }else{
-      toast.warning("Veuillez vous connecter!");
-      navigate('/login')
+    }
+    else{
+      if (currentUser) {
+  
+        handleSubscribe()
+        
+      }else{
+        toast.warning("Please login!");
+        navigate('/login')
+      }
     }
 
   };
+//console.log(new Date());
 
+  const handleSubscribe = async () => {
+
+    // =========== add bidInfos to the firebase database ===========================
+      
+      try {
+
+
+        const docRef = await collection(db, "attendees");
+  
+        const attendee = {
+          uid: currentUser.uid,
+          displayName: currentUser.displayName,
+          email: currentUser.email,
+          photoURL: currentUser.photoURL,
+          createdAt: serverTimestamp(),
+        }
+  
+            
+        await addDoc(docRef, attendee);
+        toast.success("you are currently participating in the auction!");
+  
+        navigate('/auction')
+        
+  
+      } catch (error) {
+        toast.error("something went wrong: " + error );
+        console.log(error);
+      }
+    
+    
+
+
+  };
 
 
   const handleToggleSubscribe = async (user) => {
@@ -185,7 +232,7 @@ const Home = () => {
         </section>
       )}
 
-      {auctions.length > 0 && (
+      {auctions.length > 0 && auctions[0]?.active === true && (
         <section className="timer_count">
           <Container>
             <Row>
@@ -193,16 +240,17 @@ const Home = () => {
                 <div className="clock__top-content">
                   <h4 className="text-white fs-6 mb-2">Limited Offers</h4>
                   <h3 className="text-white fs-5 mb-3">
-                    {auctions[auctions?.length - 1]?.productName}
+                    {auctions[0]?.productName}
                   </h3>
                 </div>
 
-                <Clock stopTime={auctions[auctions?.length - 1]?.endDate} />
+                <Clock stopTime={auctions[0]?.endDate} />
 
                 <Link to="/auction">
                   <motion.button
                     whileTap={{ scale: 1.2 }}
                     className="buy__btn store__btn mt-4"
+                    onClick={handleGoToAuction}
                   >
                     Go to Auction
                   </motion.button>
@@ -210,7 +258,7 @@ const Home = () => {
               </Col>
 
               <Col lg="6" md="12" className="text-end counter__img">
-                <img src={auctions[auctions?.length - 1]?.imgUrl} alt="" />
+                <img src={auctions[0]?.imgUrl} alt="" />
               </Col>
             </Row>
           </Container>
@@ -294,15 +342,15 @@ const Home = () => {
               </div>
 
               <div className="d-flex justify-content-center p-2">
-                <img src={auctions[auctions?.length - 1]?.imgUrl} alt="" />
+                <img src={auctions[0]?.imgUrl} alt="" />
               </div>
 
               <h6 className="text-center">
-                {auctions[auctions?.length - 1]?.productName}
+                {auctions[0]?.productName}
               </h6>
 
               <p className="text-center">
-                {auctions[auctions?.length - 1]?.shortDesc}
+                {auctions[0]?.shortDesc}
               </p>
 
               <div className="d-flex justify-content-center mb-2 mt-1">

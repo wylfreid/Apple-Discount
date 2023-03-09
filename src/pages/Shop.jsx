@@ -68,7 +68,7 @@ import {useSelector} from 'react-redux';
     
     setProductsData(searchedProducts);
   }
-  console.log(productsData);
+
   const handleSort = (e) =>{
 
       const filteredPoducts = productsData.slice().sort((a, b) => {

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, FormGroup, Container, Row, Col } from "reactstrap";
 import { toast } from "react-toastify";
 import { db, storage } from "../firebase.config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc,collection, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { doc,collection, addDoc, deleteDoc, updateDoc, query, orderBy, onSnapshot, limit, serverTimestamp } from "firebase/firestore";
+
 import { useNavigate } from "react-router-dom";
 
 import { motion } from "framer-motion";
@@ -11,6 +12,8 @@ import useGetData from './../custom-hooks/useGetData';
 
 const AdminAuction = () => {
   const { data: auctionsData, loading } = useGetData("auctions");
+
+  const [auctions, setAuctions] = useState([]);
 
   const [enterTitle, setEnterTitle] = useState("");
   const [enterShortDesc, setEnterhortDesc] = useState("");
@@ -22,7 +25,30 @@ const AdminAuction = () => {
   const [enterProductImg, setEnterProductImg] = useState(null);
   const [Loading, setLoading] = useState(false);
 
+  const [selectedAuction, setSelectedAuction] = useState(null);
+
+  const [attendees, setAttendees] = useState([]);
+
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    let interval = setInterval(() => {
+      for (let index = 0; index < auctions.length; index++) {
+        if (auctions.length > 0 && auctions[index]?.active === true && new Date(auctions[index]?.endDate) < new Date()) {
+          handleDesactive(auctions[index])
+          
+        }
+        
+      }
+
+    }, 1000);
+  })
+
+  useEffect(()=>{
+    setAuctions(auctionsData);
+  },[auctionsData])
+
+
 
   const addAuction = async (e) => {
     e.preventDefault();
@@ -72,10 +98,51 @@ const AdminAuction = () => {
     toast.success("user deleted!");
   };
 
+  const deleteAttendee = async (id) => {
+    await deleteDoc(doc(db, "attendees", id));
+
+    toast.success("attendee deleted!");
+  };
+
+  const handleDesactive = async (item) => {
+    let temp = auctions
+
+    for (let index = 0; index < temp.length; index++) {
+      if (temp[index].id === item.id) {
+        temp[index].active = false
+      }
+    }
+
+    setAuctions(temp)
+
+    await updateDoc(doc(db, "auctions", item.id), { active: false });
+    toast.success("the status has been changed!");
+
+  };
+
   const handleEdit = async (item) => {
     await updateDoc(doc(db, "auctions", item.id), { active: !item.active });
     toast.success("the status has been changed!");
   };
+
+
+  useEffect(() => {
+    const q = query(
+      collection(db, "attendees"),
+      orderBy("createdAt"),
+      limit(20)
+    );
+
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      let participants = [];
+      QuerySnapshot.forEach((doc) => {
+        participants.push({ ...doc.data(), id: doc.id });
+      });
+
+      setAttendees(participants)
+    });
+    return () => unsubscribe;
+  }, []);
 
   return (
     <section>
@@ -130,10 +197,10 @@ const AdminAuction = () => {
                       <td>${item.startPrice}</td>
                       <td>{item.endDate}</td>
                       <td>
-                        <div class="form-check form-switch" >
+                        <div className="form-check form-switch" >
                           <input
                           style={{cursor: "pointer"}}
-                            class="form-check-input"
+                            className="form-check-input"
                             type="checkbox"
                             role="switch"
                             id="flexSwitchCheckDefault"
@@ -147,19 +214,23 @@ const AdminAuction = () => {
                           whileTap={{ scale: 1.2 }}
                           className="buy__btn"
                           type="submit"
+                          data-toggle="modal"
+                          data-target="#exampleModal1"
+                          onClick={e=> setSelectedAuction(item)}
                         >
                           View Auction
                         </motion.button>
                       </td>
                       <td>
-                        <button
+                        <motion.button
+                        whileTap={{ scale: 1.2 }}
                           onClick={() => {
                             deleteAuction(item.id);
                           }}
                           className="btn btn-danger"
                         >
                           Delete
-                        </button>
+                        </motion.button>
                       </td>
                     </tr>
                   ))
@@ -175,30 +246,124 @@ const AdminAuction = () => {
           </Col>
         </Row>
 
+  
+
+      <div
+        className="modal fade "
+        id="exampleModal1"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div className="modal-content">
+            <div
+              type="button"
+              className="close  position-absolute text-end fs-1"
+              data-dismiss="modal"
+              aria-label="Close"
+              style={{ right: 10, top: 0, zIndex: 1000 }}
+            >
+              <span aria-hidden="true">&times;</span>
+            </div>
+            <div className="modal-body p-4">
+              <div className="text-center">
+                <h5> {selectedAuction?.productName} </h5>
+
+        <Row className="mt-4">
+          <Col lg="4">
+            <div className="revenue__box h-100 p-4">
+              <h5>Total attendees</h5>
+              <span>{attendees?.length}</span>
+            </div>
+          </Col>
+          <Col lg="4">
+            <div className="orders__box h-100 p-4">
+              <h5>current attendee</h5>
+              <span>{selectedAuction?.currentAttendeeName}</span>
+            </div>
+          </Col>
+          <Col lg="4">
+            <div className="products__box h-100 p-4">
+              <h5>CurrentPrice</h5>
+              <span>${selectedAuction?.currentPrice}</span>
+            </div>
+          </Col>
+        </Row>
+
+        <Row className="mt-4 overflow-auto" style={{height:"250px"}}>
+          <table className="table">
+            <thead>
+                <tr>
+                  <th>Profil</th>
+                  <th>UserName</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {
+                    attendees.map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                          <img
+                            className="product__img"
+                            src={item.photoURL}
+                            alt=""
+                          />
+                        </td>
+                        <td>{item.displayName}</td>
+                        
+                        <td>
+                          <motion.button
+                            whileTap={{ scale: 1.2 }}
+                            onClick={() => {
+                              deleteAttendee(item.id);
+                            }}
+                            className="btn btn-danger"
+                          >
+                            Delete
+                          </motion.button>
+                        </td>
+                      </tr>
+                    ))
+                }
+              </tbody>
+          </table>
+        </Row>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>            
+
+
         <div
-          class="modal fade"
+          className="modal fade"
           id="exampleModal"
           tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
                   Add Auction
                 </h5>
                 <div
                   type="button"
-                  class="close text-end fs-1"
+                  className="close text-end fs-1"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </div>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <Form onSubmit={addAuction}>
                   <FormGroup className="form__group">
                     <span>Product title</span>
@@ -309,7 +474,7 @@ const AdminAuction = () => {
                   </motion.button>
                 </Form>
               </div>
-              <div class="modal-footer"></div>
+              <div className="modal-footer"></div>
             </div>
           </div>
         </div>

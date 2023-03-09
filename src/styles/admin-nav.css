@@ -45,6 +45,7 @@
 .admin__nav-top-right span i{
     color: whitesmoke;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .admin__nav-wrapper-top .logo h2{

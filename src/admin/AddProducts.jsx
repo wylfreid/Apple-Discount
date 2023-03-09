@@ -186,7 +186,7 @@ const AddProducts = () => {
                         className="form-check-input"
                         type="checkbox"
                         checked = {active}
-                        onChange={e=>setActive(!active)}
+                        onChange={e=>setActive(true)}
                         id="flexCheckDefault1"
                         data-toggle="modal"
                         data-target="#exampleModal"
@@ -203,7 +203,7 @@ const AddProducts = () => {
                         className="form-check-input"
                         type="checkbox"
                         checked = {active1}
-                        onChange={e=>setActive1(!active1)}
+                        onChange={e=>setActive1(true)}
                         id="flexCheckDefault2"
                         data-toggle="modal"
                         data-target="#exampleModal1"
@@ -240,7 +240,7 @@ const AddProducts = () => {
               data-dismiss="modal"
               aria-label="Close"
               style={{ right: 10, top: 0, zIndex: 1000 }}
-              onClick={e=> [setStoragePrices(null), setActive(!active)]}
+              onClick={e=> [setStoragePrices(null), setActive(false)]}
             >
               <span aria-hidden="true">&times;</span>
             </div>
@@ -320,7 +320,7 @@ const AddProducts = () => {
               data-dismiss="modal"
               aria-label="Close"
               style={{ right: 10, top: 0, zIndex: 1000 }}
-              onClick={e=> [setColors(null), setActive1(!active1)]}
+              onClick={e=> [setColors(null), setActive1(false)]}
             >
               <span aria-hidden="true">&times;</span>
             </div>

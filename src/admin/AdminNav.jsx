@@ -7,6 +7,8 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 
+import logo from "../../src/assets/images/logo.png";
+
 import { signOut } from "firebase/auth";
 import { auth } from "./../firebase.config";
 

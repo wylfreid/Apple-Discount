@@ -5,7 +5,7 @@ import CommonSection from "./../components/UI/CommonSection";
 import { Row, Container, Col,FormGroup } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 
-import { doc,collection, addDoc, updateDoc } from "firebase/firestore";
+import { doc,collection, addDoc, updateDoc, query, orderBy, onSnapshot, limit, serverTimestamp } from "firebase/firestore";
 
 
 
@@ -15,69 +15,96 @@ import { db } from "../firebase.config";
 import useGetData from "./../custom-hooks/useGetData";
 import { toast } from "react-toastify";
 import UseAuth from "./../custom-hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate} from "react-router-dom";
 import { motion } from "framer-motion";
 import { auctionsActions } from './../redux/slices/auctionSlice';
+import { attendeesActions } from './../redux/slices/attendeeSlice';
+
 
 const Auction = () => {
-  const auctions = useSelector((state) => state.auctions.auctionItems);
+  //const auctions = useSelector((state) => state.auctions.auctionItems);
+  const { data: auctions } = useGetData("auctions");
+
   const { currentUser } = UseAuth();
+
+  const attendees = useSelector((state) => state.attendees.attendees);
 
   const users = useSelector((state) => state.users.users);
 
-  const { data: usersList} = useGetData("users");
+  //const { data: usersList} = useGetData("users");
 
-  const { data: bidInfos} = useGetData("bidInfos");
+  //const { data: bidInfos} = useGetData("bidInfos");
 
   const [selectedAuction, setSelectedAuction] = useState(null);
 
-  const [participants, setParticipants] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const [bidInfoLenght, setBidInfoLenght] = useState(0);
+  //const [bidInfoLenght, setBidInfoLenght] = useState(0);
+
+  const [isValideDate, setIsValideDate] = useState(false);
+
+
 
   const [bidAmount, setBidAmount] = useState("");
+
+  const [newBid, setNewBid] = useState(null);
 
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  const leaveAution = () => {
-    window.scrollTo(0, 0);
+  const btnRef = useRef();
 
-    const user = users.filter((user) => user.uid === currentUser.uid);
-  };
+  const [loading, setLoading] = useState(false);
 
-  const handleToggleSubscribe = async (user) => {
-    await updateDoc(doc(db, "users", user.uid), {
-      participant: !user.participant,
-    });
-    toast.warning("You left the auction!");
-  };
 
-  useEffect(()=>{
-    if (bidInfos.length > 0 && currentUser.uid !== bidInfos[bidInfos.length - 1].userId) {
-      toast.warning("A new bid has been placed in the auction of " + bidInfos[bidInfos.length - 1].auction.productName);
-    }
-  },[bidInfos])
 
   useEffect(() =>{
 
-    const updateInterval = setInterval(() => { 
-      const newUsersList = usersList.filter((user) => user.participant === true);
-      if (newUsersList.length !== participants.length) {
-        setParticipants(participants=> ([...newUsersList]));
-      }
+    handleSelectAuction(auctions[auctions?.length - 1]?.id)
+
+  },[auctions])
+
+
+  useEffect(() => {
+    if (auctions.length > 0 && auctions[0]?.active === true) {
+
+      setIsValideDate(true)
       
-     
-    }, 5000)
+    }else{
+      if (auctions.length > 0) {
+        setIsValideDate(false)
+        //navigate("/home")
+      }
+    }
+  }, [auctions]); 
 
-  })
 
-  const handleSelectAuction = (e) => {
-    const result = auctions.filter((auction) => auction.id === e.target.value);
-    setSelectedAuction(result[0]);
+
+
+
+   const handleSelectAuction = (id) => {
+
+      
+      const result = auctions.filter((auction) => auction.id === id);
+      setSelectedAuction(result[0]);
+  
+      for (let index = auctions.length; index > 0; index--) {
+        if (auctions[index]?.id === id) {
+          setSelectedIndex(index)
+        }
+        
+      }
+    
   };
 
+
+
+  useEffect(()=>{
+    setBidAmount("")
+  },[selectedAuction?.currentPrice])
+
+ 
   const sendBidInfos = async () => {
 
     // =========== add bidInfos to the firebase database ===========================
@@ -89,9 +116,12 @@ const Auction = () => {
         userId: currentUser.uid,
         userName: currentUser.displayName,
         auction: selectedAuction,
-        bidAmount: bidAmount
+        bidAmount: bidAmount,
+        createdAt: serverTimestamp(),
       };
       await addDoc(docRef,  BidInfo);
+
+      setLoading(false)
 
     } catch (error) {
       toast.error("BidInfo not added");
@@ -102,11 +132,14 @@ const Auction = () => {
   const handleBid = async () => {
     if (!selectedAuction) {
       toast.error("Please choose an item!");
-    }else if(!bidAmount){
-      toast.error("Please enter an amount!");
+    }else if(!bidAmount || bidAmount < parseInt(selectedAuction?.currentPrice) + parseInt(selectedAuction?.step)){
+      toast.error("Please enter a valid amount!");
     }else{
+      setLoading(true)
       await updateDoc(doc(db, "auctions", selectedAuction.id), {
         currentPrice: bidAmount,
+        currentAttendeeId: currentUser.uid,
+        currentAttendeeName: currentUser.displayName
       });
   
       dispatch(
@@ -122,43 +155,96 @@ const Auction = () => {
     }
   };
 
+
+  useEffect(() => {
+    const q = query(
+      collection(db, "bidInfos"),
+      orderBy("createdAt"),
+      limit(100)
+    );
+
+
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      let bids = [];
+      QuerySnapshot.forEach((doc) => {
+        bids.push({ ...doc.data(), id: doc.id });
+        //console.log(doc.data());
+      });
+
+      if (bids.length > 0 && bids[(bids?.length - 1)].userId !== currentUser?.uid) {
+        
+        setNewBid(bids[(bids?.length - 1)])
+        displayNewBid()
+
+        //console.log(currentUser?.uid);
+
+        //console.log(bids[(bids?.length - 1)]);
+        
+      }
+    });
+    return () => unsubscribe;
+  }, []);
+
+  const displayNewBid = () =>{
+    let interval = setInterval(() => {
+      setNewBid(null)
+      clearInterval(interval)
+    }, 5000);
+  }
+
+  
+  useEffect(()=>{
+    setSelectedIndex(selectedIndex && selectedIndex - 1)
+    if (selectedIndex < (auctions.length - 1)) {
+      setSelectedAuction(auctions[selectedIndex])
+      btnRef.current.click()
+    }
+    
+  },[auctions[selectedIndex]?.active])
+
+
+
+
+
+
   return (
     <Helmet title="Auction">
       <CommonSection title="Auction" />
+      
 
       <section>
         <Container>
           <Row>
             <Col lg="8">
               {auctions.length > 0 ? (
-                auctions?.map((auction, index) => (
-                  <div key={index} className="card auction__card mx-auto shadow">
+             
+                  <div className="card auction__card mx-auto shadow">
                     <div className="card-body">
                       <div className="d-flex justify-content-center p-2">
-                        <img src={auction.imgUrl} alt="" />
+                        <img src={selectedAuction?.imgUrl} alt="" />
                       </div>
 
-                      <h6 className="text-center">{auction.productName}</h6>
+                      <h6 className="text-center">{selectedAuction?.productName}</h6>
 
-                      <p className="text-center">{auction.shortDesc}</p>
+                      <p className="text-center">{selectedAuction?.shortDesc}</p>
 
                       <h6 className="text-center p-2">
-                        Start price : ${auction.startPrice}
+                        Start price : ${selectedAuction?.startPrice}
                       </h6>
 
                       <h6
                         className="text-center p-2"
                         style={{ color: "coral" }}
                       >
-                        current price : ${auction.currentPrice}
+                        current price : ${selectedAuction?.currentPrice}
                       </h6>
 
                       <div className="d-flex justify-content-center p-2">
-                        <ClockVariant stopTime={auction.endDate} />
+                        <ClockVariant stopTime={selectedAuction?.endDate ? selectedAuction?.endDate : new Date()} />
                       </div>
                     </div>
                   </div>
-                ))
+              
               ) : (
                 <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
                   loading.....
@@ -168,19 +254,23 @@ const Auction = () => {
 
             <Col lg="4">
               <div className="checkout__cart">
-                <h6>
-                  Total attendees: <span style={{ color: "coral" }}> {participants.length} </span>
-                </h6>
+                
+                
+                <div className="d-flex align-items-center justify-content-between gap-1">
 
-                <div className="d-flex align-items-center justify-content-between gap-5">
-                    <FormGroup className="form__group w-50">
+                    <div>
+
+                      Item :  <span style={{color: "#ffc107"}}>{selectedAuction?.productName}</span>
+                    </div>
+
+                    {/* <FormGroup className="form__group w-50">
                       <select className="p-2" onChange={handleSelectAuction}>
                         <option>Item</option>
                         {auctions?.map((auction, index) => (
                           <option key={index} value={auction.id}>{auction.productName}</option>
                         ))}
                       </select>
-                    </FormGroup>
+                    </FormGroup> */}
 
                     <FormGroup className="form__group w-50">
 
@@ -191,7 +281,7 @@ const Auction = () => {
                       placeholder={
                         selectedAuction ?
                         (parseInt(selectedAuction?.currentPrice) +
-                        parseInt(selectedAuction?.step)) : ""
+                        parseInt(selectedAuction?.step)) : "Enter amount"
                       }
                       min={
                         selectedAuction ?
@@ -210,15 +300,97 @@ const Auction = () => {
                   onClick={handleBid}
                   type="submit"
                   whileTap={{ scale: 1.2 }}
-                  className="mt-2 buy__btn auth__btn bg-light  w-100"
+                  className="mt-2 buy__btn auth__btn bg-light  w-100 d-flex align-items-center justify-content-center"
                 >
-                  Place a bid
+                  {loading ? <div className="spinner-grow" role="status">
+                  <span className="sr-only"></span>
+                  </div> : <span>Place a bid</span> 
+                  }
                 </motion.button>
               </div>
+
+              <div className="attendees__infos-group">
+
+                <div className="mt-4">
+                          <h5>
+                            Total attendees: <span className="fw-bold ps-3" style={{ color: "coral", fontSize: "18px" }}> {attendees.length} </span>
+                          </h5>
+                        </div>
+
+                <div className="d-flex row align-items-center justify-content-start">
+
+                        
+                    {
+                      attendees?.map((attendee, index) =>(
+
+                        <div key={index} className="attendees__infos col-3  d-flex flex-column align-items-center justify-content-center mt-2">
+                          
+                          <div className="profil__img">
+                            <img
+                            className="mb-0"
+                              src={attendee.photoURL}
+                              alt=""
+                            />
+                          </div>
+
+                          <div className="text-center">
+                            <span >{attendee.displayName}</span>
+                          </div>
+                        </div>
+                      ))
+                    }
+
+                  </div>
+
+                  {newBid && <div className='mt-3 w-100'>
+                    <div className={"alert alert-warning"}><i style={{ fontSize: '.8em' }} className='fa fa-check-circle'></i>A new bid of {newBid.bidAmount} $ was placed by {newBid.userName} for {newBid.auction.productName}</div>
+                </div>}
+
+
+              </div>
+
             </Col>
           </Row>
         </Container>
       </section>
+
+      <button
+        ref={btnRef}
+        type="button"
+        className="btn btn-primary d-none"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      ></button>
+
+      <div
+        className="modal fade auction__popup "
+        id="exampleModal"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div
+              type="button"
+              className="close  position-absolute text-end fs-1"
+              data-dismiss="modal"
+              aria-label="Close"
+              style={{ right: 10, top: 0, zIndex: 1000 }}
+            >
+              <span aria-hidden="true">&times;</span>
+            </div>
+            <div className="modal-body p-4">
+              <div className="text-center">
+                <h5>The auction is over!!</h5>
+
+                <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{auctions[selectedIndex + 1]?.currentAttendeeName}</span> wins the auction</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </Helmet>
   );
 };

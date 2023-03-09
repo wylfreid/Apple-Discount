@@ -19,10 +19,16 @@ import { toast } from "react-toastify";
 
 import useGetData from './../../custom-hooks/useGetData';
 
+import { db } from "./../../firebase.config";
+
+import { doc,collection, addDoc, updateDoc, query, orderBy, onSnapshot, limit } from "firebase/firestore";
+
 import { favoritesActions } from './../../redux/slices/favoriteSlice';
 import { auctionsActions } from './../../redux/slices/auctionSlice';
 import { productActions } from './../../redux/slices/productSlice';
 import { usersActions } from './../../redux/slices/userSlice';
+import { attendeesActions } from './../../redux/slices/attendeeSlice';
+
 
 
 
@@ -202,6 +208,33 @@ const Header = () => {
         );
     }
   }, [users]);
+
+
+  useEffect(() => {
+    const q = query(
+      collection(db, "attendees"),
+      orderBy("createdAt"),
+      limit(20)
+    );
+
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      let participants = [];
+      QuerySnapshot.forEach((doc) => {
+        participants.push({ ...doc.data(), id: doc.id });
+        //console.log(doc.data());
+        dispatch(
+          attendeesActions.addAttendee({
+            uid: doc.data().uid,
+            displayName: doc.data().displayName,
+            email: doc.data().email,
+            photoURL: doc.data().photoURL,
+            createdAt: doc.data().createdAt
+          })
+        );
+      });
+    });
+    return () => unsubscribe;
+  }, []);
 
   return (
     <header className="header" ref={headerRef}>

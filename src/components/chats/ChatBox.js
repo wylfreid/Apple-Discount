@@ -26,7 +26,7 @@ const ChatBox = () => {
 
   const onChat = () => {
     if (!currentUser) {
-      toast.warning("Veuillez vous connecter!");
+      toast.warning("Please login!");
       navigate('/login');
     } else {
       setActiveChat(!activeChat);

@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import React from "react";
+import React,{useState} from "react";
 import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import Cart from "../pages/Cart";
@@ -25,6 +25,8 @@ import Favourites from './../pages/Favourites';
 import AdminAuction from '../admin/AdminAuction';
 
 
+import useGetData from './../custom-hooks/useGetData';
+
 
 
 
@@ -41,7 +43,7 @@ const Routers = () => {
       <Route path="/*" element={<ProtectedRoute />}>
         <Route path="checkout" element={<Checkout />} />
         <Route path="history" element={<History />} />
-        <Route path="auction" element={<Auction />} />
+        <Route path="auction" element={<Auction/>} />
       </Route>
 
 
