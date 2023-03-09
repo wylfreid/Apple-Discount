@@ -90,8 +90,17 @@ const Home = () => {
   useEffect(() => {
     
     setAuctions(auctionsList)
-    if (auctions.length > 0 && attendees.length <= 20 && auctions[0]?.active === true) {
-      btnRef.current.click();
+    if (attendees.length <= 20) {
+      const activesAuctions = auctions.filter(
+        (item) => item.active === true
+      );
+      if (activesAuctions.length > 0) {
+        localStorage.setItem("AllowAuction", "true")
+        btnRef.current.click();
+      }else{
+        localStorage.setItem("AllowAuction", "false")
+        //console.log("test");
+      }
     }
   }, [auctionsList, auctions]);
 

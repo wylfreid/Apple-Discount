@@ -22,6 +22,7 @@ const AdminAuction = () => {
   const [enterPrice, setEnterPrice] = useState("");
   const [enterStep, setEnterStep] = useState("");
   const [enterDate, setEnterDate] = useState("");
+  const [enterPosition, setEnterPosition] = useState("");
   const [enterProductImg, setEnterProductImg] = useState(null);
   const [Loading, setLoading] = useState(false);
 
@@ -77,6 +78,7 @@ const AdminAuction = () => {
               step: enterStep,
               endDate: enterDate,
               imgUrl: downloadURL,
+              position: enterPosition,
               active: true,
             });
           });
@@ -449,6 +451,19 @@ const AdminAuction = () => {
                         placeholder="Description......."
                         value={enterDate}
                         onChange={(e) => setEnterDate(e.target.value)}
+                      />
+                    </FormGroup>
+                  </div>
+
+                  <div>
+                    <FormGroup className="form__group w-50">
+                      <span>Position</span>
+                      <input
+                        required
+                        type="number"
+                        placeholder="1"
+                        value={enterPosition}
+                        onChange={(e) => setEnterPosition(e.target.value)}
                       />
                     </FormGroup>
                   </div>

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { doc,collection, addDoc, updateDoc, query, orderBy, onSnapshot, limit, serverTimestamp } from "firebase/firestore";
 
-
+import '../styles/clock.css'
 
 import "../styles/auction.css";
 import ClockVariant from "./../components/UI/ClockVariant";
@@ -61,23 +61,54 @@ const Auction = () => {
 
   useEffect(() =>{
 
-    handleSelectAuction(auctions[auctions?.length - 1]?.id)
+    if (selectedAuction) {
+      
+      localStorage.setItem("position", selectedAuction.position) 
+    }
+
+  },[selectedAuction])
+
+
+  useEffect(() =>{
+
+    if (auctions.length > 0) {
+      
+      const position = localStorage.getItem("position") || "1"
+  
+      let activesAuctions = auctions.filter(
+        (item) => item.position === position
+      );
+  
+      if (activesAuctions[0]?.active === false) {
+        localStorage.setItem("position", (parseInt(position) + 1))
+  
+        activesAuctions = []
+  
+        activesAuctions = auctions.filter(
+          (item) => item.position === localStorage.getItem("position")
+        );
+
+        btnRef.current.click()
+      }
+  
+      handleSelectAuction(activesAuctions[0]?.id) 
+    }else{
+      localStorage.setItem("position", "1") 
+    }
+
 
   },[auctions])
 
+  //localStorage.clear()
 
-  useEffect(() => {
-    if (auctions.length > 0 && auctions[0]?.active === true) {
 
-      setIsValideDate(true)
-      
-    }else{
-      if (auctions.length > 0) {
-        setIsValideDate(false)
-        //navigate("/home")
-      }
+  useEffect(()=>{
+    const AllowAuction = localStorage.getItem("AllowAuction")
+    //console.log(AllowAuction);
+    if (AllowAuction !== "true") {
+      navigate("/home")
     }
-  }, [auctions]); 
+  })
 
 
 
@@ -85,17 +116,9 @@ const Auction = () => {
 
    const handleSelectAuction = (id) => {
 
-      
       const result = auctions.filter((auction) => auction.id === id);
       setSelectedAuction(result[0]);
-  
-      for (let index = auctions.length; index > 0; index--) {
-        if (auctions[index]?.id === id) {
-          setSelectedIndex(index)
-        }
-        
-      }
-    
+
   };
 
 
@@ -193,18 +216,25 @@ const Auction = () => {
   }
 
   
-  useEffect(()=>{
+  /* useEffect(()=>{
     setSelectedIndex(selectedIndex && selectedIndex - 1)
     if (selectedIndex < (auctions.length - 1)) {
       setSelectedAuction(auctions[selectedIndex])
       btnRef.current.click()
     }
     
-  },[auctions[selectedIndex]?.active])
+  },[auctions[selectedIndex]?.active]) */
 
 
 
+const getWinner = () =>{
+  let position = parseInt(localStorage.getItem("position") - 1)
+  const activesAuctions = auctions.filter(
+    (item) => item.position === position
+  );
 
+  return activesAuctions[0]?.currentAttendeeName
+}
 
 
   return (
@@ -385,7 +415,7 @@ const Auction = () => {
               <div className="text-center">
                 <h5>The auction is over!!</h5>
 
-                <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{auctions[selectedIndex + 1]?.currentAttendeeName}</span> wins the auction</h5>
+                <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{getWinner()}</span> wins the auction</h5>
               </div>
             </div>
           </div>
@@ -396,3 +426,5 @@ const Auction = () => {
 };
 
 export default Auction;
+
+
