@@ -75,6 +75,21 @@ const Header = () => {
 
   const [storageItem, setStorageItem] = useState(() => JSON.parse(localStorage.getItem("favourites") || "[]"))
 
+  useEffect(() => {
+    
+    const user = users.filter(
+      (item) => item?.uid === currentUser?.uid && item?.admin === true
+    );
+
+    if (user.length > 0) {
+      localStorage.setItem("admin", "true")
+    }else{
+      localStorage.setItem("admin", "false")
+    }
+
+  }, [users]);
+  
+
   useEffect(()=>{
     for (let index = 0; index < products.length; index++) {
       dispatch(

@@ -17,7 +17,7 @@ const AdminRoute = () => {
   const navigate = useNavigate();
 
 
-  const validate = ()=>{
+  /* const validate = ()=>{
     let test = false
     if (currentUser) {
       
@@ -33,11 +33,19 @@ const AdminRoute = () => {
     
 
     return test
-  }
+  } */
 
 
+  useEffect(()=>{
+    const admin = localStorage.getItem("admin")
+    //console.log(admin);
+    if (admin !== "true") {
+      navigate("/login")
+    }
+  })
 
-  return validate() && <Outlet />
+
+  return <Outlet />
 }
 
 export default AdminRoute

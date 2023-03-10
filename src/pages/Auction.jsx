@@ -97,7 +97,7 @@ const Auction = () => {
     }
 
 
-  },[auctions])
+  },[auctions, selectedAuction])
 
   //localStorage.clear()
 
@@ -116,8 +116,19 @@ const Auction = () => {
 
    const handleSelectAuction = (id) => {
 
-      const result = auctions.filter((auction) => auction.id === id);
+    let interval = setInterval(() => {
+      const result = auctions.filter((auction) => auction.id === id && auction.active === true);
+      //console.log(result);
+      if (result.length == 0) {
+        navigate("/home")
+        window.location.reload()
+        //localStorage.setItem("AllowAuction", "false")
+      }
       setSelectedAuction(result[0]);
+      clearInterval(interval)
+    }, 3000);
+
+      
 
   };
 
@@ -229,10 +240,11 @@ const Auction = () => {
 
 const getWinner = () =>{
   let position = parseInt(localStorage.getItem("position") - 1)
+  
   const activesAuctions = auctions.filter(
-    (item) => item.position === position
+    (item) => item.position == position
   );
-
+  //console.log(activesAuctions);
   return activesAuctions[0]?.currentAttendeeName
 }
 
@@ -270,7 +282,7 @@ const getWinner = () =>{
                       </h6>
 
                       <div className="d-flex justify-content-center p-2">
-                        <ClockVariant stopTime={selectedAuction?.endDate ? selectedAuction?.endDate : new Date()} />
+                        <ClockVariant stopTime={new Date(selectedAuction?.endDate) > new Date() ? selectedAuction?.endDate : new Date()} />
                       </div>
                     </div>
                   </div>
@@ -413,9 +425,13 @@ const getWinner = () =>{
             </div>
             <div className="modal-body p-4">
               <div className="text-center">
-                <h5>The auction is over!!</h5>
+                <h5>The last auction is over!!</h5>
 
-                <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{getWinner()}</span> wins the auction</h5>
+                {getWinner() ? <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{getWinner()}</span> wins the auction</h5>
+                
+                    :
+                    <h5 className="pt-2"><span style={{color: "#ffc107"}}>No bids have been placed</span></h5>
+              }
               </div>
             </div>
           </div>
