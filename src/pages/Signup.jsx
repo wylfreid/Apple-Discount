@@ -77,7 +77,7 @@ const Signup = () => {
       toast.error("something went wrong");
     }
   };
-
+console.log(file);
   useEffect(()=>{
     window.scrollTo(0, 0);
   })

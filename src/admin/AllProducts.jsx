@@ -50,7 +50,7 @@ const AllProducts = () => {
               <tbody>
                 {loading ? (
                   <tr>
-                  <td colSpan="5">
+                  <td colSpan="6">
                     <h3 className="py-5 d-flex justify-content-center text-center fw-bold">
                       loading.....
                     </h3>
@@ -79,7 +79,7 @@ const AllProducts = () => {
                     </tr>
                   ))
                 ) : (
-                  <td colSpan="5">
+                  <td colSpan="6">
                     <h4 className="py-5 d-flex justify-content-center text-center">
                       No Product to display!
                     </h4>

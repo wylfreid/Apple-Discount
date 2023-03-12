@@ -58,6 +58,44 @@ const Auction = () => {
   const [loading, setLoading] = useState(false);
 
 
+  const getAttendee = (uid) =>{
+    let result = attendees.filter(
+      (item) => item.uid === uid
+    );
+    return result[0];
+  }
+
+  const addorder = async (auction) => {
+
+    // =========== add order to the firebase database ===========================
+
+    try {
+      const docRef = await collection(db, "orders");
+
+      const order = {
+        userId: auction.currentAttendeeId,
+        userName: auction.currentAttendeeName,
+        userEmail: getAttendee(auction.currentAttendeeId)?.email,
+        userPhone: "/",
+        userCountry: "cameroun",
+        userAdress: "/",
+        userCity: "/",
+        userPostalCode: "/",
+        products: [{productName : auction.productName}],
+        totalQty: "1",
+        totalAmount: auction.currentPrice,
+        status: "progress",
+      };
+
+      await addDoc(docRef,  order);
+
+      toast.success("order successfully added");
+
+    } catch (error) {
+ 
+    }
+
+  };
 
   useEffect(() =>{
 
@@ -89,6 +127,10 @@ const Auction = () => {
         );
 
         btnRef.current.click()
+
+        if (currentUser.uid === activesAuctions[0]?.currentAttendeeId) {
+          addorder(activesAuctions[0])
+        }
       }
   
       handleSelectAuction(activesAuctions[0]?.id) 

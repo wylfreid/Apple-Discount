@@ -42,7 +42,7 @@ const CustomisedProductsCarousel = () => {
   const [diplayNumber, setDiplayNumber] = useState(5);
 
   useEffect(() =>{
-    console.log(windowSize);
+    //console.log(windowSize);
     if (windowSize.width <= 400) {
       setDiplayNumber(1)
     }else if (windowSize.width <= 576 && windowSize.width >= 400) {
@@ -79,7 +79,7 @@ const CustomisedProductsCarousel = () => {
             <Container>
               <Row>
               <Col lg="12" className="text-center">
-                <h2 className="section__title mb-5"> customised Products </h2>
+                <h2 className="section__title mb-5"> Customised Products </h2>
               </Col>
               <Slider {...settings} >
           

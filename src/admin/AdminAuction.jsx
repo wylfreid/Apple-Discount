@@ -37,9 +37,9 @@ const AdminAuction = () => {
     let interval = setInterval(() => {
       for (let index = 0; index < auctions.length; index++) {
         if (auctions.length > 0 && auctions[index]?.active === true && new Date(auctions[index]?.endDate) < new Date()) {
-          if (auctions[index]?.currentAttendeeId) {
+          /* if (auctions[index]?.currentAttendeeId) {
             addorder(auctions[index])
-          }
+          } */
           handleDesactive(auctions[index])
           
         }
@@ -58,14 +58,14 @@ const AdminAuction = () => {
     setAuctions(auctionsData);
   },[auctionsData])
 
-  const getAttendee = (uid) =>{
+  /* const getAttendee = (uid) =>{
     let result = attendees.filter(
       (item) => item.uid === uid
     );
     return result[0];
-  }
+  } */
 
-  const addorder = async (auction) => {
+  /* const addorder = async (auction) => {
 
     // =========== add order to the firebase database ===========================
 
@@ -81,7 +81,7 @@ const AdminAuction = () => {
         userAdress: "/",
         userCity: "/",
         userPostalCode: "/",
-        products: auction.productName,
+        products: [{productName : auction.productName}],
         totalQty: "1",
         totalAmount: auction.currentPrice,
         status: "progress",
@@ -95,7 +95,7 @@ const AdminAuction = () => {
  
     }
 
-  };
+  }; */
 
 
   const addAuction = async (e) => {

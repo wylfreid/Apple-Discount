@@ -3,6 +3,8 @@ import { Container, Row, Col } from "reactstrap";
 
 import { db } from "../firebase.config";
 
+import userIcon from "../assets/images/user-icon.png";
+
 import useGetData from "./../custom-hooks/useGetData";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
@@ -53,7 +55,7 @@ const Users = () => {
                     usersData.map((user, index) => (
                       <tr key={index}>
                         <td>
-                          <img src={user.photoURL} alt="" />
+                          <img src={user.photoURL ? user.photoURL : userIcon} alt="profil" />
                         </td>
                         <td>{user.displayName}</td>
                         <td>{user.email}</td>

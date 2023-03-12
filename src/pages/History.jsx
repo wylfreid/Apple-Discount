@@ -70,7 +70,7 @@ const History = () => {
       name: "Items",
       selector: (row) => 
         <div className="overflow-auto">
-            {row.products.map((item, index) => (
+            {row?.products?.map((item, index) => (
               <span key={index}>
                 {item.productName} ({item.quantity}) ,
               </span>
@@ -109,7 +109,8 @@ const History = () => {
             </h3>
           </Col>
         ) : (
-          <DataTable columns={columns} data={userOrders} pagination/>
+          
+          userOrders && <DataTable columns={columns} data={userOrders} pagination/>
         )}
       </Container>
     </section>
