@@ -1,6 +1,8 @@
 {
-  "name": "maltimart-ecommerce",
+  "name": "apple-discount",
+  "homepage": "https://applediscount237.com/",
   "version": "0.1.0",
+  "description": "e-commerce application",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",

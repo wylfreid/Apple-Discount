@@ -312,8 +312,7 @@ const Header = () => {
                     <div className="d-flex align-items-center justify-content-center flex-column">
                       <Link to="/login" className="icon-span d-flex align-items-center justify-content-center gap-1"><i className="ri-login-circle-line"></i><span >Login</span></Link>
                       <Link to="/signup" className="icon-span d-flex align-items-center justify-content-center gap-1"><i className="ri-account-circle-line"></i><span >Signup</span></Link>
-                      <Link to="/dashboard" className="icon-span d-flex align-items-center justify-content-center gap-1"><span >Dashboard</span></Link>
-                      
+                   
                     </div>
                   }
                 </div>

@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import React,{useState} from "react";
+import React from "react";
 import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import Cart from "../pages/Cart";
@@ -23,9 +23,6 @@ import AdminRoute from './AdminRoute';
 import Auction from './../pages/Auction';
 import Favourites from './../pages/Favourites';
 import AdminAuction from '../admin/AdminAuction';
-
-import useGetData from './../custom-hooks/useGetData';
-
 
 
 
