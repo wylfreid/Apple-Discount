@@ -76,7 +76,7 @@ const AdminHistory = () => {
         <div>
           <select
             onChange={(e) => handleEdit(e, row)}
-            className="w-100"
+            className="w-100 p-1 fw-5 fs-6"
             value={row.status}
           >
             <option value="progress">Progress</option>

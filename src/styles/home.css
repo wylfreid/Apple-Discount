@@ -50,7 +50,7 @@
 
 .timer_count{
   background: var(--primary-color);
-  height: 300px;
+  /*height: 300px;*/
 }
 
 .timer_count img{

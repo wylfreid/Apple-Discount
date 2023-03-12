@@ -23,7 +23,9 @@ const favoriteSlice = createSlice({
           productName: newItem.productName,
           imgUrl: newItem.imgUrl,
           price: newItem.price,
-          category: newItem.category
+          category: newItem.category,
+          storage: newItem.storage,
+          color: newItem.color
         });
       } else {
         existingItem.quantity++;

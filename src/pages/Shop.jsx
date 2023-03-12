@@ -107,21 +107,21 @@ import {useSelector} from 'react-redux';
           <Col lg='3' md='6' className='col__filter-widget'>
             <div className="filter__widget mb-md-4">
               <select onChange={handleFilter}>
-              <option>Filter By Category</option>
-                <option value="mobile">Mobile</option>
-                <option value="tablet">Tablet</option>
-                <option value="laptop">Laptop</option>
-                <option value="watch">Watch</option>
-                <option value="wireless">Wireless</option>
+              <option style={{fontSize: '16px'}}>Filter By Category</option>
+                <option style={{fontSize: '16px'}} value="mobile">Mobile</option>
+                <option style={{fontSize: '16px'}} value="tablet">Tablet</option>
+                <option style={{fontSize: '16px'}} value="laptop">Laptop</option>
+                <option style={{fontSize: '16px'}} value="watch">Watch</option>
+                <option style={{fontSize: '16px'}} value="wireless">Wireless</option>
               </select>
             </div>
           </Col>
           <Col lg='3' md='6' className='text-end col__filter-widget'>
           <div className="filter__widget mb-md-4">
               <select onChange={handleSort}>
-              <option>Sort By</option>
-                <option value="asc">Price: Low to High</option>
-                <option value="desc">Price: High to Low</option>
+              <option style={{fontSize: '16px'}}>Sort By</option>
+                <option style={{fontSize: '16px'}} value="asc">Price: Low to High</option>
+                <option style={{fontSize: '16px'}} value="desc">Price: High to Low</option>
               </select>
             </div>
           

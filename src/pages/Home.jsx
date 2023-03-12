@@ -27,14 +27,20 @@ import {doc,addDoc, updateDoc, serverTimestamp, collection } from "firebase/fire
 import { db } from "../firebase.config";
 
 import { toast } from 'react-toastify';
+import useGetData from './../custom-hooks/useGetData';
 
 
 const Home = () => {
   const products = useSelector((state) => state.products.products);
 
-  const auctionsList = useSelector((state) => state.auctions.auctionItems);
+  //const auctionsList = useSelector((state) => state.auctions.auctionItems);
+  const { data: auctionsList } = useGetData("auctions");
 
   const [auctions, setAuctions] = useState([]);
+
+  const [isNewAuction, setIsNewAuction] = useState([]);
+
+  const [allowAuction, setAllowAuction] = useState(false);
 
   const users = useSelector((state) => state.users.users);
 
@@ -91,15 +97,27 @@ const Home = () => {
   useEffect(() => {
     
     setAuctions(auctionsList)
+
+    const newAuctions = auctions.filter(
+      (item) => (new Date(item?.startDate)) > (new Date()) && (new Date(item?.endDate)) > (new Date())
+    );
+
+    if (newAuctions.length > 0) {
+      setIsNewAuction(newAuctions)
+    }
+
+
     if (attendees.length <= 20) {
       const activesAuctions = auctions.filter(
-        (item) => item.active === true
+        (item) => item.active === true && (new Date(item?.startDate)) < (new Date())
       );
       if (activesAuctions.length > 0) {
         localStorage.setItem("AllowAuction", "true")
+        setAllowAuction(true)
         btnRef.current.click();
       }else{
         localStorage.setItem("AllowAuction", "false")
+        setAllowAuction(false)
         //console.log("test");
       }
     }
@@ -176,26 +194,29 @@ const Home = () => {
       <section className="hero__section">
         <Container>
           <Row>
-            <Col lg="6" md="6">
-              <div className="hero__content">
-                <p className="hero__subtitle"> Trending products in {year} </p>
-                <h2>Apple products at the best prices</h2>
-                <p className="hero__desc">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptatem, magni.
-                </p>
+            <Col lg="12">
 
-                <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
-                  <Link to="/shop">SHOP NOW</Link>
-                </motion.button>
-              </div>
+              <Col lg="6" md="6">
+                <div className="hero__content">
+                  <p className="hero__subtitle"> Trending products in {year} </p>
+                  <h2>Apple products at the best prices</h2>
+                  <p className="hero__desc">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Voluptatem, magni.
+                  </p>
+
+                  <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
+                    <Link to="/shop">SHOP NOW</Link>
+                  </motion.button>
+                </div>
+              </Col>
+              <Col lg="6" md="6">
+                <div className="hero__img">
+                  <img src={heroImg} alt="" />
+                </div>
+              </Col>
             </Col>
 
-            <Col lg="6" md="6">
-              <div className="hero__img">
-                <img src={heroImg} alt="" />
-              </div>
-            </Col>
           </Row>
         </Container>
       </section>
@@ -242,19 +263,19 @@ const Home = () => {
         </section>
       )}
 
-      {auctions.length > 0 && auctions[0]?.active === true && (
+      {auctions.length > 0 && allowAuction && (
         <section className="timer_count">
           <Container>
             <Row>
               <Col lg="6" md="12" className="count__down-col">
                 <div className="clock__top-content">
-                  <h4 className="text-white fs-6 mb-2">Limited Offers</h4>
+                  <h4 className="text-white fs-6 mb-2">Limited Offer</h4>
                   <h3 className="text-white fs-5 mb-3">
-                    {auctions[0]?.productName}
+                    {auctions[auctions.length -1]?.productName}
                   </h3>
                 </div>
 
-                <Clock stopTime={auctions[0]?.endDate} />
+                <Clock stopTime={auctions[auctions.length -1]?.endDate} />
 
                 <Link to="/auction">
                   <motion.button
@@ -275,7 +296,34 @@ const Home = () => {
         </section>
       )}
 
-      <section className="new__arrivals">
+
+      {!allowAuction && isNewAuction.length > 0 && (
+        <section className="timer_count">
+          <Container>
+            <Row>
+              <Col lg="6" md="12" className="count__down-col">
+                <div className="clock__top-content">
+                  <h4 className="text-white fs-6 mb-2">New Limited Offer</h4>
+                  
+                  <h3 className="text-white fs-5 mb-3">
+                    {isNewAuction[isNewAuction.length -1]?.productName}
+                  </h3>
+                </div>
+
+                <Clock stopTime={isNewAuction[isNewAuction.length -1]?.startDate} />
+
+                <h2 className="text-white fs-5 mb-2 mt-4">The auction will start at the end of the countdown</h2>
+              </Col>
+
+              <Col lg="6" md="12" className="text-end counter__img">
+                <img src={isNewAuction[isNewAuction.length -1]?.imgUrl} alt="" />
+              </Col>
+            </Row>
+          </Container>
+        </section>
+      )}
+
+      {mobileProducts.length > 0 && <section className="new__arrivals">
         <Container>
           <Row>
             <Col lg="12" className="text-center mb-5 ">
@@ -299,7 +347,7 @@ const Home = () => {
             )}
           </Row>
         </Container>
-      </section>
+      </section>}
 
       {popularProducts.length > 0 && <section className="popular__category">
         <Container>

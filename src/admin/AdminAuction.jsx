@@ -21,6 +21,7 @@ const AdminAuction = () => {
   const [enterCategory, setEnterCategory] = useState("");
   const [enterPrice, setEnterPrice] = useState("");
   const [enterStep, setEnterStep] = useState("");
+  const [enterStartDate, setEnterStartDate] = useState("");
   const [enterDate, setEnterDate] = useState("");
   const [enterPosition, setEnterPosition] = useState("");
   const [enterProductImg, setEnterProductImg] = useState(null);
@@ -37,6 +38,11 @@ const AdminAuction = () => {
       for (let index = 0; index < auctions.length; index++) {
         if (auctions.length > 0 && auctions[index]?.active === true && new Date(auctions[index]?.endDate) < new Date()) {
           handleDesactive(auctions[index])
+          
+        }
+
+        if (auctions.length > 0 && auctions[index]?.active === false && new Date(auctions[index]?.startDate) < new Date() && new Date(auctions[index]?.endDate) > new Date())  {
+          handleActive(auctions[index])
           
         }
         
@@ -76,10 +82,11 @@ const AdminAuction = () => {
               startPrice: enterPrice,
               currentPrice: enterPrice,
               step: enterStep,
+              startDate: enterStartDate,
               endDate: enterDate,
               imgUrl: downloadURL,
               position: enterPosition,
-              active: true,
+              active: false,
             });
           });
 
@@ -118,6 +125,23 @@ const AdminAuction = () => {
     setAuctions(temp)
 
     await updateDoc(doc(db, "auctions", item.id), { active: false });
+    toast.success("the status has been changed!");
+
+  };
+
+
+  const handleActive = async (item) => {
+    let temp = auctions
+
+    for (let index = 0; index < temp.length; index++) {
+      if (temp[index].id === item.id) {
+        temp[index].active = true
+      }
+    }
+
+    setAuctions(temp)
+
+    await updateDoc(doc(db, "auctions", item.id), { active: true });
     toast.success("the status has been changed!");
 
   };
@@ -170,6 +194,7 @@ const AdminAuction = () => {
                   <th>Title</th>
                   <th>Category</th>
                   <th>Start Price</th>
+                  <th>Start Date</th>
                   <th>End Date</th>
                   <th>Active</th>
                   <th>View</th>
@@ -197,6 +222,7 @@ const AdminAuction = () => {
                       <td>{item.productName}</td>
                       <td>{item.category}</td>
                       <td>${item.startPrice}</td>
+                      <td>{item.startDate}</td>
                       <td>{item.endDate}</td>
                       <td>
                         <div className="form-check form-switch" >
@@ -430,6 +456,29 @@ const AdminAuction = () => {
                     </FormGroup>
                   </div>
 
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+
+                    <FormGroup className="form__group">
+                      <span>Start Date</span>
+                      <input
+                        required
+                        type="datetime-local"
+                        value={enterStartDate}
+                        onChange={(e) => setEnterStartDate(e.target.value)}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="form__group">
+                      <span>End Date</span>
+                      <input
+                        required
+                        type="datetime-local"
+                        value={enterDate}
+                        onChange={(e) => setEnterDate(e.target.value)}
+                      />
+                    </FormGroup>
+                  </div>
+
                   <div className="d-flex align-items-center justify-content-between gap-5">
 
                   <FormGroup className="form__group w-50">
@@ -443,19 +492,6 @@ const AdminAuction = () => {
                       />
                     </FormGroup>
 
-                    <FormGroup className="form__group">
-                      <span>End Date</span>
-                      <input
-                        required
-                        type="datetime-local"
-                        placeholder="Description......."
-                        value={enterDate}
-                        onChange={(e) => setEnterDate(e.target.value)}
-                      />
-                    </FormGroup>
-                  </div>
-
-                  <div>
                     <FormGroup className="form__group w-50">
                       <span>Position</span>
                       <input

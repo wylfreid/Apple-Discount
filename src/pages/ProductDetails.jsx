@@ -165,7 +165,11 @@ const ProductDetails = () => {
     }else if (e.target.value === "128GO") {
       setPriceForSize(product.storage.size_128.price)
       setStorage(e.target.value)
-    }else if (e.target.value === "512GO") {
+    }else if (e.target.value === "256GO") {
+      setPriceForSize(product.storage.size_256.price)
+      setStorage(e.target.value)
+    }
+    else if (e.target.value === "512GO") {
       setPriceForSize(product.storage.size_512.price)
       setStorage(e.target.value)
     }else if (e.target.value === "1TO") {
@@ -208,6 +212,9 @@ const ProductDetails = () => {
       const newStorageItem = storageItem.filter((savedId) => savedId !== id)
       setStorageItem(newStorageItem);
       localStorage.setItem("favourites", JSON.stringify(newStorageItem))
+      dispatch(
+        favoritesActions.deleteItem(id)
+      );
       toast.success('product removed from favorites');
     }
   }
@@ -256,16 +263,16 @@ const ProductDetails = () => {
                 <p className="mt-3"> {shortDesc} </p>
 
                 
-                <div  className='d-flex align-items-center gap-5 pt-3'>
+                <div  className='d-flex align-items-center gap-4 pt-3'>
 
                     {product.storage && <div className="filter__widget">
                       <select onChange={handleChangeStorage} >
-                      <option>storage</option>
+                      <option style={{fontSize: '16px'}}>storage</option>
 
                       {
                         Object.keys(product.storage).map(function(key, value) {
                           
-                          return <option key={key} value={product.storage[key].storage}>{product.storage[key].storage}</option>
+                          return <option style={{fontSize: '16px'}} key={key} value={product.storage[key].storage}>{product.storage[key].storage}</option>
                           
                       })
                       }
@@ -273,13 +280,13 @@ const ProductDetails = () => {
                       </select>
                     </div>}
 
-                  {product.colors && <div className="filter__widget">
-                    <select onChange={e=> setColor(e.target.value)}>
-                    <option>Color</option>
+                  {product.colors?.length > 0 && <div className="filter__widget">
+                    <select onChange={e=> setColor(e.target.value)} className="select-color">
+                    <option style={{fontSize: '18px'}}>Color</option>
                     {
-                        (product.colors).trim().split(',').map((color, index) =>(
-
-                          <option key={index} value={color}>{color}</option>
+                        (product.colors)?.map((color, index) =>(
+                          
+                          <option className=""  style={{background : color.code, fontSize: '18px'}} key={index} value={color.name}> {color.name}</option>
                         )
                       )
                       }

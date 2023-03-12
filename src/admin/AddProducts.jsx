@@ -16,7 +16,8 @@ const AddProducts = () => {
 
   const [trending, setTrending] = useState(false);
   const [storagePrices, setStoragePrices] = useState(null);
-  const [colors, setColors] = useState(null);
+  const [colorsNumber, setColorsNumber] = useState([]);
+  const [colors, setColors] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [active, setActive] = useState(false);
@@ -70,8 +71,52 @@ const AddProducts = () => {
     //console.log(product);
   };
 
+//console.log(colors);
 
+const handleMap = (length) =>{
+  let table = []
 
+  for (let index = 0; index < length; index++) {
+    table[index] = index + 1
+    
+  }
+
+  setColorsNumber(table)
+}
+
+const handleSetColorName = (e, id) =>{
+
+  let table = colors
+  
+  for (let index = 0; index <= (id); index++) {
+    if (index == id) {
+      if (!table[index]){
+
+        table[index] = {}
+      }
+      table[index].name = e.target.value
+    }
+  }
+
+  setColors(table)
+}
+
+const handleSetColor = (e, id) =>{
+  let table = colors
+
+  for (let index = 0; index <= (id); index++) {
+    if (index == id) {
+      if (!table[index]) {
+        
+        table[index] = {}
+      }
+      table[index].code = e.target.value + ""
+    }
+    
+  }
+
+  setColors(table)
+}
 
   return (
     <section>
@@ -271,6 +316,18 @@ const AddProducts = () => {
             </div>
 
             <div className="d-flex align-items-center justify-content-between gap-5">
+
+            <FormGroup className="form__group w-50">
+                      <span>256GO</span>
+                      <input
+                        required
+                        type="number"
+                        placeholder="$100"
+                        value={storagePrices?.size_256?.price}
+                        onChange={(e) => setStoragePrices({...storagePrices, size_256:{ storage: "256GO", price: e.target.value}})}
+                      />
+                    </FormGroup>
+
                     <FormGroup className="form__group w-50">
                       <span>512GO</span>
                       <input
@@ -281,6 +338,13 @@ const AddProducts = () => {
                         onChange={(e) => setStoragePrices({...storagePrices, size_512:{ storage: "512GO", price: e.target.value}})}
                       />
                     </FormGroup>
+
+                    
+                    
+            </div>
+
+            <div className="d-flex align-items-center justify-content-between gap-5">
+                   
 
                     <FormGroup className="form__group w-50">
                       <span>1TO</span>
@@ -294,6 +358,7 @@ const AddProducts = () => {
                     </FormGroup>
                     
             </div>
+
             </div>
 
             <div class="modal-footer d-flex align-items-center justify-content-center">
@@ -320,22 +385,54 @@ const AddProducts = () => {
               data-dismiss="modal"
               aria-label="Close"
               style={{ right: 10, top: 0, zIndex: 1000 }}
-              onClick={e=> [setColors(null), setActive1(false)]}
+              onClick={e=> [setColors(new Array(0)), setColorsNumber([]), setActive1(false)]}
             >
               <span aria-hidden="true">&times;</span>
             </div>
             <div className="modal-body p-4">
                     <FormGroup className="form__group w-100">
-                      <span>Colors list</span>
+                      <span>Colors Number</span>
                       <input
                       className="w-100"
                         required
-                        type="text"
+                        type="number"
                         placeholder="Color list..."
-                        value={colors}
-                        onChange={(e) => setColors(e.target.value)}
+                        value={colorsNumber?.length > 0 ? colorsNumber?.length : null}
+                        min="0"
+                        onChange={(e) => handleMap(e.target.value)}
                       />
                     </FormGroup>
+
+                    {colorsNumber.length > 0 &&
+                      colorsNumber.map((color, index) =>(
+                        <div key={index} className="d-flex align-items-center justify-content-between gap-5"> 
+                          <span>Color Number : {index + 1} </span>
+                          <FormGroup className="form__group w-100">
+                          <input
+                          className="w-100"
+                            required
+                            type="text"
+                            placeholder="color Name"
+                            value={colors[index]?.name}
+                            //onChange={(e) => setColorsNumber(e.target.value)}
+                            onChange={(e) => handleSetColorName(e, index)}
+                          />
+                        </FormGroup>
+
+                        <FormGroup className="form__group w-100">
+                          <input
+                          className="w-100"
+                            required
+                            type="color"
+                            placeholder="color Code"
+                            value={colors[index]?.code || null}
+                            onChange={(e) => handleSetColor(e, index)}
+                            //onChange={e=> console.log(e.target.value)}
+                          />
+                        </FormGroup>
+                    </div>
+                      ))
+                    }
 
                     
             

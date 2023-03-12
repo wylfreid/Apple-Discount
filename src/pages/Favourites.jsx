@@ -34,6 +34,8 @@ const Favourites = () => {
                     <tr>
                       <th>Image</th>
                       <th>Title</th>
+                      <th>Storage</th>
+                      <th>Color</th>
                       <th>Price</th>
                       <th>Category</th>
                       <th>Delete</th>
@@ -78,6 +80,8 @@ const Tr = ({ item }) => {
       cartActions.addItem({
         id: item.id,
         productName: item.productName,
+        storage: item.storage,
+        color: item.color,
         price: item.price,
         imgUrl: item.imgUrl,
       })
@@ -91,14 +95,16 @@ const Tr = ({ item }) => {
         <img src={item.imgUrl} alt="" />
       </td>
       <td className="align-middle">{item.productName}</td>
+      <td className="align-middle"> {item.storage} </td>
+      <td className="align-middle"> {item.color} </td>
       <td className="align-middle"> ${item.price} </td>
       <td className="align-middle">{item.category.toUpperCase()}</td>
       <td className="align-middle">
-        <motion.button className="btn btn-danger">
+        <motion.button className="btn btn-danger" onClick={(e) => deleteProduct(item)}>
           <span className="delete__product">
             <i
               className="ri-delete-bin-line"
-              onClick={(e) => deleteProduct(item)}
+              
             ></i>
           </span>
         </motion.button>

@@ -89,7 +89,7 @@ const History = () => {
     },
     {
       name: "Status",
-      selector: (row) => <span className="fw-bold " style={{color: setStatusColor(row.status)}}>{row.status}</span> ,
+      selector: (row) => <span className="fw-bold fs-6" style={{color: setStatusColor(row.status)}}>{row.status}</span> ,
     },
   ];
 
