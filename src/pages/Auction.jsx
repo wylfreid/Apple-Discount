@@ -41,7 +41,7 @@ const Auction = () => {
 
   //const [bidInfoLenght, setBidInfoLenght] = useState(0);
 
-  const [isValideDate, setIsValideDate] = useState(false);
+  const [winner, setWinner] = useState({});
 
 
 
@@ -81,7 +81,7 @@ const Auction = () => {
   
       if (activesAuctions[0]?.active === false) {
         localStorage.setItem("position", (parseInt(position) + 1))
-  
+        setWinner({"userName": activesAuctions[0]?.currentAttendeeName, "bidAmount": activesAuctions[0]?.currentPrice})
         activesAuctions = []
   
         activesAuctions = auctions.filter(
@@ -124,7 +124,16 @@ const Auction = () => {
         window.location.reload()
         //localStorage.setItem("AllowAuction", "false")
       }
+      
+
+      if (parseInt(localStorage.getItem("position") - 1 !== 1) && selectedAuction.active === false) {
+        
+        btnRef.current.click()
+      }
+
       setSelectedAuction(result[0]);
+
+      setWinner({})
       clearInterval(interval)
     }, 3000);
 
@@ -238,7 +247,7 @@ const Auction = () => {
 
 
 
-const getWinner = () =>{
+/* const getWinner = () =>{
   let position = parseInt(localStorage.getItem("position") - 1)
   
   const activesAuctions = auctions.filter(
@@ -246,7 +255,7 @@ const getWinner = () =>{
   );
   //console.log(activesAuctions);
   return activesAuctions[0]?.currentAttendeeName
-}
+} */
 
 
   return (
@@ -427,8 +436,8 @@ const getWinner = () =>{
               <div className="text-center">
                 <h5>The last auction is over!!</h5>
 
-                {getWinner() ? <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{getWinner()}</span> wins the auction</h5>
-                
+                {winner?.userName ? <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{winner?.userName}</span> wins the auction with a bid in the amount of <span style={{color: "#ffc107"}}>{winner?.currentPrice}</span></h5> 
+                    
                     :
                     <h5 className="pt-2"><span style={{color: "#ffc107"}}>No bids have been placed</span></h5>
               }

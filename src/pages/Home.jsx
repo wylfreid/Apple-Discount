@@ -28,6 +28,10 @@ import { db } from "../firebase.config";
 
 import { toast } from 'react-toastify';
 import useGetData from './../custom-hooks/useGetData';
+import HomeCarousel from '../components/UI/HomeCarousel';
+import CustomisedProductsCarousel from './../components/UI/CustomisedProductsCarousel';
+
+
 
 
 const Home = () => {
@@ -39,6 +43,8 @@ const Home = () => {
   const [auctions, setAuctions] = useState([]);
 
   const [isNewAuction, setIsNewAuction] = useState([]);
+
+  const [activeAuctions, setActiveAuctions] = useState([]);
 
   const [allowAuction, setAllowAuction] = useState(false);
 
@@ -112,6 +118,7 @@ const Home = () => {
         (item) => item.active === true && (new Date(item?.startDate)) < (new Date())
       );
       if (activesAuctions.length > 0) {
+        setActiveAuctions(activesAuctions)
         localStorage.setItem("AllowAuction", "true")
         setAllowAuction(true)
         btnRef.current.click();
@@ -191,34 +198,36 @@ const Home = () => {
 
   return (
     <Helmet title={"Home"}>
-      <section className="hero__section">
-        <Container>
+      <section className="hero__section p-0">
+        
+            <HomeCarousel />
+            {/* <Container>
           <Row>
-            <Col lg="12">
+              <Col lg="12" className="position-absolute" style={{top: "20%", zIndex: 1000}}>
 
-              <Col lg="6" md="6">
-                <div className="hero__content">
-                  <p className="hero__subtitle"> Trending products in {year} </p>
-                  <h2>Apple products at the best prices</h2>
-                  <p className="hero__desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Voluptatem, magni.
-                  </p>
+                <Col lg="6" md="6">
+                  <div className="hero__content">
+                    <p className="hero__subtitle"> Trending products in {year} </p>
+                    <h2>Apple products at the best prices</h2>
+                    <p className="hero__desc">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Voluptatem, magni.
+                    </p>
 
-                  <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
-                    <Link to="/shop">SHOP NOW</Link>
-                  </motion.button>
-                </div>
+                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
+                      <Link to="/shop">SHOP NOW</Link>
+                    </motion.button>
+                  </div>
+                </Col>
+                <Col lg="6" md="6">
+                  <div className="hero__img">
+                    <img src={heroImg} alt="" />
+                  </div>
+                </Col>
               </Col>
-              <Col lg="6" md="6">
-                <div className="hero__img">
-                  <img src={heroImg} alt="" />
-                </div>
-              </Col>
-            </Col>
-
           </Row>
-        </Container>
+        </Container> */}
+
       </section>
 
       <Services />
@@ -400,15 +409,15 @@ const Home = () => {
               </div>
 
               <div className="d-flex justify-content-center p-2">
-                <img src={auctions[0]?.imgUrl} alt="" />
+                <img src={activeAuctions[activeAuctions.length -1]?.imgUrl} alt="" />
               </div>
 
               <h6 className="text-center">
-                {auctions[0]?.productName}
+                {activeAuctions[activeAuctions.length -1]?.productName}
               </h6>
 
               <p className="text-center">
-                {auctions[0]?.shortDesc}
+                {activeAuctions[activeAuctions.length -1]?.shortDesc}
               </p>
 
               <div className="d-flex justify-content-center mb-2 mt-1">
@@ -427,6 +436,18 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <section>
+        
+          <Container>
+            <Row>
+            <Col lg="12" className="text-center">
+              <h2 className="section__title mb-5"> customised Products </h2>
+            </Col>
+            <CustomisedProductsCarousel />
+            </Row>
+          </Container>
+      </section>
     </Helmet>
   );
 };

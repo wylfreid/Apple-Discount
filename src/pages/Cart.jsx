@@ -63,7 +63,7 @@ const Cart = () => {
               )}
             </Col>
             <Col lg="3">
-              <div>
+              <div className="cart__subTotal">
                 <h6 className="d-flex align-items-center justify-content-between">
                   SubTotal
                   <span className="fs-4 fw-bold">${totalAmount}</span>

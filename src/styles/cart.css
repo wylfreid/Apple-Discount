@@ -23,3 +23,10 @@ th{
 .delete__product:hover{
     transform: scale(1.2) !important;
 }
+
+
+@media only screen and (max-width:576px){
+    .cart__subTotal{
+        margin-top: 20px;
+    }
+}

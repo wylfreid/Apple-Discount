@@ -97,7 +97,7 @@ const Checkout = () => {
     }
 
       }else{
-        toast.error("Veuillez remplir tous les champs!")
+        toast.error("Please complete all fields!")
       }
   };
 

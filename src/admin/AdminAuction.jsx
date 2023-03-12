@@ -37,6 +37,9 @@ const AdminAuction = () => {
     let interval = setInterval(() => {
       for (let index = 0; index < auctions.length; index++) {
         if (auctions.length > 0 && auctions[index]?.active === true && new Date(auctions[index]?.endDate) < new Date()) {
+          if (auctions[index]?.currentAttendeeId) {
+            addorder(auctions[index])
+          }
           handleDesactive(auctions[index])
           
         }
@@ -55,6 +58,44 @@ const AdminAuction = () => {
     setAuctions(auctionsData);
   },[auctionsData])
 
+  const getAttendee = (uid) =>{
+    let result = attendees.filter(
+      (item) => item.uid === uid
+    );
+    return result[0];
+  }
+
+  const addorder = async (auction) => {
+
+    // =========== add order to the firebase database ===========================
+
+    try {
+      const docRef = await collection(db, "orders");
+
+      const order = {
+        userId: auction.currentAttendeeId,
+        userName: auction.currentAttendeeName,
+        userEmail: getAttendee(auction.currentAttendeeId)?.email,
+        userPhone: "/",
+        userCountry: "cameroun",
+        userAdress: "/",
+        userCity: "/",
+        userPostalCode: "/",
+        products: auction.productName,
+        totalQty: "1",
+        totalAmount: auction.currentPrice,
+        status: "progress",
+      };
+
+      await addDoc(docRef,  order);
+
+      toast.success("order successfully added");
+
+    } catch (error) {
+ 
+    }
+
+  };
 
 
   const addAuction = async (e) => {

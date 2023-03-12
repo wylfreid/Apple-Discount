@@ -252,7 +252,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="header" ref={headerRef}>
+    <header className="header shadow-sm" ref={headerRef}>
       <Container>
         <Row>
           <div className="nav__wrapper">
