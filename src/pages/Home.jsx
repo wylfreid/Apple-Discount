@@ -10,16 +10,13 @@ import "../styles/home.css";
 
 import { Container, Row, Col } from "reactstrap";
 
-import heroImg from "../assets/images/i-background-4.jpg";
-
 import Services from "../services/Services";
 import ProductList from "./../components/UI/ProductList";
 
 import Clock from "./../components/UI/Clock";
 
-import counterImg from "../assets/images/iPhone_13_Pro_max.png";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import UseAuth from './../custom-hooks/useAuth';
 
 import {doc,addDoc, updateDoc, serverTimestamp, collection } from "firebase/firestore";
@@ -48,7 +45,6 @@ const Home = () => {
 
   const [allowAuction, setAllowAuction] = useState(false);
 
-  const users = useSelector((state) => state.users.users);
 
   const attendees = useSelector((state) => state.attendees.attendees);
 
@@ -62,9 +58,6 @@ const Home = () => {
   const [wirelessProducts, setWirelessProducts] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
 
-  const year = new Date().getFullYear();
-
-  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -201,32 +194,7 @@ const Home = () => {
       <section className="hero__section p-0">
         
             <HomeCarousel />
-            {/* <Container>
-          <Row>
-              <Col lg="12" className="position-absolute" style={{top: "20%", zIndex: 1000}}>
-
-                <Col lg="6" md="6">
-                  <div className="hero__content">
-                    <p className="hero__subtitle"> Trending products in {year} </p>
-                    <h2>Apple products at the best prices</h2>
-                    <p className="hero__desc">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Voluptatem, magni.
-                    </p>
-
-                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
-                      <Link to="/shop">SHOP NOW</Link>
-                    </motion.button>
-                  </div>
-                </Col>
-                <Col lg="6" md="6">
-                  <div className="hero__img">
-                    <img src={heroImg} alt="" />
-                  </div>
-                </Col>
-              </Col>
-          </Row>
-        </Container> */}
+           
 
       </section>
 

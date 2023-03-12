@@ -6,9 +6,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-
 import { Container, Row, Col } from "reactstrap";
 import '../../styles/carousel-Product-page.css'
 import customisedProducts from './../../assets/data/customisedProducts';
