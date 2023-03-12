@@ -437,17 +437,9 @@ const Home = () => {
         </div>
       </div>
 
-      <section>
-        
-          <Container>
-            <Row>
-            <Col lg="12" className="text-center">
-              <h2 className="section__title mb-5"> customised Products </h2>
-            </Col>
-            <CustomisedProductsCarousel />
-            </Row>
-          </Container>
-      </section>
+
+      <CustomisedProductsCarousel />
+      
     </Helmet>
   );
 };
