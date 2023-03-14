@@ -53,7 +53,7 @@ const ProductDetails = () => {
 
   const [colorPreview, setColorPreview] = useState(null);
 
-  const [productReview, setProductReview] = useState(0);
+  const [productReview, setProductReview] = useState([]);
 
   const [priceForSize, setPriceForSize] = useState(null);
 
@@ -219,7 +219,7 @@ const ProductDetails = () => {
       toast.success('product removed from favorites');
     }
   }
-console.log(colorPreview);
+//console.log(colorPreview);
   return (
     <Helmet title={productName}>
       <CommonSection title=""/>
@@ -227,7 +227,7 @@ console.log(colorPreview);
       <section className="pt-0 pb-0">
         <Container>
           <Row>
-            <Col lg="6" className="d-flex align-items-center justify-content-lg-end justify-content-md-center justify-content-sm-center">
+            <Col lg="6" className="d-flex align-items-center justify-content-lg-end justify-content-center">
               <img className="img_product-details" src={imgUrl} alt=""/>
             </Col>
             <Col lg="6">
@@ -282,7 +282,7 @@ console.log(colorPreview);
                     </div>}
 
                   {product.colors?.length > 0 && <div className="filter__widget">
-                    <select onChange={e=> [setColor(e.target.value), setColorPreview(e.target.value)]} className="select-color text-center">
+                    <select onChange={e=> [setColor(e.target.value), setColorPreview(e.target.value)]} className="select-color">
                     <option style={{fontSize: '18px'}}>Color</option>
                     {
                         (product.colors)?.map((color, index) =>(

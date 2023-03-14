@@ -10,8 +10,9 @@
 }
 
 .img_product-details{
-    max-width: 400px;
+    max-width: 180px;
     margin-top: 50px;
+    margin-right: 60px;
 }
 
 .product__rating span i{
@@ -114,12 +115,15 @@
 }
 
 .color__preview{
-    width: 30px;
-    height: 30px;
-    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
 }
 
 @media only screen and (max-width:768px){
+    .img_product-details{
+        margin-right: 0px;
+    }
     .color__preview-container{
         padding-bottom: 30px;
     }
@@ -140,6 +144,9 @@
 }
 
 @media only screen and (max-width:576px){
+    .img_product-details{
+        margin-right: 0px;
+    }
     .col__tab-wrapper{
         margin-top: 50px;
     }

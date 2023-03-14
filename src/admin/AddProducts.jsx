@@ -52,7 +52,7 @@ const AddProducts = () => {
               imgUrl: downloadURL,
               trending: trending,
               storage: storagePrices,
-              colors: colors
+              colors: colors,
             });
           });
 
