@@ -79,11 +79,13 @@ const AllProducts = () => {
                     </tr>
                   ))
                 ) : (
-                  <td colSpan="6">
-                    <h4 className="py-5 d-flex justify-content-center text-center">
-                      No Product to display!
-                    </h4>
-                  </td>
+                  <tr>
+                    <td colSpan="6">
+                      <h4 className="py-5 d-flex justify-content-center text-center">
+                        No Product to display!
+                      </h4>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>

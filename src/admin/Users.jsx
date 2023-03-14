@@ -46,11 +46,13 @@ const Users = () => {
 
                 <tbody>
                   {loading ? (
-                    <td colSpan="5">
-                      <h3 className="py-5 d-flex justify-content-center text-center fw-bold">
-                        loading.....
-                      </h3>
-                    </td>
+                    <tr>
+                      <td colSpan="5">
+                        <h3 className="py-5 d-flex justify-content-center text-center fw-bold">
+                          loading.....
+                        </h3>
+                      </td>
+                    </tr>
                   ) : (
                     usersData.map((user, index) => (
                       <tr key={index}>
@@ -60,9 +62,9 @@ const Users = () => {
                         <td>{user.displayName}</td>
                         <td>{user.email}</td>
                         <td>
-                          <div class="form-check form-switch">
+                          <div className="form-check form-switch">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="checkbox"
                               role="switch"
                               id="flexSwitchCheckDefault"

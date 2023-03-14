@@ -245,11 +245,13 @@ const AdminAuction = () => {
 
               <tbody>
                 {Loading ? (
-                  <td colSpan="5">
-                    <h3 className="py-5 d-flex justify-content-center text-center fw-bold">
-                      loading.....
-                    </h3>
-                  </td>
+                  <tr>
+                    <td colSpan="9">
+                      <h3 className="py-5 d-flex justify-content-center text-center fw-bold">
+                        loading.....
+                      </h3>
+                    </td>
+                  </tr>
                 ) : auctionsData.length > 0 ? (
                   auctionsData.map((item, index) => (
                     <tr key={index}>
@@ -304,11 +306,13 @@ const AdminAuction = () => {
                     </tr>
                   ))
                 ) : (
-                  <td colSpan="7">
-                    <h4 className="py-5 d-flex justify-content-center text-center">
-                      No Auction to display!
-                    </h4>
-                  </td>
+                  <tr>
+                    <td colSpan="9">
+                      <h4 className="py-5 d-flex justify-content-center text-center">
+                        No Auction to display!
+                      </h4>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
