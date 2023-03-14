@@ -348,7 +348,10 @@ const Auction = () => {
             <Col lg="4">
               <div className="checkout__cart">
                 
-                
+              {selectedAuction?.currentAttendeeName && <div className="d-flex align-items-center justify-content-between gap-1">
+
+              Current purchaser :  <span>{selectedAuction?.currentAttendeeName}</span>
+              </div>}
                 <div className="d-flex align-items-center justify-content-between gap-1">
 
                     <div>
@@ -481,7 +484,7 @@ const Auction = () => {
                 {winner?.userName ? <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{winner?.userName}</span> wins the auction with a bid in the amount of <span style={{color: "#ffc107"}}>{winner?.currentPrice}</span></h5> 
                     
                     :
-                    <h5 className="pt-2"><span style={{color: "#ffc107"}}>No bids have been placed</span></h5>
+                    <h5 className="pt-2"><span style={{color: "#ffc107"}}>No bids have been placed.</span></h5>
               }
               </div>
             </div>

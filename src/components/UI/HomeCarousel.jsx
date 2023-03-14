@@ -39,10 +39,9 @@ const HomeCarousel = () => {
                 <Col lg="6" md="6">
                   <div className="hero__content">
                     <p className="hero__subtitle"> Trending products in {year} </p>
-                    <h2>Apple products at the best prices</h2>
+                    <h2>Order your products from Cameroon</h2>
                     <p className="hero__desc">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Voluptatem, magni.
+                      Apple products at the best prices.
                     </p>
                     <Link to="/shop">
                         <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
@@ -69,10 +68,9 @@ const HomeCarousel = () => {
                 <Col lg="6" md="6">
                   <div className="hero__content">
                     <p className="hero__subtitle"> Trending products in {year} </p>
-                    <h2>Apple products at the best prices</h2>
+                    <h2>Orders processed in Canada</h2>
                     <p className="hero__desc">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Voluptatem, magni.
+                    All our products are Apple Canada certified.
                     </p>
 
                     <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">

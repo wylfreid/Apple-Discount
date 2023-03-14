@@ -112,6 +112,10 @@ td{
   vertical-align: middle;
 }
 
+td img{
+  max-width: 100px;
+}
+
 option{
   cursor: pointer !important;
 }

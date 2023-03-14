@@ -113,7 +113,7 @@ const Tr = ({ item }) => {
       <td>
         <motion.button
           whileTap={{ scale: 1.2 }}
-          className="buy__btn mt-4"
+          className="buy__btn"
           onClick={addToCart}
         >
           Add to Cart
