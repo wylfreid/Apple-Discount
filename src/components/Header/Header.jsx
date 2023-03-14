@@ -125,7 +125,9 @@ const Header = () => {
           productName: favouriteList[index].productName,
           price: favouriteList[index].price,
           imgUrl: favouriteList[index].imgUrl,
-          category: favouriteList[index].category
+          category: favouriteList[index].category,
+          storage: "default",
+          color: "default"
         })
       );
       
