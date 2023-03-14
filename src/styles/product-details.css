@@ -114,9 +114,9 @@
 }
 
 .color__preview{
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
 }
 
 @media only screen and (max-width:768px){

@@ -19,8 +19,8 @@ const serviceData = [
   },
   {
     icon: "ri-exchange-dollar-line",
-    title: " Back Guarantee",
-    subtitle: "Possibility to subscribe to Apple care.",
+    title: " Return Guarantee",
+    subtitle: "Possibility of subscribing to Apple care.",
     bg: "#d6e5fb",
   },
 ];

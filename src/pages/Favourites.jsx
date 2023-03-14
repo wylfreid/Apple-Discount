@@ -26,7 +26,7 @@ const Favourites = () => {
             <Col lg="12" className="cart__table">
               {favouritesItems.length === 0 ? (
                 <h2 className="fs-4 text-center">
-                  No item to the Favourites list!
+                  No item in the Favourites list!
                 </h2>
               ) : (
                 <table className="table bordered">

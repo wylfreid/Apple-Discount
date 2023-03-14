@@ -18,8 +18,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="footer__text mt-4">
-              Certified apple products from canada. For all your phones MacBook,
-              iPad and accessory needs. Trust us. Sale in Cameroon.
+            Certified apple products from Canada. For all your phones, MacBook, iPad and accessory needs. Trust us. Sales in Cameroon.
             </p>
           </Col>
 

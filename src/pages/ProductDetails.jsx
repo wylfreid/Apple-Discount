@@ -282,12 +282,12 @@ console.log(colorPreview);
                     </div>}
 
                   {product.colors?.length > 0 && <div className="filter__widget">
-                    <select onChange={e=> [setColor(e.target.value), setColorPreview(e.target.value)]} className="select-color">
+                    <select onChange={e=> [setColor(e.target.value), setColorPreview(e.target.value)]} className="select-color text-center">
                     <option style={{fontSize: '18px'}}>Color</option>
                     {
                         (product.colors)?.map((color, index) =>(
                           
-                          <option className=""  style={{fontSize: '18px'}} key={index} value={color.name}> {color.name}</option>
+                          <option className=""  style={{fontSize: '18px'}} key={index} value={color.code}> {color.name}</option>
                         )
                       )
                       }

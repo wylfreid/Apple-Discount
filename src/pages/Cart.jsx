@@ -39,7 +39,7 @@ const Cart = () => {
           <Row>
             <Col lg="9" className="cart__table">
               {cartItems.length === 0 ? (
-                <h2 className="fs-4 text-center">No item to the cart!</h2>
+                <h2 className="fs-4 text-center">No item in the cart!</h2>
               ) : (
                 <table className="table bordered">
                   <thead>
