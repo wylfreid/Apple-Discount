@@ -129,13 +129,17 @@ const Signup = () => {
                     />
                   </FormGroup>
 
-                  <FormGroup className="form__group">
+                  <FormGroup className="form__group justify-content-start">
+                    
                     <input
                       required
-                      placeholder="photo de profil"
+                      id="files"
+                      className="ps-0"
+                      style={{cursor: "pointer"}}
                       type="file"
                       onChange={(e) => setFile(e.target.files[0])}
                     />
+                    
                   </FormGroup>
 
                   <button
