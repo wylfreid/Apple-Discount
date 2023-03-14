@@ -25,32 +25,26 @@ import {useSelector} from 'react-redux';
 
   const handleFilter = e=>{
     const filterValue = e.target.value;
-    if(filterValue ==='mobile'){
+    if(filterValue ==='iphone'){
       const filteredProducts= products.filter(
-        (item) => item.category === "mobile"
+        (item) => item.category === "iphone"
       );
       setProductsData(filteredProducts);
-    }else if(filterValue ==='tablet'){
+    }else if(filterValue ==='ipad'){
       const filteredProducts= products.filter(
-        (item) => item.category === "tablet"
-      );
-      setProductsData(filteredProducts);
-    }
-    else if(filterValue ==='laptop'){
-      const filteredProducts= products.filter(
-        (item) => item.category === "laptop"
+        (item) => item.category === "ipad"
       );
       setProductsData(filteredProducts);
     }
-    else if(filterValue ==='watch'){
+    else if(filterValue ==='macbook'){
       const filteredProducts= products.filter(
-        (item) => item.category === "watch"
+        (item) => item.category === "macbook"
       );
       setProductsData(filteredProducts);
     }
-    else if(filterValue ==='wireless'){
+    else if(filterValue ==='accessory'){
       const filteredProducts= products.filter(
-        (item) => item.category === "wireless"
+        (item) => item.category === "accessory"
       );
       setProductsData(filteredProducts);
     }
@@ -108,11 +102,10 @@ import {useSelector} from 'react-redux';
             <div className="filter__widget mb-md-4">
               <select onChange={handleFilter}>
               <option style={{fontSize: '16px'}}>Filter By Category</option>
-                <option style={{fontSize: '16px'}} value="mobile">Mobile</option>
-                <option style={{fontSize: '16px'}} value="tablet">Tablet</option>
-                <option style={{fontSize: '16px'}} value="laptop">Laptop</option>
-                <option style={{fontSize: '16px'}} value="watch">Watch</option>
-                <option style={{fontSize: '16px'}} value="wireless">Wireless</option>
+                <option style={{fontSize: '16px'}} value="iphone">Iphone</option>
+                <option style={{fontSize: '16px'}} value="ipad">Ipad</option>
+                <option style={{fontSize: '16px'}} value="macbook">MacBook</option>
+                <option style={{fontSize: '16px'}} value="accessory">Accessory</option>
               </select>
             </div>
           </Col>

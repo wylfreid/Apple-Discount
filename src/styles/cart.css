@@ -24,6 +24,18 @@ th{
     transform: scale(1.2) !important;
 }
 
+.blink_me {
+    animation: blinker 1s linear infinite;
+    color: coral;
+    font-weight: 600;
+  }
+  
+  @keyframes blinker {
+    90% {
+      opacity: 0;
+    }
+  }
+
 
 @media only screen and (max-width:576px){
     .cart__subTotal{

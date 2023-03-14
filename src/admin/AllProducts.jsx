@@ -65,7 +65,7 @@ const AllProducts = () => {
                       <td>{item.productName}</td>
                       <td>{item.category}</td>
                       <td>{item.trending ? "activated" : "disabled"}</td>
-                      <td>{item.price}</td>
+                      <td>{item.price}XAF</td>
                       <td>
                         <button
                           onClick={() => {

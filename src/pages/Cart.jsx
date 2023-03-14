@@ -66,12 +66,13 @@ const Cart = () => {
               <div className="cart__subTotal">
                 <h6 className="d-flex align-items-center justify-content-between">
                   SubTotal
-                  <span className="fs-4 fw-bold">${totalAmount}</span>
+                  <span className="fs-4 fw-bold">{totalAmount}XAF</span>
                   </h6>
                 
               </div>
-              <p className="fs-6 mt-2">taxes and shipping will calculate in checkout</p>
-              <p className="fs-6 mt-2">Payment will be made on delivery</p>
+              <p className="fs-6 mt-2 blink_me">Payment will be made on delivery</p>
+              <p className="fs-6 mt-2">You can track your order in your profile history.</p>
+              <p className="fs-6 mt-2">We will contact you for delivery</p>
               <div>
                 <motion.button whileTap={{scale: 0.9}} className="buy__btn w-100 mt-5 " onClick={goToCheckOut}>
                   <span>Checkout</span>

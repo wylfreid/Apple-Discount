@@ -97,7 +97,7 @@ const Tr = ({ item }) => {
       <td className="align-middle">{item.productName}</td>
       <td className="align-middle"> {item.storage} </td>
       <td className="align-middle"> {item.color} </td>
-      <td className="align-middle"> ${item.price} </td>
+      <td className="align-middle"> {item.price}XAF </td>
       <td className="align-middle">{item.category.toUpperCase()}</td>
       <td className="align-middle">
         <motion.button className="btn btn-danger" onClick={(e) => deleteProduct(item)}>

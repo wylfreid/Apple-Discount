@@ -262,7 +262,7 @@ const AdminAuction = () => {
                       </td>
                       <td>{item.productName}</td>
                       <td>{item.category}</td>
-                      <td>${item.startPrice}</td>
+                      <td>{item.startPrice}XAF</td>
                       <td>{item.startDate}</td>
                       <td>{item.endDate}</td>
                       <td>
@@ -356,7 +356,7 @@ const AdminAuction = () => {
           <Col lg="4">
             <div className="products__box h-100 p-4">
               <h5>CurrentPrice</h5>
-              <span>${selectedAuction?.currentPrice}</span>
+              <span>{selectedAuction?.currentPrice}XAF</span>
             </div>
           </Col>
         </Row>
@@ -473,7 +473,7 @@ const AdminAuction = () => {
                       <input
                         required
                         type="number"
-                        placeholder="$100"
+                        placeholder="1000XAF"
                         value={enterPrice}
                         onChange={(e) => setEnterPrice(e.target.value)}
                       />
@@ -527,7 +527,7 @@ const AdminAuction = () => {
                       <input
                         required
                         type="number"
-                        placeholder="$50"
+                        placeholder="10000XAF"
                         value={enterStep}
                         onChange={(e) => setEnterStep(e.target.value)}
                       />

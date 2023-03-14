@@ -203,16 +203,16 @@ const Checkout = () => {
                       Total Qty: <span> {totalQty} items</span>
                     </h6>
                     <h6>
-                      SubTotal: <span>${totalAmount} </span>
+                      SubTotal: <span>{totalAmount}XAF </span>
                     </h6>
                     <h6>
                       <span>
                         Shipping: <br /> Free Shipping
                       </span>
-                      <span>$0</span>
+                      <span>0XAF</span>
                     </h6>
                     <h4>
-                      Total Cost: <span>${totalAmount}</span>
+                      Total Cost: <span>{totalAmount}XAF</span>
                     </h4>
 
                     <motion.button

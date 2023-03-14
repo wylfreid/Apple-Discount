@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Slider from "react-slick";
 
 
@@ -13,6 +13,7 @@ import customisedProducts from './../../assets/data/customisedProducts';
 
 
 const CustomisedProductsCarousel = () => {
+    const btnCustomRef = useRef()
 
     const isClient = typeof window === "object";
   
@@ -74,6 +75,14 @@ const CustomisedProductsCarousel = () => {
 
     <div>
 
+      <button
+        ref={btnCustomRef}
+        type="button"
+        className="btn btn-primary d-none"
+        data-toggle="modal"
+        data-target="#exampleModal1"
+      ></button>
+
       { customisedProducts.length > 0 && <section>
           
             <Container>
@@ -84,9 +93,9 @@ const CustomisedProductsCarousel = () => {
               <Slider {...settings} >
           
                 {customisedProducts.map((product, index)=>(
-              <div key={index} className='custom__product d-flex align-items-center justify-content-center'>
+              <div onClick={e => btnCustomRef.current.click()} key={index} className='custom__product d-flex align-items-center justify-content-center'>
   
-                <img   src={product.image} alt="" />
+                <img style={{cursor: "pointer"}}   src={product.image} alt="" />
               </div>
                 ))}
               

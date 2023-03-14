@@ -11,7 +11,7 @@
 
 .img_product-details{
     max-width: 400px;
-
+    margin-top: 50px;
 }
 
 .product__rating span i{
@@ -113,7 +113,16 @@
     padding: 10px 35px !important;
 }
 
+.color__preview{
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+}
+
 @media only screen and (max-width:768px){
+    .color__preview-container{
+        padding-bottom: 30px;
+    }
     .select-color {
         padding: 15px 35px !important;
     }

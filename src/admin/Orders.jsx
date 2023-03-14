@@ -68,7 +68,7 @@ const AdminHistory = () => {
     },
     {
       name: "Total Amount",
-      selector: (row) => <span>${row.totalAmount}</span>,
+      selector: (row) => <span>{row.totalAmount}XAF</span>,
     },
     {
       name: "Status",

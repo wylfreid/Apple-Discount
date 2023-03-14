@@ -37,7 +37,7 @@ const Dashboard = () => {
           <Col lg="3">
             <div className="revenue__box">
               <h5>Total Sales</h5>
-              <span>${sales}</span>
+              <span>{sales}XAF</span>
             </div>
           </Col>
           <Col lg="3">

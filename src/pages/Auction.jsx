@@ -322,14 +322,14 @@ const Auction = () => {
                       <p className="text-center">{selectedAuction?.shortDesc}</p>
 
                       <h6 className="text-center p-2">
-                        Start price : ${selectedAuction?.startPrice}
+                        Start price : {selectedAuction?.startPrice}XAF
                       </h6>
 
                       <h6
                         className="text-center p-2"
                         style={{ color: "coral" }}
                       >
-                        current price : ${selectedAuction?.currentPrice}
+                        current price : {selectedAuction?.currentPrice}XAF
                       </h6>
 
                       <div className="d-flex justify-content-center p-2">
@@ -436,7 +436,7 @@ const Auction = () => {
                   </div>
 
                   {newBid && <div className='mt-3 w-100'>
-                    <div className={"alert alert-warning"}><i style={{ fontSize: '.8em' }} className='fa fa-check-circle'></i>A new bid of {newBid.bidAmount} $ was placed by {newBid.userName} for {newBid.auction.productName}</div>
+                    <div className={"alert alert-warning"}><i style={{ fontSize: '.8em' }} className='fa fa-check-circle'></i>A new bid of {newBid.bidAmount}XAF was placed by {newBid.userName} for {newBid.auction.productName}</div>
                 </div>}
 
 

@@ -45,7 +45,7 @@ const HomeCarousel = () => {
                       Voluptatem, magni.
                     </p>
                     <Link to="/shop">
-                        <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
+                        <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
                         SHOP NOW
                         </motion.button>
                     </Link>
@@ -75,7 +75,7 @@ const HomeCarousel = () => {
                       Voluptatem, magni.
                     </p>
 
-                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
+                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
                       <Link to="/shop">SHOP NOW</Link>
                     </motion.button>
                   </div>
@@ -103,7 +103,7 @@ const HomeCarousel = () => {
                       Voluptatem, magni.
                     </p>
 
-                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn">
+                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
                       <Link to="/shop">SHOP NOW</Link>
                     </motion.button>
                   </div>

@@ -51,6 +51,7 @@ const ProductDetails = () => {
   const [color, setColor] = useState("default");
   const [storage, setStorage] = useState("default");
 
+  const [colorPreview, setColorPreview] = useState(null);
 
   const [productReview, setProductReview] = useState(0);
 
@@ -218,7 +219,7 @@ const ProductDetails = () => {
       toast.success('product removed from favorites');
     }
   }
-
+console.log(colorPreview);
   return (
     <Helmet title={productName}>
       <CommonSection title=""/>
@@ -256,7 +257,7 @@ const ProductDetails = () => {
                   </p>
                 </div>
                 <div className="d-flex align-items-center gap-5">
-                  <span className="product__price"> ${ priceForSize ? priceForSize : price}</span>
+                  <span className="product__price"> { priceForSize ? priceForSize : price}XAF</span>
                   <span>Category : {category?.toUpperCase()} </span>
                 </div>
                 
@@ -281,17 +282,24 @@ const ProductDetails = () => {
                     </div>}
 
                   {product.colors?.length > 0 && <div className="filter__widget">
-                    <select onChange={e=> setColor(e.target.value)} className="select-color">
+                    <select onChange={e=> [setColor(e.target.value), setColorPreview(e.target.value)]} className="select-color">
                     <option style={{fontSize: '18px'}}>Color</option>
                     {
                         (product.colors)?.map((color, index) =>(
                           
-                          <option className=""  style={{background : color.code, fontSize: '18px'}} key={index} value={color.name}> {color.name}</option>
+                          <option className=""  style={{fontSize: '18px'}} key={index} value={color.name}> {color.name}</option>
                         )
                       )
                       }
                     </select>
+
                   </div>}
+                  <div className="d-flex align-items-center justify-content-center color__preview-container"> 
+
+                    { colorPreview != null &&  colorPreview != "Color" && <div className="color__preview p-1" style={{background : colorPreview}}>
+
+                    </div>}
+                  </div>
                   
                 </div>
                 
@@ -340,7 +348,7 @@ const ProductDetails = () => {
                   className={`${tab === "rev" ? "active__tab" : ""}`}
                   onClick={() => setTab("rev")}
                 >
-                  Reviews ({productReview.length})
+                  Reviews ({productReview.length ? productReview.length : 0})
                 </h6>
               </div>
 

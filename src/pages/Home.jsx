@@ -54,8 +54,8 @@ const Home = () => {
 
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [bestSalesProducts, setBestSalesProducts] = useState([]);
-  const [mobileProducts, setMobileProducts] = useState([]);
-  const [wirelessProducts, setWirelessProducts] = useState([]);
+  const [IpadProducts, setIpadProducts] = useState([]);
+  const [macbookProducts, setMacbookProducts] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
 
 
@@ -66,25 +66,25 @@ const Home = () => {
       (item) => item.trending === true
     );
     const filteredBestSalesProducts = products.filter(
-      (item) => item.category === "laptop"
+      (item) => item.category === "iphone"
     );
 
-    const filteredMobileProducts = products.filter(
-      (item) => item.category === "mobile"
+    const filteredIpadProducts = products.filter(
+      (item) => item.category === "ipad"
     );
 
-    const filteredWirelessProducts = products.filter(
-      (item) => item.category === "wireless"
+    const filteredMacbookProducts = products.filter(
+      (item) => item.category === "macbook"
     );
 
     const filteredPopularProducts = products.filter(
-      (item) => item.category === "watch"
+      (item) => item.category === "accessory"
     );
 
     setTrendingProducts(filteredTrendingProducts);
     setBestSalesProducts(filteredBestSalesProducts);
-    setMobileProducts(filteredMobileProducts);
-    setWirelessProducts(filteredWirelessProducts);
+    setIpadProducts(filteredIpadProducts);
+    setMacbookProducts(filteredMacbookProducts);
     setPopularProducts(filteredPopularProducts);
   }, [products]);
 
@@ -300,7 +300,7 @@ const Home = () => {
         </section>
       )}
 
-      {mobileProducts.length > 0 && <section className="new__arrivals">
+      {IpadProducts.length > 0 && <section className="new__arrivals">
         <Container>
           <Row>
             <Col lg="12" className="text-center mb-5 ">
@@ -312,7 +312,7 @@ const Home = () => {
                 loading.....
               </h5>
             ) : (
-              <ProductList data={mobileProducts} />
+              <ProductList data={IpadProducts} />
             )}
 
             {products.length < 0 ? (
@@ -320,7 +320,7 @@ const Home = () => {
                 loading.....
               </h5>
             ) : (
-              <ProductList data={wirelessProducts} />
+              <ProductList data={macbookProducts} />
             )}
           </Row>
         </Container>
@@ -373,7 +373,7 @@ const Home = () => {
             </div>
             <div className="modal-body p-4">
               <div className="text-center">
-                <h5>Une nouvelle vente aux enchères a démarrée!</h5>
+                <h5>A new auction has started!</h5>
               </div>
 
               <div className="d-flex justify-content-center p-2">
@@ -406,7 +406,43 @@ const Home = () => {
       </div>
 
 
+
+
+      
+
+      <div
+        className="modal fade auction__popup "
+        id="exampleModal1"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div
+              type="button"
+              className="close  position-absolute text-end fs-1"
+              data-dismiss="modal"
+              aria-label="Close"
+              style={{ right: 10, top: 0, zIndex: 1000 }}
+            >
+              <span aria-hidden="true">&times;</span>
+            </div>
+            <div className="modal-body p-3">
+              <div className="text-justify mt-3 mb-3 ps-2">
+                <h6 style={{lineHeight: "30px"}}>For customized products, please contact customer service via the message button. You can also write to us on <span className="fw-bold text-dark"> <a href="https://instagram.com/apple_discount_237?igshid=YmMyMTA2M2Y=">Instagram</a></span>, we are available 24 hours a day, 7 days a week.</h6>
+              </div>
+
+          
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <CustomisedProductsCarousel />
+
       
     </Helmet>
   );

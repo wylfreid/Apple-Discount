@@ -168,7 +168,7 @@ const handleSetColor = (e, id) =>{
                       <input
                         required
                         type="number"
-                        placeholder="$100"
+                        placeholder="1000XAF"
                         value={enterPrice}
                         onChange={(e) => setEnterPrice(e.target.value)}
                       />
@@ -183,11 +183,10 @@ const handleSetColor = (e, id) =>{
                         onChange={(e) => setEnterCategory(e.target.value)}
                       >
                         <option value="">Select Category</option>
-                        <option value="mobile">Mobile</option>
-                        <option value="tablet">Tablet</option>
-                        <option value="laptop">Laptop</option>
-                        <option value="watch">Watch</option>
-                        <option value="wireless">Wireless</option>
+                        <option value="iphone">Iphone</option>
+                        <option value="ipad">Ipad</option>
+                        <option value="macbook">MacBook</option>
+                        <option value="accessory">Accessory</option>
                       </select>
                     </FormGroup>
                   </div>
@@ -296,7 +295,7 @@ const handleSetColor = (e, id) =>{
                       <input
                         required
                         type="number"
-                        placeholder="$100"
+                        placeholder="1000XAF"
                         value={storagePrices?.size_64?.price}
                         onChange={(e) => setStoragePrices({...storagePrices, size_64:{ storage: "64GO", price: e.target.value}})}
                       />
@@ -307,7 +306,7 @@ const handleSetColor = (e, id) =>{
                       <input
                         required
                         type="number"
-                        placeholder="$100"
+                        placeholder="1000XAF"
                         value={storagePrices?.size_128?.price}
                         onChange={(e) => setStoragePrices({...storagePrices, size_128:{ storage: "128GO", price: e.target.value}})}
                       />
@@ -322,7 +321,7 @@ const handleSetColor = (e, id) =>{
                       <input
                         required
                         type="number"
-                        placeholder="$100"
+                        placeholder="1000XAF"
                         value={storagePrices?.size_256?.price}
                         onChange={(e) => setStoragePrices({...storagePrices, size_256:{ storage: "256GO", price: e.target.value}})}
                       />
@@ -333,7 +332,7 @@ const handleSetColor = (e, id) =>{
                       <input
                         required
                         type="number"
-                        placeholder="$100"
+                        placeholder="1000XAF"
                         value={storagePrices?.size_512?.price}
                         onChange={(e) => setStoragePrices({...storagePrices, size_512:{ storage: "512GO", price: e.target.value}})}
                       />
@@ -351,7 +350,7 @@ const handleSetColor = (e, id) =>{
                       <input
                         required
                         type="number"
-                        placeholder="$100"
+                        placeholder="1000XAF"
                         value={storagePrices?.size_1000?.price}
                         onChange={(e) => setStoragePrices({...storagePrices, size_1000:{ storage: "1TO", price: e.target.value}})}
                       />
