@@ -205,7 +205,7 @@ const Home = () => {
           <Container>
             <Row>
               <Col lg="12" className="text-center">
-                <h2 className="section__title"> Trending Products </h2>
+                <h2 className="section__title mb-5"> Trending Products </h2>
               </Col>
 
               {products.length < 0 ? (
@@ -225,7 +225,7 @@ const Home = () => {
           <Container>
             <Row>
               <Col lg="12" className="text-center">
-                <h2 className="section__title"> Best Sales </h2>
+                <h2 className="section__title mb-5"> Best Sales </h2>
               </Col>
 
               {products.length < 0 ? (
@@ -304,7 +304,7 @@ const Home = () => {
         <Container>
           <Row>
             <Col lg="12" className="text-center mb-5 ">
-              <h2 className="section__title"> New Arrivals </h2>
+              <h2 className="section__title mb-5"> New Arrivals </h2>
             </Col>
 
             {products.length < 0 ? (
@@ -330,7 +330,7 @@ const Home = () => {
         <Container>
           <Row>
             <Col lg="12" className="text-center mb-5">
-              <h2 className="section__title"> Popular in Category </h2>
+              <h2 className="section__title mb-5"> Popular in Category </h2>
             </Col>
 
             {products.length < 0 ? (

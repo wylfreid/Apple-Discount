@@ -130,6 +130,8 @@ console.log(file);
 
                   <FormGroup className="form__group">
                     <input
+                      required
+                      placeholder="photo de profil"
                       type="file"
                       onChange={(e) => setFile(e.target.files[0])}
                     />
