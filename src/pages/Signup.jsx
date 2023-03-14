@@ -77,10 +77,11 @@ const Signup = () => {
       toast.error("something went wrong");
     }
   };
-console.log(file);
-  useEffect(()=>{
+
+
+  /* useEffect(()=>{
     window.scrollTo(0, 0);
-  })
+  }) */
 
   return (
     <Helmet title="Signup">
