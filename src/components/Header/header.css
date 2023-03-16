@@ -126,7 +126,7 @@
 .icon-span:hover{
     transform: scale(1.1);
     font-weight: 500;
-    color: blue;
+    color: var(--primary-color);
 }
 
 .show__profileActions{
