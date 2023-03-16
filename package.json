@@ -5,6 +5,7 @@
   "description": "e-commerce application",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.13",
     "@reduxjs/toolkit": "^1.8.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

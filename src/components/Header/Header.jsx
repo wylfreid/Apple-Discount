@@ -38,14 +38,17 @@ const nav__links = [
   {
     path: "home",
     display: "Home",
+    icon: "ri-home-2-line"
   },
   {
     path: "shop",
     display: "Shop",
+    icon: "ri-store-3-line"
   },
   {
     path: "cart",
     display: "Cart",
+    icon: "ri-shopping-bag-line"
   },
 ];
 
@@ -274,9 +277,10 @@ const Header = () => {
                     <NavLink
                       to={item.path}
                       className={(navClass) =>
-                        navClass.isActive ? "nav__active" : ""
+                        navClass.isActive ? "nav__active icon-span d-flex align-items-center justify-content-center gap-1" : "icon-span d-flex align-items-center justify-content-center gap-1"
                       }
                     >
+                      <i className={item.icon} ></i>
                       {item.display}
                     </NavLink>
                   </li>
@@ -285,14 +289,14 @@ const Header = () => {
             </div>
 
             <div className="nav__icons">
-              <span className="fav__icon" onClick={NavigateToFavourites}>
+              <motion.span whileTap={{scale: 1.2}} className="fav__icon" onClick={NavigateToFavourites}>
                 <i className="ri-heart-line"></i>
                 <span className="badge"> {totalFavouritesQuantity} </span>
-              </span>
-              <span className="cart__icon" onClick={NavigateToCart}>
+              </motion.span>
+              <motion.span whileTap={{scale: 1.2}} className="cart__icon" onClick={NavigateToCart}>
                 <i className="ri-shopping-bag-line"></i>
                 <span className="badge">{totalQuantity}</span>
-              </span>
+              </motion.span>
               <div className="profile">
                 <div className="profil__img">
                   <motion.img

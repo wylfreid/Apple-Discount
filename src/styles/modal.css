@@ -1,0 +1,17 @@
+
+
+.inset-0{
+    position: absolute;
+    opacity: .75;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(107,114,128);
+    z-index: 1000;
+}
+
+.modal__infos{
+    z-index: 11000;
+    vertical-align: middle;
+}

@@ -7,11 +7,12 @@ import Helmet from "./../components/Helmet/Helmet";
 import CommonSection from "./../components/UI/CommonSection";
 
 import "../styles/product-details.css";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ProductList from './../components/UI/ProductList';
 import { useDispatch } from 'react-redux';
 import { cartActions } from './../redux/slices/cartSlice';
 import { favoritesActions } from './../redux/slices/favoriteSlice';
+
 
 import { toast } from 'react-toastify';
 
@@ -25,6 +26,10 @@ import UseAuth from './../custom-hooks/useAuth';
 
 import {useSelector} from 'react-redux';
 
+
+
+const hiddenMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 30px, rgba(0,0,0,1) 30px, rgba(0,0,0,1) 30px)`;
+const visibleMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 30px)`;
 
 
 const ProductDetails = () => {
@@ -45,7 +50,7 @@ const ProductDetails = () => {
 
   const { currentUser } = UseAuth();
 
-
+  const btnPreviewRef = useRef()
   const [rating, setRating] = useState(0);
 
   const [color, setColor] = useState("default");
@@ -56,6 +61,8 @@ const ProductDetails = () => {
   const [productReview, setProductReview] = useState([]);
 
   const [priceForSize, setPriceForSize] = useState(null);
+
+  
 
   const docRef = doc(db, 'products', id);
 
@@ -147,7 +154,7 @@ const ProductDetails = () => {
         id: id,
         productName: productName,
         storage: storage,
-        color: color,
+        color: color != "default" ? getColor() : color,
         price: priceForSize ? priceForSize : price,
         imgUrl: imgUrl,
       })
@@ -181,7 +188,14 @@ const ProductDetails = () => {
     }
   }
 
+  const getColor = () =>{
+    let colors = product?.colors;                                                      
+    const result = colors?.filter(item=> item.code === color)
 
+    return result[0].name;
+  }
+
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [storageItem, setStorageItem] = useState(() => JSON.parse(localStorage.getItem("favourites") || "[]"))
 
@@ -202,7 +216,7 @@ const ProductDetails = () => {
           imgUrl: imgUrl,
           category: category,
           storage: storage,
-          color: color
+          color: color != "default" ? getColor() : color
         })
       );
 
@@ -219,7 +233,7 @@ const ProductDetails = () => {
       toast.success('product removed from favorites');
     }
   }
-//console.log(colorPreview);
+
   return (
     <Helmet title={productName}>
       <CommonSection title=""/>
@@ -227,8 +241,24 @@ const ProductDetails = () => {
       <section className="pt-0 pb-0">
         <Container>
           <Row>
-            <Col lg="6" className="d-flex align-items-center justify-content-lg-end justify-content-center">
-              <img className="img_product-details" src={imgUrl} alt=""/>
+            <Col lg="6" whileTap={{scale: 1.2}}  className="d-flex align-items-center justify-content-lg-end justify-content-center">
+              
+              <motion.div className="img_product-details"
+              
+              initial={false}
+              animate={
+                isLoaded 
+                  ? { WebkitMaskImage: visibleMask, maskImage: visibleMask }
+                  : { WebkitMaskImage: hiddenMask, maskImage: hiddenMask }
+              }
+              transition={{ duration: 1, delay: 1 }}
+              onLoad={() => setIsLoaded(true)}>
+
+                <motion.img whileTap={{scale: 0.95}} style={{cursor:"pointer"}} onClick={() => btnPreviewRef.current.click()} className="w-100" src={imgUrl} alt=""
+                
+                
+                />
+              </motion.div>
             </Col>
             <Col lg="6">
               <div className="product__details" >
@@ -268,7 +298,7 @@ const ProductDetails = () => {
 
                     {product.storage && <div className="filter__widget">
                       <select onChange={handleChangeStorage} >
-                      <option style={{fontSize: '16px'}}>storage</option>
+                      <option style={{fontSize: '16px'}} value="default">storage</option>
 
                       {
                         Object.keys(product.storage).map(function(key, value) {
@@ -283,7 +313,7 @@ const ProductDetails = () => {
 
                   {product.colors?.length > 0 && <div className="filter__widget">
                     <select onChange={e=> [setColor(e.target.value), setColorPreview(e.target.value)]} className="select-color">
-                    <option style={{fontSize: '18px'}}>Color</option>
+                    <option style={{fontSize: '18px'}} value="default">Color</option>
                     {
                         (product.colors)?.map((color, index) =>(
                           
@@ -296,7 +326,7 @@ const ProductDetails = () => {
                   </div>}
                   <div className="d-flex align-items-center justify-content-center color__preview-container"> 
 
-                    { colorPreview != null &&  colorPreview != "Color" && <div className="color__preview p-1" style={{background : colorPreview}}>
+                    { colorPreview != null &&  colorPreview != "Color" && colorPreview != "default" && <div className="color__preview p-1" style={{background : colorPreview}}>
 
                     </div>}
                   </div>
@@ -425,6 +455,61 @@ const ProductDetails = () => {
           </Row>
         </Container>
       </section>
+
+      
+
+
+      <button
+        ref={btnPreviewRef}
+        type="button"
+        className="btn btn-primary d-none"
+        data-toggle="modal"
+        data-target="#exampleModal1"
+      ></button>
+        
+
+        <div
+        className="modal fade auction__popup"
+        id="exampleModal1"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog  modal-dialog-centered d-flex align-items-center justify-content-center" role="document">
+          
+        <div className="modal-content bg-transparent d-flex align-items-center justify-content-center" style={{border: "none"}}>
+
+            <AnimatePresence>
+          
+            <motion.div class="tilt-box-wrap d-flex align-items-center justify-content-center">
+		<span class="t_over"></span>
+		<span class="t_over"></span>
+		<span class="t_over"></span>
+		<span class="t_over"></span>
+		<span class="t_over"></span>
+		<span class="t_over"></span>
+		<span class="t_over"></span>
+		<span class="t_over"></span>
+		<span class="t_over"></span>
+		<div class="tilt-box">
+			
+              <motion.img  className="product__img-preview h-100" src={imgUrl} alt="" style={{ width:"auto", zIndex: "10000" }}/>
+		</div>
+	</motion.div>
+            
+
+            
+              
+             
+            
+          
+        </AnimatePresence>
+          </div>
+            
+          </div>
+        
+      </div>
     </Helmet>
   );
 };

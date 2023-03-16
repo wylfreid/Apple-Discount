@@ -21,6 +21,7 @@
 .logo img{
     width: 7rem;
     height: 3.7rem;
+    margin-top: -5px;
 }
 
 .logo h1{
@@ -34,6 +35,10 @@
     align-items: center;
     margin-bottom: 0;
     column-gap: 2.7rem;
+}
+
+.menu i{
+    display: none;
 }
 
 .nav__item a{
@@ -153,6 +158,9 @@
 }
 
 @media only screen and (max-width:768px){
+    .menu i{
+        display: block;
+    }
     .nav__icons .profile .profile__actions{
         top: 83%;
     }

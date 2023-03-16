@@ -211,6 +211,34 @@ const AdminAuction = () => {
     return () => unsubscribe;
   }, []);
 
+
+  useEffect(()=>{
+    let interval = setInterval(() => {
+      if (auctions.length > 0) {
+        let result = auctions.filter(
+          (item) => item.active === true
+        );
+  
+        if (auctions.length > 0 && result.length === 0){
+          deleteAllAttendees()
+          clearInterval(interval)
+        }
+      }
+
+    }, 1000);
+  },[auctions])
+
+  const deleteAllAttendees = async () => {
+
+    if (attendees.length > 0) {
+      for (let index = 0; index < attendees.length; index++) {    
+        await deleteDoc(doc(db, "attendees", attendees[index].id));
+      }
+  
+      toast.success("all attendees have been deleted!");
+    }
+  };
+
   return (
     <section>
       <Container>

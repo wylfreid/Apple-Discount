@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect} from "react";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
@@ -15,6 +15,11 @@ import { Container, Row, Col } from "reactstrap";
 import heroImg1 from "../../assets/images/i-background-13.jpg";
 
 const HomeCarousel = () => {
+  const [play, setPlay] = useState(false);
+
+  useEffect(()=>{
+    setPlay(true)
+  })
     const year = new Date().getFullYear();
   var settings = {
     lazyLoad: true,
@@ -23,7 +28,7 @@ const HomeCarousel = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: play,
     autoplaySpeed: 3000,
     cssEase: "linear"
   };

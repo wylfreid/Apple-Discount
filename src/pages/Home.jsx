@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 //import products from "../assets/data/products";
 
@@ -27,7 +27,7 @@ import { toast } from 'react-toastify';
 import useGetData from './../custom-hooks/useGetData';
 import HomeCarousel from '../components/UI/HomeCarousel';
 import CustomisedProductsCarousel from './../components/UI/CustomisedProductsCarousel';
-
+import { Modal } from './../components/UI/Modal';
 
 
 
@@ -45,6 +45,7 @@ const Home = () => {
 
   const [allowAuction, setAllowAuction] = useState(false);
 
+  const [isOpen, setIsOpen] = useState(false);
 
   const attendees = useSelector((state) => state.attendees.attendees);
 
@@ -411,7 +412,7 @@ const Home = () => {
       
 
       <div
-        className="modal fade auction__popup "
+        className="modal fade auction__popup"
         id="exampleModal1"
         tabIndex="-1"
         role="dialog"
@@ -441,7 +442,10 @@ const Home = () => {
       </div>
 
 
-      <CustomisedProductsCarousel />
+      
+
+
+      <CustomisedProductsCarousel isOpen={isOpen} setIsOpen={setIsOpen} />
 
       
     </Helmet>

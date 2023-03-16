@@ -9,11 +9,13 @@ import {
 import Message from "./Message";
 import SendMessage from "./SendMessage";
 import { db } from "../../firebase.config";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import UseAuth from "./../../custom-hooks/useAuth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
+
 
 const ChatBox = () => {
   const { currentUser } = UseAuth();
@@ -22,6 +24,7 @@ const ChatBox = () => {
   const [messages, setMessages] = useState([]);
   const scroll = useRef();
 
+
   const navigate = useNavigate();
 
   const onChat = () => {
@@ -29,6 +32,7 @@ const ChatBox = () => {
       toast.warning("Please login!");
       navigate('/login');
     } else {
+      
       setActiveChat(!activeChat);
     }
   };
@@ -49,6 +53,7 @@ const ChatBox = () => {
     });
     return () => unsubscribe;
   }, []);
+
 
   return (
     <div className="wrapper_chat">
@@ -82,35 +87,60 @@ const ChatBox = () => {
             </g>
           </g>
         </svg>
+        
       </motion.div>
       {currentUser && activeChat && (
-        <div className="active_chat animate__animated animate__jackInTheBox ">
-          <div style={{ width: "100%" }}>
-            <div className="card card-bordered fix_boderChat">
-              <div className="card-header">
-                <h4 className="card-title">
-                  <strong>Customer Support</strong>
-                </h4>
-                <span className="btn btn-xs btn-secondary">
-                  leave a feedback
-                </span>
-              </div>
-              <div className="ps-container ps-theme-default ps-active-y fix_scoll">
-                <main className="chat-box ">
-                  <div className="messages-wrapper">
-                    {messages?.map((message) => (
-                     (message.uid === currentUser.uid || (message.receiverId === currentUser.uid)) &&  <Message key={message.id} message={message} />
-                    ))}
-                  </div>
-                  {/* when a new message enters the chat, the screen scrolls dowwn to the scroll div */}
-                  <span ref={scroll}></span>
-                </main>
-              </div>
 
-              <SendMessage scroll={scroll} />
-            </div>
-          </div>
-        </div>
+<AnimatePresence>
+          
+
+        <motion.div 
+          initial={{ rotate: 180, scale: 0 }}
+          animate={{ rotate: 0, scale: 1, ease: "easeOut" }}
+          transition={{
+            type: "spring",
+            stiffness: 260,
+            damping: 50
+          }}
+
+          exit={{
+            opacity: 0,
+            scale: 0.75,
+            transition: {
+              ease: "easeIn",
+              duration: 0.5,
+            },
+          }}
+        
+        className="active_chat" >
+
+              <div style={{ width: "100%" }}>
+                <div className="card card-bordered fix_boderChat">
+                  <div className="card-header">
+                    <h4 className="card-title">
+                      <strong>Customer Support</strong>
+                    </h4>
+                    <span className="btn btn-xs btn-secondary">
+                      leave a feedback
+                    </span>
+                  </div>
+                  <div className="ps-container ps-theme-default ps-active-y fix_scoll">
+                    <main className="chat-box ">
+                      <div className="messages-wrapper">
+                        {messages?.map((message) => (
+                        (message.uid === currentUser.uid || (message.receiverId === currentUser.uid)) &&  <Message key={message.id} message={message} />
+                        ))}
+                      </div>
+                      {/* when a new message enters the chat, the screen scrolls dowwn to the scroll div */}
+                      <span ref={scroll}></span>
+                    </main>
+                  </div>
+
+                  <SendMessage scroll={scroll} />
+                </div>
+              </div>
+        </motion.div>
+        </AnimatePresence>
       )}
     </div>
   );

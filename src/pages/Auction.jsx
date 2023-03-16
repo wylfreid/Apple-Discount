@@ -5,7 +5,7 @@ import CommonSection from "./../components/UI/CommonSection";
 import { Row, Container, Col,FormGroup } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 
-import { doc,collection, addDoc, updateDoc, query, orderBy, onSnapshot, limit, serverTimestamp } from "firebase/firestore";
+import { doc,collection, addDoc, updateDoc,deleteDoc, query, orderBy, onSnapshot, limit, serverTimestamp } from "firebase/firestore";
 
 import '../styles/clock.css'
 
@@ -208,6 +208,8 @@ const Auction = () => {
 
       setLoading(false)
 
+      deleteBid(currentUser.uid)
+
     } catch (error) {
       toast.error("BidInfo not added");
     }
@@ -275,6 +277,14 @@ const Auction = () => {
       setNewBid(null)
       clearInterval(interval)
     }, 5000);
+  }
+
+  const deleteBid =  (id) =>{
+    let interval = setInterval(async () => {
+      await deleteDoc(doc(db, "bidInfos", id));
+      console.log("new Bid have been deleted!");
+      clearInterval(interval)
+    }, 10000);
   }
 
   
