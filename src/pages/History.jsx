@@ -29,45 +29,22 @@ const History = () => {
 
   function setStatusColor(status) {
     switch (status) {
-        case "progress":
+        case "in progress":
             return "#14ff92";
+        case "on the way":
+            return "#61a1ff";
         case "completed":
             return "#61a1ff";
+        case "delivered":
+          return "#61a1ff";
     }
   }
 
 
   const columns = [
+    
     {
-      name: "userName",
-      selector: (row) => row.userName,
-    },
-    {
-      name: "Phone",
-      selector: (row) => row.userPhone,
-    },
-    {
-      name: "Email",
-      selector: (row) => row.userEmail,
-    },
-    {
-      name: "Country",
-      selector: (row) => row.userCountry,
-    },
-    {
-      name: "Adress",
-      selector: (row) => row.userAdress,
-    },
-    {
-      name: "City",
-      selector: (row) => row.userCity,
-    },
-    {
-      name: "PostalCode",
-      selector: (row) => row.userPostalCode,
-    },
-    {
-      name: "Items",
+      name: "Articles",
       selector: (row) => 
         <div className="overflow-auto">
             {row?.products?.map((item, index) => (
@@ -80,11 +57,11 @@ const History = () => {
       
     },
     {
-      name: "Total Quantity",
+      name: "Quantité totale",
       selector: (row) => row.totalQty,
     },
     {
-      name: "Total Amount",
+      name: "Montant total",
       selector: (row) => <span>{row.totalAmount}XAF</span>,
     },
     {
@@ -98,14 +75,14 @@ const History = () => {
   return (
     
     <Helmet title="History">
-        <CommonSection title="History" />
+        <CommonSection title="Historique" />
 
         <section>
       <Container>
         {loading ? (
           <Col  lg="12">
             <h3 className="py-5 d-flex justify-content-center text-center fw-bold">
-              loading.....
+              chargement.....
             </h3>
           </Col>
         ) : (

@@ -18,13 +18,13 @@ const Footer = () => {
               </div>
             </div>
             <p className="footer__text mt-4">
-            Certified apple products from Canada. For all your phones, MacBook, iPad and accessory needs. Trust us. Sales in Cameroon.
+            Produits Apple certifiés au Canada. Pour tous vos besoins en iphones, MacBook, iPad et accessoires. Faites-nous confiance. Ventes au Cameroun.
             </p>
           </Col>
 
           <Col lg="3" className="mb-4" md="3">
             <div className="footer__quick-links">
-              <h4 className="quick__links-title">Top Categories</h4>
+              <h4 className="quick__links-title">Catégories principales</h4>
               <ListGroup>
                 <ListGroupItem className="ps-0 border-0">
                   <Link to="/shop">Iphone</Link>
@@ -44,16 +44,16 @@ const Footer = () => {
 
           <Col lg="2" className="mb-4" md="3">
             <div className="footer__quick-links">
-              <h4 className="quick__links-title">Useful Links</h4>
+              <h4 className="quick__links-title">Liens utiles</h4>
               <ListGroup>
                 <ListGroupItem className="ps-0 border-0">
-                  <Link to="/shop">Shop</Link>
+                  <Link to="/shop">Boutique</Link>
                 </ListGroupItem>
                 <ListGroupItem className="ps-0 border-0">
-                  <Link to="/cart">Cart</Link>
+                  <Link to="/cart">Panier</Link>
                 </ListGroupItem>
                 <ListGroupItem className="ps-0 border-0">
-                  <Link to="/login">Login</Link>
+                  <Link to="/login">Connexion</Link>
                 </ListGroupItem>
                 <ListGroupItem className="ps-0 border-0">
                   <Link to="#">Privacy Policy</Link>
@@ -77,6 +77,12 @@ const Footer = () => {
                     <i className="ri-phone-line"></i>
                   </span>
                   <p> +237690377586</p>
+                </ListGroupItem>
+                <ListGroupItem className="ps-0 border-0 d-flex align-items-center gap-2">
+                  <span>
+                    <i className="ri-whatsapp-line"></i>
+                  </span>
+                  <p> +(438) 467-8985 </p>
                 </ListGroupItem>
                 <ListGroupItem className="ps-0 border-0 d-flex align-items-center gap-2">
                   <span>
@@ -104,8 +110,7 @@ const Footer = () => {
 
           <Col lg="12">
             <p className="footer__copyright">
-            © appleDiscount {year} | Powered by Cryptonite, All rights
-              reserved.
+            © appleDiscount {year} | Propulsé par Cryptonite, Tous droits réservés.
             </p>
           </Col>
         </Row>

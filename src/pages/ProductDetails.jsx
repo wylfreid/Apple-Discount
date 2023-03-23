@@ -27,7 +27,6 @@ import UseAuth from './../custom-hooks/useAuth';
 import {useSelector} from 'react-redux';
 
 
-
 const hiddenMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 30px, rgba(0,0,0,1) 30px, rgba(0,0,0,1) 30px)`;
 const visibleMask = `repeating-linear-gradient(to right, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 0px, rgba(0,0,0,1) 0px, rgba(0,0,0,1) 30px)`;
 
@@ -53,8 +52,8 @@ const ProductDetails = () => {
   const btnPreviewRef = useRef()
   const [rating, setRating] = useState(0);
 
-  const [color, setColor] = useState("default");
-  const [storage, setStorage] = useState("default");
+  const [color, setColor] = useState(null);
+  const [storage, setStorage] = useState(null);
 
   const [colorPreview, setColorPreview] = useState(null);
 
@@ -148,18 +147,27 @@ const ProductDetails = () => {
 
   }
 
+  
   const addToCart = () => {
-    dispatch(
-      cartActions.addItem({
-        id: id,
-        productName: productName,
-        storage: storage,
-        color: color != "default" ? getColor() : color,
-        price: priceForSize ? priceForSize : price,
-        imgUrl: imgUrl,
-      })
-    );
-    toast.success('product added to the cart');
+    if ((!color || color === "default") && product.colors?.length > 0) {
+      toast.error('Veuillez choisir une couleur');
+    }else if((!storage || storage === "default") && product.storage){
+      toast.error('Veuillez choisir un stockage');
+    }
+    else{
+      dispatch(
+        cartActions.addItem({
+          id: id,
+          productName: productName,
+          storage: storage ? storage : "Aucun",
+          color: getColor(),
+          price: priceForSize ? priceForSize : price,
+          imgUrl: imgUrl,
+        })
+      );
+      toast.success('produit ajouté au panier');
+      
+    }
   };
 
   useEffect(()=>{
@@ -185,6 +193,7 @@ const ProductDetails = () => {
       setStorage(e.target.value)
     }else{
       setPriceForSize(null)
+      setStorage("default")
     }
   }
 
@@ -215,12 +224,12 @@ const ProductDetails = () => {
           price: priceForSize ? priceForSize : price,
           imgUrl: imgUrl,
           category: category,
-          storage: storage,
-          color: color != "default" ? getColor() : color
+          storage: storage ? storage : "default",
+          color: color ? getColor() : "default"
         })
       );
 
-      toast.success('product added to favorites');
+      toast.success('produit ajouté aux favories');
 
     } else {
 
@@ -230,7 +239,7 @@ const ProductDetails = () => {
       dispatch(
         favoritesActions.deleteItem(id)
       );
-      toast.success('product removed from favorites');
+      toast.success('produit supprimé de la liste favorites!');
     }
   }
 
@@ -263,7 +272,7 @@ const ProductDetails = () => {
             <Col lg="6">
               <div className="product__details" >
                 <h2>{productName}</h2>
-                <div className="product__rating d-flex align-items-center gap-5 mb-3">
+                <div className="product__rating d-flex align-items-center mb-3">
                   <div>
                     <span>
                       <i className="ri-star-s-fill"></i>
@@ -283,12 +292,12 @@ const ProductDetails = () => {
                   </div>
 
                   <p>
-                    {<span>({productReview.length} ratings)</span>}
+                    {/* {<span>({productReview.length} ratings)</span>} */}
                   </p>
                 </div>
                 <div className="d-flex align-items-center gap-5">
                   <span className="product__price"> { priceForSize ? priceForSize : price}XAF</span>
-                  <span>Category : {category?.toUpperCase()} </span>
+                  <span>Categorie : {category?.toUpperCase()} </span>
                 </div>
                 
                 <p className="mt-3"> {shortDesc} </p>
@@ -298,7 +307,7 @@ const ProductDetails = () => {
 
                     {product.storage && <div className="filter__widget">
                       <select onChange={handleChangeStorage} >
-                      <option style={{fontSize: '16px'}} value="default">storage</option>
+                      <option style={{fontSize: '16px'}} value="default">stockage</option>
 
                       {
                         Object.keys(product.storage).map(function(key, value) {
@@ -313,7 +322,7 @@ const ProductDetails = () => {
 
                   {product.colors?.length > 0 && <div className="filter__widget">
                     <select onChange={e=> [setColor(e.target.value), setColorPreview(e.target.value)]} className="select-color">
-                    <option style={{fontSize: '18px'}} value="default">Color</option>
+                    <option style={{fontSize: '18px'}} value="default">Couleur</option>
                     {
                         (product.colors)?.map((color, index) =>(
                           
@@ -326,7 +335,7 @@ const ProductDetails = () => {
                   </div>}
                   <div className="d-flex align-items-center justify-content-center color__preview-container"> 
 
-                    { colorPreview != null &&  colorPreview != "Color" && colorPreview != "default" && <div className="color__preview p-1" style={{background : colorPreview}}>
+                    { colorPreview != null &&  colorPreview != "Couleur" && colorPreview != "default" && <div className="color__preview p-1" style={{background : colorPreview}}>
 
                     </div>}
                   </div>
@@ -343,7 +352,7 @@ const ProductDetails = () => {
                     className="buy__btn mt-4"
                     onClick={addToCart}
                   >
-                    Add to Cart
+                    Ajouter au panier
                   </motion.button>
 
                   <div style={{color: isFavourited ? 'coral' : '#0a1d37'}} className="d-flex align-items-center justify-content-center pt-4 pointer"
@@ -353,7 +362,7 @@ const ProductDetails = () => {
                     <span className="fav__icon">
                         <i className="ri-heart-fill"></i>
                     </span>
-                    Add to favorites
+                    Ajouter aux favories
                   </div>
                 </div>
                 
@@ -378,7 +387,7 @@ const ProductDetails = () => {
                   className={`${tab === "rev" ? "active__tab" : ""}`}
                   onClick={() => setTab("rev")}
                 >
-                  Reviews ({productReview.length ? productReview.length : 0})
+                  Commentaires ({productReview.length ? productReview.length : 0})
                 </h6>
               </div>
 
@@ -405,10 +414,10 @@ const ProductDetails = () => {
                     </ul>
 
                     <div className="review__form">
-                      <h4>Leave your experience</h4>
+                      <h4>Laissez votre expérience</h4>
                       <form action="" onSubmit={submitHandler}>
                         <div className="form__group">
-                          <input type="text" placeholder="Enter name" ref ={reviewUser} required />
+                          <input type="text" placeholder="Votre nom..." ref ={reviewUser} required />
                         </div>
 
                         <div className="form__group d-flex align-items-center gap-5 rating__group">
@@ -430,7 +439,7 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="form__group">
-                          <textarea ref={reviewMsg} rows={4} placeholder="Review Message..." required/>
+                          <textarea ref={reviewMsg} rows={4} placeholder="Votre commentaire..." required/>
                         </div>
 
                         <motion.button
@@ -438,7 +447,7 @@ const ProductDetails = () => {
                           whileTap={{ scale: 1.2 }}
                           className="buy__btn"
                         >
-                          Submit
+                          Envoyer
                         </motion.button>
                       </form>
                     </div>
@@ -447,8 +456,8 @@ const ProductDetails = () => {
               )}
             </Col>
 
-            {relatedProducts.length > 0 && <Col lg='12' className="mt-5">
-              <h2 className="related__title">You might also like</h2>
+            {relatedProducts.length > 0 && <Col lg='12' className="mt-4 mb-5">
+              <h2 className="related__title">Vous pourriez aussi aimer</h2>
             </Col>}
 
             <ProductList data={relatedProducts} />
@@ -482,17 +491,17 @@ const ProductDetails = () => {
 
             <AnimatePresence>
           
-            <motion.div class="tilt-box-wrap d-flex align-items-center justify-content-center">
-		<span class="t_over"></span>
-		<span class="t_over"></span>
-		<span class="t_over"></span>
-		<span class="t_over"></span>
-		<span class="t_over"></span>
-		<span class="t_over"></span>
-		<span class="t_over"></span>
-		<span class="t_over"></span>
-		<span class="t_over"></span>
-		<div class="tilt-box">
+            <motion.div className="tilt-box-wrap d-flex align-items-center justify-content-center">
+		<span className="t_over"></span>
+		<span className="t_over"></span>
+		<span className="t_over"></span>
+		<span className="t_over"></span>
+		<span className="t_over"></span>
+		<span className="t_over"></span>
+		<span className="t_over"></span>
+		<span className="t_over"></span>
+		<span className="t_over"></span>
+		<div className="tilt-box">
 			
               <motion.img  className="product__img-preview h-100" src={imgUrl} alt="" style={{ width:"auto", zIndex: "10000" }}/>
 		</div>

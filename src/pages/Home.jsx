@@ -55,8 +55,7 @@ const Home = () => {
 
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [bestSalesProducts, setBestSalesProducts] = useState([]);
-  const [IpadProducts, setIpadProducts] = useState([]);
-  const [macbookProducts, setMacbookProducts] = useState([]);
+  const [NewProducts, setNewProducts] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
 
 
@@ -67,25 +66,21 @@ const Home = () => {
       (item) => item.trending === true
     );
     const filteredBestSalesProducts = products.filter(
-      (item) => item.category === "iphone"
+      (item) => item.bestSales ==+ true
     );
 
-    const filteredIpadProducts = products.filter(
-      (item) => item.category === "ipad"
+    const filteredNewProducts = products.filter(
+      (item) => item.newProduct === true
     );
 
-    const filteredMacbookProducts = products.filter(
-      (item) => item.category === "macbook"
-    );
 
     const filteredPopularProducts = products.filter(
-      (item) => item.category === "accessory"
+      (item) => item.popular === true
     );
 
     setTrendingProducts(filteredTrendingProducts);
     setBestSalesProducts(filteredBestSalesProducts);
-    setIpadProducts(filteredIpadProducts);
-    setMacbookProducts(filteredMacbookProducts);
+    setNewProducts(filteredNewProducts);
     setPopularProducts(filteredPopularProducts);
   }, [products]);
 
@@ -169,13 +164,13 @@ const Home = () => {
   
             
         await addDoc(docRef, attendee);
-        toast.success("you are currently participating in the auction!");
+        toast.success("vous participez actuellement à la vente aux enchères!");
   
         navigate('/auction')
         
   
       } catch (error) {
-        toast.error("something went wrong: " + error );
+        toast.error("quelque chose n'a pas fonctionné: " + error );
         console.log(error);
       }
     
@@ -185,10 +180,10 @@ const Home = () => {
   };
 
 
-  const handleToggleSubscribe = async (user) => {
+  /* const handleToggleSubscribe = async (user) => {
     await updateDoc(doc(db, "users", user.uid), { participant: !user.participant });
     toast.success("you are currently participating in the auction!");
-  };
+  }; */
 
   return (
     <Helmet title={"Home"}>
@@ -206,12 +201,12 @@ const Home = () => {
           <Container>
             <Row>
               <Col lg="12" className="text-center">
-                <h2 className="section__title mb-5"> Trending Products </h2>
+                <h2 className="section__title"> Produits tendance </h2>
               </Col>
 
               {products.length < 0 ? (
                 <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
-                  loading.....
+                  chargement.....
                 </h5>
               ) : (
                 <ProductList data={trendingProducts} />
@@ -225,13 +220,13 @@ const Home = () => {
         <section className="best__sales">
           <Container>
             <Row>
-              <Col lg="12" className="text-center">
-                <h2 className="section__title mb-5"> Best Sales </h2>
+              <Col lg="12" className="text-center mb-5">
+                <h2 className="section__title"> Meilleures ventes </h2>
               </Col>
 
               {products.length < 0 ? (
                 <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
-                  loading.....
+                  chargement.....
                 </h5>
               ) : (
                 <ProductList data={bestSalesProducts} />
@@ -247,7 +242,7 @@ const Home = () => {
             <Row>
               <Col lg="6" md="12" className="count__down-col">
                 <div className="clock__top-content">
-                  <h4 className="text-white fs-6 mb-2">Limited Offer</h4>
+                  <h4 className="text-white fs-6 mb-2">Offre limitée</h4>
                   <h3 className="text-white fs-5 mb-3">
                     {auctions[auctions.length -1]?.productName}
                   </h3>
@@ -261,7 +256,7 @@ const Home = () => {
                     className="buy__btn store__btn mt-4"
                     onClick={handleGoToAuction}
                   >
-                    Go to Auction
+                    Aller à la vente aux enchères
                   </motion.button>
                 </Link>
               </Col>
@@ -281,7 +276,7 @@ const Home = () => {
             <Row>
               <Col lg="6" md="12" className="count__down-col">
                 <div className="clock__top-content">
-                  <h4 className="text-white fs-6 mb-2">New Limited Offer</h4>
+                  <h4 className="text-white fs-6 mb-2">Nouvelle offre limitée</h4>
                   
                   <h3 className="text-white fs-5 mb-3">
                     {isNewAuction[isNewAuction.length -1]?.productName}
@@ -290,7 +285,7 @@ const Home = () => {
 
                 <Clock stopTime={isNewAuction[isNewAuction.length -1]?.startDate} />
 
-                <h2 className="text-white fs-5 mb-2 mt-4">The auction will start at the end of the countdown</h2>
+                <h2 className="text-white fs-5 mb-2 mt-4">La vente aux enchères commencera à la fin du compte à rebours.</h2>
               </Col>
 
               <Col lg="6" md="12" className="text-end counter__img">
@@ -301,28 +296,22 @@ const Home = () => {
         </section>
       )}
 
-      {IpadProducts.length > 0 && <section className="new__arrivals">
+      {NewProducts.length > 0 && <section className="new__arrivals">
         <Container>
           <Row>
             <Col lg="12" className="text-center mb-5 ">
-              <h2 className="section__title mb-5"> New Arrivals </h2>
+              <h2 className="section__title"> Nouveaux produits </h2>
             </Col>
 
             {products.length < 0 ? (
               <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
-                loading.....
+                chargement.....
               </h5>
             ) : (
-              <ProductList data={IpadProducts} />
+              <ProductList data={NewProducts} />
             )}
 
-            {products.length < 0 ? (
-              <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
-                loading.....
-              </h5>
-            ) : (
-              <ProductList data={macbookProducts} />
-            )}
+            
           </Row>
         </Container>
       </section>}
@@ -331,12 +320,12 @@ const Home = () => {
         <Container>
           <Row>
             <Col lg="12" className="text-center mb-5">
-              <h2 className="section__title mb-5"> Popular in Category </h2>
+              <h2 className="section__title"> Populaire dans la catégorie </h2>
             </Col>
 
             {products.length < 0 ? (
               <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
-                loading.....
+                chargement.....
               </h5>
             ) : (
               <ProductList data={popularProducts} />
@@ -374,7 +363,7 @@ const Home = () => {
             </div>
             <div className="modal-body p-4">
               <div className="text-center">
-                <h5>A new auction has started!</h5>
+                <h5>Une nouvelle vente aux enchères a commencé !</h5>
               </div>
 
               <div className="d-flex justify-content-center p-2">
@@ -398,7 +387,7 @@ const Home = () => {
                   className="buy__btn"
                   onClick={handleGoToAuction}
                 >
-                  Go to Auction
+                  Aller à la vente aux enchères
                 </motion.button>
               </div>
             </div>
@@ -432,7 +421,7 @@ const Home = () => {
             </div>
             <div className="modal-body p-3">
               <div className="text-justify mt-3 mb-3 ps-2">
-                <h6 style={{lineHeight: "30px"}}>For customized products, please contact customer service via the message button. You can also write to us on <span className="fw-bold text-dark"> <a href="https://instagram.com/apple_discount_237?igshid=YmMyMTA2M2Y=">Instagram</a></span>, we are available 24 hours a day, 7 days a week.</h6>
+                <h6 style={{lineHeight: "30px"}}>Pour les produits personnalisés, veuillez contacter le service clientèle via le bouton message. Vous pouvez également nous écrire sur <span className="fw-bold text-dark"> <a href="https://instagram.com/apple_discount_237?igshid=YmMyMTA2M2Y=">Instagram</a></span>, we are available 24 hours a day, 7 days a week.</h6>
               </div>
 
           
@@ -445,7 +434,7 @@ const Home = () => {
       
 
 
-      <CustomisedProductsCarousel isOpen={isOpen} setIsOpen={setIsOpen} />
+      <CustomisedProductsCarousel />
 
       
     </Helmet>

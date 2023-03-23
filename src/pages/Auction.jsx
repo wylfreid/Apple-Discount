@@ -55,7 +55,7 @@ const Auction = () => {
 
   const btnRef = useRef();
 
-  const [loading, setLoading] = useState(false);
+  const [chargement, setchargement] = useState(false);
 
 
   const getAttendee = (uid) =>{
@@ -89,7 +89,7 @@ const Auction = () => {
 
       await addDoc(docRef,  order);
 
-      toast.success("order successfully added");
+      toast.success("commande ajoutée avec succès");
 
     } catch (error) {
  
@@ -206,23 +206,23 @@ const Auction = () => {
       };
       await addDoc(docRef,  BidInfo);
 
-      setLoading(false)
+      setchargement(false)
 
       deleteBid(currentUser.uid)
 
     } catch (error) {
-      toast.error("BidInfo not added");
+      toast.error("BidInfo non ajouté");
     }
 
   };
 
   const handleBid = async () => {
     if (!selectedAuction) {
-      toast.error("Please choose an item!");
+      toast.error("Veuillez choisir un article !");
     }else if(!bidAmount || bidAmount < parseInt(selectedAuction?.currentPrice) + parseInt(selectedAuction?.step)){
-      toast.error("Please enter a valid amount!");
+      toast.error("Veuillez saisir un montant valide !");
     }else{
-      setLoading(true)
+      setchargement(true)
       await updateDoc(doc(db, "auctions", selectedAuction.id), {
         currentPrice: bidAmount,
         currentAttendeeId: currentUser.uid,
@@ -238,7 +238,7 @@ const Auction = () => {
 
       sendBidInfos();
   
-      toast.success("Your bid has been placed!");
+      toast.success("Votre offre a été placée !");
     }
   };
 
@@ -312,7 +312,7 @@ const Auction = () => {
 
   return (
     <Helmet title="Auction">
-      <CommonSection title="Auction" />
+      <CommonSection title="Enchères" />
       
 
       <section>
@@ -332,14 +332,14 @@ const Auction = () => {
                       <p className="text-center">{selectedAuction?.shortDesc}</p>
 
                       <h6 className="text-center p-2">
-                        Start price : {selectedAuction?.startPrice}XAF
+                      Prix de départ : {selectedAuction?.startPrice}XAF
                       </h6>
 
                       <h6
                         className="text-center p-2"
                         style={{ color: "coral" }}
                       >
-                        current price : {selectedAuction?.currentPrice}XAF
+                        Pix actuel : {selectedAuction?.currentPrice}XAF
                       </h6>
 
                       <div className="d-flex justify-content-center p-2">
@@ -350,7 +350,7 @@ const Auction = () => {
               
               ) : (
                 <h5 className="py-5 d-flex justify-content-center text-center fw-bold">
-                  loading.....
+                  chargement.....
                 </h5>
               )}
             </Col>
@@ -360,13 +360,13 @@ const Auction = () => {
                 
               {selectedAuction?.currentAttendeeName && <div className="d-flex align-items-center justify-content-between gap-1">
 
-              Current purchaser :  <span>{selectedAuction?.currentAttendeeName}</span>
+              Acheteur actuel :  <span>{selectedAuction?.currentAttendeeName}</span>
               </div>}
                 <div className="d-flex align-items-center justify-content-between gap-1">
 
                     <div>
 
-                      Item :  <span style={{color: "#ffc107"}}>{selectedAuction?.productName}</span>
+                      Article :  <span style={{color: "#ffc107"}}>{selectedAuction?.productName}</span>
                     </div>
 
                     {/* <FormGroup className="form__group w-50">
@@ -387,7 +387,7 @@ const Auction = () => {
                       placeholder={
                         selectedAuction ?
                         (parseInt(selectedAuction?.currentPrice) +
-                        parseInt(selectedAuction?.step)) : "Enter amount"
+                        parseInt(selectedAuction?.step)) : "Saisir le montant"
                       }
                       min={
                         selectedAuction ?
@@ -408,9 +408,9 @@ const Auction = () => {
                   whileTap={{ scale: 1.2 }}
                   className="mt-2 buy__btn auth__btn bg-light  w-100 d-flex align-items-center justify-content-center"
                 >
-                  {loading ? <div className="spinner-grow" role="status">
+                  {chargement ? <div className="spinner-grow" role="status">
                   <span className="sr-only"></span>
-                  </div> : <span>Place a bid</span> 
+                  </div> : <span>Placer une offre</span> 
                   }
                 </motion.button>
               </div>
@@ -419,7 +419,7 @@ const Auction = () => {
 
                 <div className="mt-4">
                           <h5>
-                            Total attendees: <span className="fw-bold ps-3" style={{ color: "coral", fontSize: "18px" }}> {attendees.length} </span>
+                          Total des participants: <span className="fw-bold ps-3" style={{ color: "coral", fontSize: "18px" }}> {attendees.length} </span>
                           </h5>
                         </div>
 
@@ -449,7 +449,7 @@ const Auction = () => {
                   </div>
 
                   {newBid && <div className='mt-3 w-100'>
-                    <div className={"alert alert-warning"}><i style={{ fontSize: '.8em' }} className='fa fa-check-circle'></i>A new bid of {newBid.bidAmount}XAF was placed by {newBid.userName} for {newBid.auction.productName}</div>
+                    <div className={"alert alert-warning"}><i style={{ fontSize: '.8em' }} className='fa fa-check-circle'></i>Une nouvelle offre de {newBid.bidAmount}XAF a été placée par {newBid.userName} pour le produit {newBid.auction.productName}</div>
                 </div>}
 
 
@@ -489,12 +489,12 @@ const Auction = () => {
             </div>
             <div className="modal-body p-4">
               <div className="text-center">
-                <h5>The last auction is over!!</h5>
+                <h5>La dernière enchère est terminée!!</h5>
 
-                {winner?.userName ? <h5 className="pt-2">participant <span style={{color: "#ffc107"}}>{winner?.userName}</span> wins the auction with a bid in the amount of <span style={{color: "#ffc107"}}>{winner?.currentPrice}</span></h5> 
+                {winner?.userName ? <h5 className="pt-2">Le participant <span style={{color: "#ffc107"}}>{winner?.userName}</span> a gagné la vente aux enchères avec une offre d'un montant de <span style={{color: "#ffc107"}}>{winner?.currentPrice}</span></h5> 
                     
                     :
-                    <h5 className="pt-2"><span style={{color: "#ffc107"}}>No bids have been placed.</span></h5>
+                    <h5 className="pt-2"><span style={{color: "#ffc107"}}>Aucune offre n'a été placée.</span></h5>
               }
               </div>
             </div>

@@ -72,7 +72,7 @@ export const Modal = ({ isOpen, setIsOpen }) => {
             </div>
             <div className="modal-body p-3">
               <div className="text-justify mt-3 mb-3 ps-2">
-                <h6 style={{lineHeight: "30px"}}>For customized products, please contact customer service via the message button. You can also write to us on <span className="fw-bold text-dark"> <a href="https://instagram.com/apple_discount_237?igshid=YmMyMTA2M2Y=">Instagram</a></span>, we are available 24 hours a day, 7 days a week.</h6>
+                <h6 style={{lineHeight: "30px"}}>Pour les produits personnalisés, veuillez contacter le service clientèle via le bouton message. Vous pouvez également nous écrire sur <span className="fw-bold text-dark"> <a href="https://instagram.com/apple_discount_237?igshid=YmMyMTA2M2Y=">Instagram</a></span>, we are available 24 hours a day, 7 days a week.</h6>
               </div>
 
           

@@ -15,6 +15,10 @@ const AddProducts = () => {
   const [enterProductImg, setEnterProductImg] = useState(null);
 
   const [trending, setTrending] = useState(false);
+  const [bestSales, setBestSales] = useState(false);
+  const [newProduct, setNewProduct] = useState(false);
+  const [populary, setPopulary] = useState(false);
+
   const [storagePrices, setStoragePrices] = useState(null);
   const [colorsNumber, setColorsNumber] = useState([]);
   const [colors, setColors] = useState([]);
@@ -50,9 +54,12 @@ const AddProducts = () => {
               category: enterCategory,
               price: enterPrice,
               imgUrl: downloadURL,
-              trending: trending,
               storage: storagePrices,
               colors: colors,
+              trending: trending,
+              bestSales: bestSales,
+              newProduct: newProduct,
+              popular: populary
             });
           });
 
@@ -124,10 +131,10 @@ const handleSetColor = (e, id) =>{
         <Row>
           <Col lg="12">
             {loading ? (
-              <h4 className="py-5">Loading......</h4>
+              <h4 className="py-5">Chargement......</h4>
             ) : (
               <>
-                <h4 className="mb-5">Add Product</h4>
+                <h4 className="mb-5">Ajouter un produit</h4>
                 <Form onSubmit={addProduct}>
                   <FormGroup className="form__group">
                     <span>Product title</span>
@@ -217,6 +224,54 @@ const handleSetColor = (e, id) =>{
                         id="flexCheckDefault"
 
                         onChange={e => setTrending(!trending)}
+                      />
+                      
+                    </div>
+
+                    <div className="form-check mb-3 mt-2" >
+                      <label className="form-check-label" htmlFor="flexCheckDefault" style={{cursor: "pointer"}}>
+                        Best Sales
+                      </label>
+                      <input
+                      style={{cursor: "pointer"}}
+                        className="form-check-input"
+                        type="checkbox"
+                        checked = {bestSales}
+                        id="flexCheckDefault"
+
+                        onChange={e => setBestSales(!bestSales)}
+                      />
+                      
+                    </div>
+
+                    <div className="form-check mb-3 mt-2" >
+                      <label className="form-check-label" htmlFor="flexCheckDefault" style={{cursor: "pointer"}}>
+                        New Product
+                      </label>
+                      <input
+                      style={{cursor: "pointer"}}
+                        className="form-check-input"
+                        type="checkbox"
+                        checked = {newProduct}
+                        id="flexCheckDefault"
+
+                        onChange={e => setNewProduct(!newProduct)}
+                      />
+                      
+                    </div>
+
+                    <div className="form-check mb-3 mt-2" >
+                      <label className="form-check-label" htmlFor="flexCheckDefault" style={{cursor: "pointer"}}>
+                        Popular
+                      </label>
+                      <input
+                      style={{cursor: "pointer"}}
+                        className="form-check-input"
+                        type="checkbox"
+                        checked = {populary}
+                        id="flexCheckDefault"
+
+                        onChange={e => setPopulary(!populary)}
                       />
                       
                     </div>

@@ -47,7 +47,7 @@ const ClockVariant = ({stopTime}) => {
       <div className="clock__data d-flex align-items-center gap-3">
         <div className="text-center">
           <h1 className="text-dark fs-3 mb-2">{days >= 0 ? days : 0} </h1>
-          <h5 className="text-dark fs-6">Days</h5>
+          <h5 className="text-dark fs-6">Jours</h5>
         </div>
         <span className="text-dark fs-3">:</span>
       </div>
@@ -55,7 +55,7 @@ const ClockVariant = ({stopTime}) => {
       <div className="clock__data d-flex align-items-center gap-3">
         <div className="text-center">
           <h1 className="text-dark fs-3 mb-2">{hours >= 0 ? hours : 0} </h1>
-          <h5 className="text-dark fs-6">Hours</h5>
+          <h5 className="text-dark fs-6">Heures</h5>
         </div>
         <span className="text-dark fs-3">:</span>
       </div>

@@ -51,6 +51,7 @@ import {useSelector} from 'react-redux';
     else{
       setProductsData(products);
     }
+    window.scrollTo(0, 0);
   }
 
   const handleSearch = e=>{
@@ -70,30 +71,30 @@ import {useSelector} from 'react-redux';
         const {price: priceB} = b;
 
         switch (e.target.value) {
-          case 'desc':
-            return priceB - price;
-          case 'asc':
-            return price - priceB;
+          case '2':
+            return priceB.split(".").join("") - price.split(".").join("");
+          case '1':
+            return price.split(".").join("") - priceB.split(".").join("");
           default:
-            return price - priceB;
+            return price.split(".").join("") - priceB.split(".").join("");
         }
       });
 
       setProductsData([]);
 
-      setProductsData(productsData=> ([...productsData, ...filteredPoducts]));
+      setProductsData(productsData=> ([...filteredPoducts]));
 
-      
+      window.scrollTo(0, 0);
 
   }
 
-  useEffect(()=>{
+  /* useEffect(()=>{
     window.scrollTo(0, 0);
-  })
+  }) */
 
 
    return <Helmet title='Shop' >
-    <CommonSection title='Products' />
+    <CommonSection title='Produits' />
 
     <section>
       <Container>
@@ -101,7 +102,7 @@ import {useSelector} from 'react-redux';
           <Col lg='3' md='6' className='col__filter-widget'>
             <div className="filter__widget mb-md-4">
               <select onChange={handleFilter}>
-              <option style={{fontSize: '16px'}}>Filter By Category</option>
+              <option style={{fontSize: '16px'}}>Filtrer par catégorie</option>
                 <option style={{fontSize: '16px'}} value="iphone">Iphone</option>
                 <option style={{fontSize: '16px'}} value="ipad">Ipad</option>
                 <option style={{fontSize: '16px'}} value="macbook">MacBook</option>
@@ -112,16 +113,16 @@ import {useSelector} from 'react-redux';
           <Col lg='3' md='6' className='text-end col__filter-widget'>
           <div className="filter__widget mb-md-4">
               <select onChange={handleSort}>
-              <option style={{fontSize: '16px'}}>Sort By</option>
-                <option style={{fontSize: '16px'}} value="asc">Price: Low to High</option>
-                <option style={{fontSize: '16px'}} value="desc">Price: High to Low</option>
+              <option style={{fontSize: '16px'}}>Filtrer par</option>
+                <option style={{fontSize: '16px'}} value="1">Prix : Du plus bas au plus haut</option>
+                <option style={{fontSize: '16px'}} value="2">Prix : de haut en bas</option>
               </select>
             </div>
           
           </Col>
           <Col lg='6' md='12'>
             <div className="search__box">
-              <input type="text" placeholder='Search.....' 
+              <input type="text" placeholder='Recherchez.....' 
               onChange={handleSearch}/>
               <span>
                 <i className="ri-search-line"></i>
@@ -136,7 +137,7 @@ import {useSelector} from 'react-redux';
     <Container>
         <Row>
           {
-            productsData.length === 0? <h1 className='text-center fs-4'>No Products are found!</h1>
+            productsData.length === 0? <h1 className='text-center fs-4'>Aucun produit n'a été trouvé!</h1>
             : <ProductList data={productsData} />
           }
         </Row>

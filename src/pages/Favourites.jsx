@@ -10,6 +10,9 @@ import { favoritesActions } from "./../redux/slices/favoriteSlice";
 
 import { toast } from "react-toastify";
 import { cartActions } from './../redux/slices/cartSlice';
+import { Link } from 'react-router-dom';
+
+
 
 const Favourites = () => {
   const favouritesItems = useSelector(
@@ -18,7 +21,7 @@ const Favourites = () => {
 
   return (
     <Helmet title="Favorites List">
-      <CommonSection title="Favorites List" />
+      <CommonSection title="Liste des favories" />
 
       <section>
         <Container>
@@ -26,20 +29,18 @@ const Favourites = () => {
             <Col lg="12" className="cart__table">
               {favouritesItems.length === 0 ? (
                 <h2 className="fs-4 text-center">
-                  No item in the Favourites list!
+                  Aucun élément dans la liste des favoris !
                 </h2>
               ) : (
                 <table className="table bordered">
                   <thead>
                     <tr>
                       <th>Image</th>
-                      <th>Title</th>
-                      <th>Storage</th>
-                      <th>Color</th>
-                      <th>Price</th>
-                      <th>Category</th>
-                      <th>Delete</th>
-                      <th>Add To Cart</th>
+                      <th>Nom</th>
+                      <th>Prix</th>
+                      <th>Categorie</th>
+                      <th>Supprimer</th>
+                      <th>Détails</th>
                     </tr>
                   </thead>
 
@@ -65,6 +66,7 @@ const Tr = ({ item }) => {
 
   const dispatch = useDispatch();
 
+
   const deleteProduct = (item) => {
     const newStorageItem = storageItem.filter((savedId) => savedId !== item.id);
     setStorageItem(newStorageItem);
@@ -72,10 +74,10 @@ const Tr = ({ item }) => {
 
     dispatch(favoritesActions.deleteItem(item.id));
 
-    toast.success("product removed from favourites list!");
+    toast.success("produit supprimé de la liste favories!");
   };
 
-  const addToCart = () => {
+  /* const addToCart = (item) => {
     dispatch(
       cartActions.addItem({
         id: item.id,
@@ -86,8 +88,9 @@ const Tr = ({ item }) => {
         imgUrl: item.imgUrl,
       })
     );
-    toast.success("product added to the cart");
-  };
+    toast.success("produit ajouté aux favories!");
+    
+  }; */
 
   return (
     <tr>
@@ -95,8 +98,6 @@ const Tr = ({ item }) => {
         <img src={item.imgUrl} alt="" />
       </td>
       <td className="align-middle">{item.productName}</td>
-      <td className="align-middle"> {item.storage} </td>
-      <td className="align-middle"> {item.color} </td>
       <td className="align-middle"> {item.price}XAF </td>
       <td className="align-middle">{item.category.toUpperCase()}</td>
       <td className="align-middle">
@@ -111,13 +112,14 @@ const Tr = ({ item }) => {
       </td>
 
       <td>
+      <Link to={`/shop/${item.id}`}> 
         <motion.button
           whileTap={{ scale: 1.2 }}
           className="buy__btn"
-          onClick={addToCart}
         >
-          Add to Cart
+          voir le produit
         </motion.button>
+       </Link>
       </td>
     </tr>
   );

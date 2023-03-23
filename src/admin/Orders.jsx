@@ -47,10 +47,6 @@ const AdminHistory = () => {
       selector: (row) => row.userCity,
     },
     {
-      name: "PostalCode",
-      selector: (row) => row.userPostalCode,
-    },
-    {
       name: "Items",
       selector: (row) => (
         <div className="overflow-auto">
@@ -79,8 +75,10 @@ const AdminHistory = () => {
             className="w-100 p-1 fw-5 fs-6"
             value={row.status}
           >
-            <option value="progress">Progress</option>
+            <option value="in progress">in Progress</option>
+            <option value="on the way">On the way</option>
             <option value="completed">Completed</option>
+            <option value="delivered">Delivered</option>
           </select>
         </div>
       ),

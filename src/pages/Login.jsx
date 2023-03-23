@@ -9,6 +9,7 @@ import { Link, useNavigate} from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./../firebase.config";
 import { toast } from "react-toastify";
+import { motion } from 'framer-motion';
 
 
 const Login = () => {
@@ -31,16 +32,16 @@ const Login = () => {
       );
 
       const user = userCredential.user;
-      console.log(user);
+      //console.log(user);
 
       setLoading(false);
-      toast.success("Successfully logged in");
-      navigate("/checkout");
+      toast.success("Connexion réussie");
+      navigate("/home");
       
     } catch (error) {
       setLoading(false);
       //toast.error(error.message);
-      toast.error("incorrect credentials");
+      toast.error("informations d'identification incorrectes");
     }
   };
 
@@ -49,26 +50,26 @@ const Login = () => {
   }) */
 
   return (
-    <Helmet title="Login">
-      <CommonSection title="Login" />
+    <Helmet title="Connexion">
+      <CommonSection title="Connexion" />
 
       <section>
         <Container>
           <Row>
             {loading ? (
               <Col lg="12" className="text-center">
-                <h5 className="fw-bold">Loading.....</h5>
+                <h5 className="fw-bold">Chargement.....</h5>
               </Col>
             ) : (
               <Col lg="6" className="m-auto text-center">
-                <h3 className="fw-bold mb-4">Login</h3>
+                {/* <h3 className="fw-bold mb-4">Connexion</h3> */}
 
                 <Form className="auth__form" onSubmit={signIn}>
                   <FormGroup className="form__group">
                     <input
                       required
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Saisissez votre e-mail"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
@@ -78,21 +79,22 @@ const Login = () => {
                     <input
                       required
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder="Saisissez votre mot de passe"
                       value={password}
                       onChange={(e) => setPasword(e.target.value)}
                     />
                   </FormGroup>
 
-                  <button
+                  <motion.button
+                    whileTap={{scale: 1.2}}
                     type="submit"
                     className="buy__btn auth__btn mt-5 bg-light"
                   >
-                    Login
-                  </button>
+                    Connexion
+                  </motion.button>
                   <p>
-                    Don't have account?
-                    <Link to="/signup">Create an account</Link>
+                  Pas de compte?
+                    <Link to="/signup">Créer un compte</Link>
                   </p>
                 </Form>
               </Col>

@@ -24,6 +24,9 @@ const productSlice = createSlice({
           price: newItem.price,
           imgUrl: newItem.imgUrl,
           trending: newItem.trending,
+          bestSales: newItem.bestSales,
+          newProduct: newItem.newProduct,
+          popular: newItem.popular
         });
       }
     },

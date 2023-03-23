@@ -43,14 +43,14 @@ const HomeCarousel = () => {
 
                 <Col lg="6" md="6">
                   <div className="hero__content">
-                    <p className="hero__subtitle"> Trending products in {year} </p>
-                    <h2>Order your products from Cameroon</h2>
+                    <p className="hero__subtitle"> Produits tendance en {year} </p>
+                    <h2>Commandez vos produits depuis le Cameroun</h2>
                     <p className="hero__desc">
-                      Apple products at the best prices.
+                      Produits Apple aux meilleurs prix.
                     </p>
                     <Link to="/shop">
                         <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
-                        SHOP NOW
+                        ACHETEZ MAINTENANT
                         </motion.button>
                     </Link>
                   </div>
@@ -72,14 +72,14 @@ const HomeCarousel = () => {
 
                 <Col lg="6" md="6">
                   <div className="hero__content">
-                    <p className="hero__subtitle"> Trending products in {year} </p>
-                    <h2>Orders processed in Canada</h2>
+                    <p className="hero__subtitle"> Produits tendance en {year} </p>
+                    <h2>Commandes traitées au Canada</h2>
                     <p className="hero__desc">
-                    All our products are Apple Canada certified.
+                    Tous nos produits sont certifiés Apple Canada.
                     </p>
 
                     <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
-                      <Link to="/shop">SHOP NOW</Link>
+                      <Link to="/shop">ACHETEZ MAINTENANT</Link>
                     </motion.button>
                   </div>
               </Col>
@@ -99,14 +99,14 @@ const HomeCarousel = () => {
               
                 <Col lg="6" md="6">
                   <div className="hero__content">
-                    <p className="hero__subtitle"> Trending products in {year} </p>
-                    <h2>You can track the status of your order</h2>
+                    <p className="hero__subtitle"> Produits tendance en {year} </p>
+                    <h2>Vous pouvez suivre l'état de votre commande</h2>
                     <p className="hero__desc">
-                    We update your order status in real time.
+                    Nous mettons à jour l'état de votre commande en temps réel.
                     </p>
 
                     <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
-                      <Link to="/shop">SHOP NOW</Link>
+                      <Link to="/shop">ACHETEZ MAINTENANT</Link>
                     </motion.button>
                   </div>
                
@@ -129,14 +129,14 @@ const HomeCarousel = () => {
               
                 <Col lg="6" md="6">
                   <div className="hero__content">
-                    <p className="hero__subtitle"> Trending products in {year} </p>
-                    <h2>Delivery anywhere in Cameroon</h2>
+                    <p className="hero__subtitle"> Produits tendance en {year} </p>
+                    <h2>Livraison partout au Cameroun</h2>
                     <p className="hero__desc">
-                    Our deliverers will contact you to fix the place of delivery.
+                    Nos livreurs vous contacteront pour fixer le lieu de livraison.
                     </p>
 
                     <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
-                      <Link to="/shop">SHOP NOW</Link>
+                      <Link to="/shop">ACHETEZ MAINTENANT</Link>
                     </motion.button>
                   </div>
                

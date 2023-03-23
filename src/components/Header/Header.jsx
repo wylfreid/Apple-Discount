@@ -37,17 +37,17 @@ import { attendeesActions } from './../../redux/slices/attendeeSlice';
 const nav__links = [
   {
     path: "home",
-    display: "Home",
+    display: "Accueil",
     icon: "ri-home-2-line"
   },
   {
     path: "shop",
-    display: "Shop",
+    display: "Boutique",
     icon: "ri-store-3-line"
   },
   {
     path: "cart",
-    display: "Cart",
+    display: "Panier",
     icon: "ri-shopping-bag-line"
   },
 ];
@@ -105,6 +105,9 @@ const Header = () => {
           imgUrl: products[index].imgUrl,
           category: products[index].category,
           trending: products[index].trending,
+          bestSales: products[index].bestSales,
+          newProduct: products[index].newProduct,
+          popular: products[index].popular
         })
       );
       

@@ -32,25 +32,25 @@ const Cart = () => {
 
   return (
     <Helmet title="Cart">
-      <CommonSection title="Shopping Cart" />
+      <CommonSection title="Panier d'achats" />
 
       <section>
         <Container>
           <Row>
             <Col lg="9" className="cart__table">
               {cartItems.length === 0 ? (
-                <h2 className="fs-4 text-center">No item in the cart!</h2>
+                <h2 className="fs-4 my-4 text-center">Aucun article dans le panier!</h2>
               ) : (
                 <table className="table bordered">
                   <thead>
                     <tr>
                       <th>Image</th>
-                      <th>Title</th>
-                      <th>Storage</th>
-                      <th>Color</th>
-                      <th>Price</th>
-                      <th>Qty</th>
-                      <th>Delete</th>
+                      <th>Nom</th>
+                      <th>Stockage</th>
+                      <th>Couleur</th>
+                      <th>Prix</th>
+                      <th>Quantité</th>
+                      <th>Supprimer</th>
                     </tr>
                   </thead>
 
@@ -65,14 +65,13 @@ const Cart = () => {
             <Col lg="3">
               <div className="cart__subTotal">
                 <h6 className="d-flex align-items-center justify-content-between">
-                  SubTotal
+                Sous-total:
                   <span className="fs-4 fw-bold">{totalAmount}XAF</span>
                   </h6>
-                
               </div>
-              <p className="fs-6 mt-2 blink_me">Payment will be made on delivery</p>
-              <p className="fs-6 mt-2">You can track your order in your profile history.</p>
-              <p className="fs-6 mt-2">We will contact you for delivery</p>
+              <p className="fs-6 py-2 mt-2 blink_me d-flex align-items-center gap-1"><i className="fs-5 ri-error-warning-line"></i> Le paiement se fera à la livraison</p>
+              <p className="fs-6 mt-2">Vous pouvez suivre votre commande dans l'historique de votre profil.</p>
+              <p className="fs-6 mt-2">Nous vous contacterons pour la livraison</p>
               <div>
                 <motion.button whileTap={{scale: 0.9}} className="buy__btn w-100 mt-5 " onClick={goToCheckOut}>
                   <span>Checkout</span>
@@ -80,7 +79,7 @@ const Cart = () => {
 
                 <Link to='/shop'>
                   <motion.button whileTap={{scale: 0.9}} className="buy__btn w-100 mt-3">
-                    Continue Shopping
+                  Poursuivre les achats
                   </motion.button>
                 </Link>
               </div>
@@ -98,7 +97,7 @@ const Tr = ({ item }) => {
 
   const deleteProduct = () =>{
     dispatch(cartActions.deleteItem(item.id));
-    toast.success('product removed from cart');
+    toast.success('produit supprimé du panier');
   }
   return (
     <tr>
@@ -106,8 +105,8 @@ const Tr = ({ item }) => {
         <img src={item.imgUrl} alt="" />
       </td>
       <td className='align-middle'>{item.productName}</td>
-      <td className='align-middle'>{item.storage}</td>
-      <td className='align-middle'>{item.color}</td>
+      <td className='align-middle'>{item.storage ? item.storage : "Aucun"}</td>
+      <td className='align-middle'>{item.color ? item.color : "Aucune"}</td>
       <td className='align-middle'> {item.price}XAF </td>
       <td className='align-middle'> {item.quantity} </td>
       <td className='align-middle'>

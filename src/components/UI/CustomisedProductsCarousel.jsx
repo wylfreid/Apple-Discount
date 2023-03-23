@@ -88,7 +88,7 @@ const CustomisedProductsCarousel = () => {
             <Container>
               <Row>
               <Col lg="12" className="text-center">
-                <h2 className="section__title mb-5"> Customised Products </h2>
+                <h2 className="section__title mb-5"> Produits Customisés </h2>
               </Col>
               <Slider {...settings} >
           

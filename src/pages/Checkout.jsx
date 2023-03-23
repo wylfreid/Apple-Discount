@@ -31,7 +31,6 @@ const Checkout = () => {
   const [enterEmail, setEnterEmail] = useState("");
   const [enterAdress, setEnterAdress] = useState("");
   const [enterCity, setEnterCity] = useState("");
-  const [enterPostalCode, setEnterPostalCode] = useState("");
   const [enterCountry, setEnterCountry] = useState("");
 
   const [products, setProducts] = useState([{}]);
@@ -47,6 +46,8 @@ const Checkout = () => {
         productName: cartItems[index].productName,
         quantity: cartItems[index].quantity,
         price: cartItems[index].price,
+        storage: cartItems[index].storage,
+        color: cartItems[index].color,
       };
     }
 
@@ -57,57 +58,62 @@ const Checkout = () => {
   const addorder = async (e) => {
     e.preventDefault();
 
-    if (enterName != "" && enterPhone != "" && enterEmail != "" && enterAdress != "" && enterCity != "" && enterPostalCode != "" && enterCountry != "") {
+    if (products.length > 0) {
       
-    
-    setLoading(true);
-
-    // =========== add order to the firebase database ===========================
-
-    try {
-      const docRef = await collection(db, "orders");
-
-      const order = {
-        userId: currentUser.uid,
-        userName: enterName,
-        userPhone: enterPhone,
-        userEmail: enterEmail,
-        userAdress: enterAdress,
-        userCity: enterCity,
-        userPostalCode: enterPostalCode,
-        userCountry: enterCountry,
-        products,
-        totalQty,
-        totalAmount,
-        status: "progress",
-      };
-
-      await addDoc(docRef,  order);
-
-      setLoading(false);
-
-      toast.success("order successfully added");
-
-      cleanCart();
-
-      navigate("/shop");
-    } catch (error) {
-      setLoading(false);
-      toast.error("order not added");
+      if (enterName != "" && enterPhone != "" && enterEmail != "" && enterAdress != "" && enterCity != "" && enterCountry != "") {
+        
+      
+      setLoading(true);
+  
+      // =========== add order to the firebase database ===========================
+  
+      try {
+        const docRef = await collection(db, "orders");
+  
+        const order = {
+          userId: currentUser.uid,
+          userName: enterName,
+          userPhone: enterPhone,
+          userEmail: enterEmail,
+          userAdress: enterAdress,
+          userCity: enterCity,
+          userCountry: enterCountry,
+          products,
+          totalQty,
+          totalAmount,
+          status: "progress",
+        };
+  
+        await addDoc(docRef,  order);
+  
+        setLoading(false);
+  
+        toast.success("order successfully added");
+  
+        cleanCart();
+  
+        navigate("/shop");
+      } catch (error) {
+        setLoading(false);
+        toast.error("order not added");
+      }
+  
+        }else{
+          toast.error("Veuillez remplir tous les champs!")
+        }
+    }else{
+      toast.error("Le panier est vide!")
     }
 
-      }else{
-        toast.error("Please complete all fields!")
-      }
   };
 
   const cleanCart = () =>{
     dispatch(cartActions.deleteAllItems());
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     window.scrollTo(0, 0);
-  });
+  }); */
 
   return (
     <Helmet title="Checkout">
@@ -118,12 +124,12 @@ const Checkout = () => {
           <Row>
             {loading ? (
               <Col lg="12">
-                <h4 className="py-5">Loading......</h4>
+                <h4 className="py-5">Chargement......</h4>
               </Col>
             ) : (
               <>
                 <Col lg="8">
-                  <h6 className="mb-4 fw-bold">Billing Information</h6>
+                  <h6 className="mb-4 fw-bold">Informations sur la facturation</h6>
 
                   <Form className="billing__form">
                     <FormGroup className="form__group">
@@ -150,7 +156,7 @@ const Checkout = () => {
                       <input
                         required
                         type="number"
-                        placeholder="Phone number"
+                        placeholder="Numéro de téléphone"
                         value={enterPhone}
                         onChange={(e) => setEnterPhone(e.target.value)}
                       />
@@ -160,7 +166,7 @@ const Checkout = () => {
                       <input
                         required
                         type="text"
-                        placeholder="Street address"
+                        placeholder="Quartier"
                         value={enterAdress}
                         onChange={(e) => setEnterAdress(e.target.value)}
                       />
@@ -170,7 +176,7 @@ const Checkout = () => {
                       <input
                         required
                         type="text"
-                        placeholder="City"
+                        placeholder="Ville"
                         value={enterCity}
                         onChange={(e) => setEnterCity(e.target.value)}
                       />
@@ -180,17 +186,7 @@ const Checkout = () => {
                       <input
                         required
                         type="text"
-                        placeholder="Postal Code"
-                        value={enterPostalCode}
-                        onChange={(e) => setEnterPostalCode(e.target.value)}
-                      />
-                    </FormGroup>
-
-                    <FormGroup className="form__group">
-                      <input
-                        required
-                        type="text"
-                        placeholder="Country"
+                        placeholder="Pays"
                         value={enterCountry}
                         onChange={(e) => setEnterCountry(e.target.value)}
                       />
@@ -200,19 +196,19 @@ const Checkout = () => {
                 <Col lg="4">
                   <div className="checkout__cart">
                     <h6>
-                      Total Qty: <span> {totalQty} items</span>
+                      Quantité totale: <span> {totalQty} articles</span>
                     </h6>
                     <h6>
-                      SubTotal: <span>{totalAmount}XAF </span>
+                      Sous-total: <span>{totalAmount}XAF </span>
                     </h6>
                     <h6>
                       <span>
-                        Shipping: <br /> Free Shipping
+                      Livraison: <br /> Livraison gratuite
                       </span>
                       <span>0XAF</span>
                     </h6>
                     <h4>
-                      Total Cost: <span>{totalAmount}XAF</span>
+                    Coût total: <span>{totalAmount}XAF</span>
                     </h4>
 
                     <motion.button
@@ -221,7 +217,7 @@ const Checkout = () => {
                       whileTap={{ scale: 1.2 }}
                       className="mt-5 buy__btn auth__btn bg-light  w-100"
                     >
-                      Place an order
+                      Passer une commande
                     </motion.button>
                   </div>
                 </Col>
