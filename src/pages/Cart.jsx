@@ -74,7 +74,7 @@ const Cart = () => {
               <p className="fs-6 mt-2">Nous vous contacterons pour la livraison</p>
               <div>
                 <motion.button whileTap={{scale: 0.9}} className="buy__btn w-100 mt-5 " onClick={goToCheckOut}>
-                  <span>Checkout</span>
+                  <span>Commander</span>
                 </motion.button>
 
                 <Link to='/shop'>

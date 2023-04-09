@@ -108,8 +108,12 @@ section {
   box-shadow: none !important;
 }
 
-td{
+td, th{
   vertical-align: middle;
+}
+
+.dtqzBx div:first-child{
+  text-overflow: inherit !important;
 }
 
 td img{

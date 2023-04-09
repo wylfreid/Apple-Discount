@@ -18,7 +18,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="footer__text mt-4">
-            Produits Apple certifiés au Canada. Pour tous vos besoins en iphones, MacBook, iPad et accessoires. Faites-nous confiance. Ventes au Cameroun.
+            Produits Apple certifiés au Canada. Pour tous vos besoins en iphone, MacBook, iPad et accessoires. Faites-nous confiance. Ventes au Cameroun.
             </p>
           </Col>
 
@@ -36,7 +36,7 @@ const Footer = () => {
                   <Link to="/shop">MacBook</Link>
                 </ListGroupItem>
                 <ListGroupItem className="ps-0 border-0">
-                  <Link to="/shop">Accessory</Link>
+                  <Link to="/shop">Accessoires</Link>
                 </ListGroupItem>
               </ListGroup>
             </div>
@@ -55,9 +55,9 @@ const Footer = () => {
                 <ListGroupItem className="ps-0 border-0">
                   <Link to="/login">Connexion</Link>
                 </ListGroupItem>
-                <ListGroupItem className="ps-0 border-0">
+                {/* <ListGroupItem className="ps-0 border-0">
                   <Link to="#">Privacy Policy</Link>
-                </ListGroupItem>
+                </ListGroupItem> */}
               </ListGroup>
             </div>
           </Col>
@@ -82,7 +82,7 @@ const Footer = () => {
                   <span>
                     <i className="ri-whatsapp-line"></i>
                   </span>
-                  <p> +(438) 467-8985 </p>
+                  <p> +1(438) 467-8985 </p>
                 </ListGroupItem>
                 <ListGroupItem className="ps-0 border-0 d-flex align-items-center gap-2">
                   <span>

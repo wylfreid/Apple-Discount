@@ -17,8 +17,9 @@
 }
 
 .slide__content img{
-  height: 500px;
+  height: 570px;
   object-fit: fill;
+  
 }
 
 .hero__img img{
@@ -32,6 +33,11 @@
   font-size: 2.5rem;
   font-weight: 600;
   margin: 20px 0px;
+
+  max-width: 80%;
+
+  /* text-shadow: 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff; 
+ */
 }
 
 .hero__content p {
@@ -126,16 +132,24 @@
   }
 }
 
+@media only screen and (max-width:1300px){
+  .slide__content img{
+    object-fit: cover;
+    
+  }
+}
+
 @media only screen and (max-width:768px){
   .slide__content img{
     height: 300px;
   }
   .hero__content h2{
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   .hero__desc{
     font-size: 0.88rem;
+    font-weight: 500 !important;
   }
 
   .hero__content p{
@@ -157,7 +171,8 @@
     max-width: 70%;
   }
   .slide__content img{
-    height: 290px;
+    height: 150px;
+    object-fit: cover;
   }
   .hero__content h2{
     max-width: 70%;
@@ -165,16 +180,49 @@
   }
   .hero__content {
     padding-top: 0;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     /*text-shadow:0.5px 0.5px 0.5px #fff;*/
 
     /*-webkit-text-stroke: 0.1px;
     -webkit-text-stroke-color: #fff;*/
 
-    /* text-shadow: 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff, 0 0 0.5px #fff; */
+    /* text-shadow: 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff; */
 
     /*text-shadow: 0.1px 0 0 #fff, 0.1px 0.1px 0 #fff, 0 0.1px 0 #fff, -0.1px 0.1px 0 #fff, -0.1px 0 0 #fff, -0.1px -0.1px 0 #fff, 0 -0.1px 0 #fff, 0.1px -0.1px 0 #fff;*/
   }
+
+  .hero__content h2{
+    /* text-shadow: 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff, 0 0 0.54px #fff;
+   */
+
+   /* -webkit-text-stroke: 0.1px;
+    -webkit-text-stroke-color: #fff; */
+
+    font-size: .8rem;
+    margin-top: 10px !important;
+
+  }
+
+  .hero__content .hero__subtitle, .hero__content .hero__desc {
+    font-weight: 600 !important;
+    line-height: 10px;
+    font-size: .5rem;
+
+    /* text-shadow: 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff, 0 0 0.55px #fff; */
+    /* text-shadow:0.3px 0.3px 0.3px #fff; */
+  }
+
+  .hero__content .hero__desc{
+    margin-top: 7px;
+  }
+
+  .buy__btn {
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: .7rem;
+    margin-top: .6rem !important;
+  }
+  
 
 }
 

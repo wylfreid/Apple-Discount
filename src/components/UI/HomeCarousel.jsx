@@ -12,7 +12,10 @@ import { Container, Row, Col } from "reactstrap";
 
 
 
-import heroImg1 from "../../assets/images/i-background-13.jpg";
+import heroImg1 from "../../assets/images/Home-background-5.jpg";
+import heroImg2 from "../../assets/images/Home-background-2.jpg";
+import heroImg3 from "../../assets/images/Home-background-3.jpg";
+import heroImg4 from "../../assets/images/Home-background-4.jpg";
 
 const HomeCarousel = () => {
   const [play, setPlay] = useState(false);
@@ -61,7 +64,7 @@ const HomeCarousel = () => {
               className='d-block w-100 '
                 
                 src={
-                heroImg1
+                heroImg4
                 }
             />
         </div>
@@ -89,7 +92,7 @@ const HomeCarousel = () => {
               className='d-block w-100 '
                 
                 src={
-                heroImg1
+                heroImg2
                 }
             />
         </div>
@@ -100,7 +103,7 @@ const HomeCarousel = () => {
                 <Col lg="6" md="6">
                   <div className="hero__content">
                     <p className="hero__subtitle"> Produits tendance en {year} </p>
-                    <h2>Vous pouvez suivre l'état de votre commande</h2>
+                    <h2 style={{maxWidth: "55%"}}>Vous pouvez suivre l'état de votre commande</h2>
                     <p className="hero__desc">
                     Nous mettons à jour l'état de votre commande en temps réel.
                     </p>
@@ -148,7 +151,7 @@ const HomeCarousel = () => {
               className='d-block w-100 '
                 
                 src={
-                heroImg1
+                heroImg2
                 }
             />
         </div>

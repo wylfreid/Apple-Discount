@@ -81,21 +81,21 @@ const Checkout = () => {
           products,
           totalQty,
           totalAmount,
-          status: "progress",
+          status: "in progress",
         };
   
         await addDoc(docRef,  order);
   
         setLoading(false);
   
-        toast.success("order successfully added");
+        toast.success("commande ajoutée avec succès");
   
         cleanCart();
   
         navigate("/shop");
       } catch (error) {
         setLoading(false);
-        toast.error("order not added");
+        toast.error("commande non ajoutée");
       }
   
         }else{
@@ -123,7 +123,7 @@ const Checkout = () => {
         <Container>
           <Row>
             {loading ? (
-              <Col lg="12">
+              <Col lg="12" className="text-center">
                 <h4 className="py-5">Chargement......</h4>
               </Col>
             ) : (

@@ -29,14 +29,12 @@ const History = () => {
 
   function setStatusColor(status) {
     switch (status) {
-        case "in progress":
+        case "En cours":
             return "#14ff92";
-        case "on the way":
+        case "Expédié":
             return "#61a1ff";
-        case "completed":
+        case "Livrée":
             return "#61a1ff";
-        case "delivered":
-          return "#61a1ff";
     }
   }
 
@@ -48,8 +46,8 @@ const History = () => {
       selector: (row) => 
         <div className="overflow-auto">
             {row?.products?.map((item, index) => (
-              <span key={index}>
-                {item.productName} ({item.quantity}) ,
+              <span key={index} className="">
+                {item.productName} ( {item.quantity} ) {(row?.products.length - 1) != index && ", "}
               </span>
             ))}
         </div>
@@ -58,11 +56,11 @@ const History = () => {
     },
     {
       name: "Quantité totale",
-      selector: (row) => row.totalQty,
+      selector: (row) => <span className=" fs-6">{row.totalQty}</span>,
     },
     {
       name: "Montant total",
-      selector: (row) => <span>{row.totalAmount}XAF</span>,
+      selector: (row) => <span className=" fs-6">{row.totalAmount}XAF</span>,
     },
     {
       name: "Status",

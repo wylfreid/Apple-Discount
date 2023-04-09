@@ -75,10 +75,9 @@ const AdminHistory = () => {
             className="w-100 p-1 fw-5 fs-6"
             value={row.status}
           >
-            <option value="in progress">in Progress</option>
-            <option value="on the way">On the way</option>
-            <option value="completed">Completed</option>
-            <option value="delivered">Delivered</option>
+            <option value="En cours">En cours</option>
+            <option value="Expédié">Expédiée</option>
+            <option value="Livrée">Livrée</option>
           </select>
         </div>
       ),
