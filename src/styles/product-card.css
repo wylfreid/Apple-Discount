@@ -19,6 +19,10 @@
     font-size: 0.9rem;
 }
 
+.product__card{
+    height: 369.13px !important;
+}
+
 .product__card-bottom .price{
     color: var(--primary-color);
     font-size: 1.3rem;

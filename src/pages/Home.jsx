@@ -200,7 +200,7 @@ const Home = () => {
         <section className="trending__products">
           <Container>
             <Row>
-              <Col lg="12" className="text-center">
+              <Col lg="12" className="text-center mb-5">
                 <h2 className="section__title"> Produits tendance </h2>
               </Col>
 
