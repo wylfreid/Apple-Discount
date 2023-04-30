@@ -52,7 +52,7 @@ const HomeCarousel = () => {
                       Produits Apple aux meilleurs prix.
                     </p>
                     <Link to="/shop">
-                        <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
+                        <motion.button whileTap={{ scale: 1.2 }} className="buy__btn home__btn mt-3">
                         ACHETEZ MAINTENANT
                         </motion.button>
                     </Link>
@@ -81,7 +81,7 @@ const HomeCarousel = () => {
                     Tous nos produits sont certifiés Apple Canada.
                     </p>
 
-                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
+                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn home__btn mt-3">
                       <Link to="/shop">ACHETEZ MAINTENANT</Link>
                     </motion.button>
                   </div>
@@ -108,7 +108,7 @@ const HomeCarousel = () => {
                     Nous mettons à jour l'état de votre commande en temps réel.
                     </p>
 
-                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
+                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn home__btn mt-3">
                       <Link to="/shop">ACHETEZ MAINTENANT</Link>
                     </motion.button>
                   </div>
@@ -138,7 +138,7 @@ const HomeCarousel = () => {
                     Nos livreurs vous contacteront pour fixer le lieu de livraison.
                     </p>
 
-                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn mt-3">
+                    <motion.button whileTap={{ scale: 1.2 }} className="buy__btn home__btn mt-3">
                       <Link to="/shop">ACHETEZ MAINTENANT</Link>
                     </motion.button>
                   </div>

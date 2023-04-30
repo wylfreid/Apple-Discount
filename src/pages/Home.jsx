@@ -66,7 +66,7 @@ const Home = () => {
       (item) => item.trending === true
     );
     const filteredBestSalesProducts = products.filter(
-      (item) => item.bestSales ==+ true
+      (item) => item.bestSales == true
     );
 
     const filteredNewProducts = products.filter(

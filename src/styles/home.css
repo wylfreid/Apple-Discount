@@ -171,7 +171,7 @@
     max-width: 70%;
   }
   .slide__content img{
-    height: 150px;
+    height: 200px;
     object-fit: cover;
   }
   .hero__content h2{
@@ -216,11 +216,11 @@
     margin-top: 7px;
   }
 
-  .buy__btn {
-    padding: 4px 10px;
+  .buy__btn.home__btn {
+    padding: 8px 10px;
     border-radius: 5px;
     font-size: .7rem;
-    margin-top: .6rem !important;
+    margin-top: 1rem !important;
   }
   
 

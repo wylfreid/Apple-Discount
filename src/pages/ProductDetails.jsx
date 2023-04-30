@@ -67,13 +67,18 @@ const ProductDetails = () => {
 
   useEffect(() =>{
     const getProduct = async() =>{
-      const docSnap = await getDoc(docRef);
+      /* const docSnap = await getDoc(docRef);
 
       if(docSnap.exists()){
         setProduct(docSnap.data());
       }else{
         console.log('no products!');
-      }
+      } */
+
+      const filteredProduct = products.filter(
+        (item) => item.id == id
+      );
+      setProduct(filteredProduct[0]);
     }
 
     getProduct();
