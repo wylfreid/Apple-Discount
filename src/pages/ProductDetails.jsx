@@ -149,25 +149,40 @@ const ProductDetails = () => {
 
   
   const addToCart = () => {
-    if ((!color || color === "default") && product.colors?.length > 0) {
-      toast.error('Veuillez choisir une couleur');
-    }else if((!storage || storage === "default") && product.storage){
-      toast.error('Veuillez choisir un stockage');
-    }
-    else{
+
+    if (product.colors?.length > 0 && product.storage) {
+      if ((!color || color === "default") && product.colors?.length > 0) {
+        toast.error('Veuillez choisir une couleur');
+      }else if((!storage || storage === "default") && product.storage){
+        toast.error('Veuillez choisir un stockage');
+      }
+      else{
+        dispatch(
+          cartActions.addItem({
+            id: id,
+            productName: productName,
+            storage: storage ? storage : "Aucun",
+            color: getColor(),
+            price: priceForSize ? priceForSize : price,
+            imgUrl: imgUrl,
+          })
+        );
+        toast.success('produit ajouté au panier');
+        
+      }
+    }else{
       dispatch(
         cartActions.addItem({
           id: id,
           productName: productName,
-          storage: storage ? storage : "Aucun",
-          color: getColor(),
           price: priceForSize ? priceForSize : price,
           imgUrl: imgUrl,
         })
       );
       toast.success('produit ajouté au panier');
-      
     }
+
+
   };
 
   useEffect(()=>{
