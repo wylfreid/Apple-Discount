@@ -19,11 +19,9 @@ import "../../styles/admin-chatBox.css";
 const AdminChatBox = () => {
   const { currentUser } = UseAuth();
 
-  const { data: users, loading } = useGetData("users");
+  const { data: usersData, loading } = useGetData("users");
 
-  const [usersData, setUsersData] = useState([]);
-
-  const [activeChat, setActiveChat] = useState(null);
+  const [activeChat, setActiveChat] = useState(false);
   const [messages, setMessages] = useState([]);
 
   const scroll = useRef();
@@ -45,11 +43,16 @@ const AdminChatBox = () => {
     return () => unsubscribe;
   }, []);
 
-  useEffect(()=>{
-    if (activeChat) {
-      scroll.current.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    let result = [];
+    for (let index = 0; index < messages.length; index++) {
+      if (messages[index].uid === activeChat) {
+        result.push(messages[index]);
+      }
     }
-  },[activeChat])
+
+    //setMessages(result);
+  }, [activeChat]);
 
   const activeModal = (uid) => {
     setActiveChat(uid);
@@ -77,82 +80,23 @@ const AdminChatBox = () => {
     scroll.current.scrollIntoView({ behavior: "smooth" });
   };
 
-
-
-useEffect(() => {
-  if (users.length > 0) {
-    let result = [];
-    for (let index = 0; index < users.length; index++) {
-      const msgNumber = messages.filter(
-        (msg) => msg.uid === users[index].uid || msg.receiverId === users[index].uid
-      );
-      result.push({ data: users[index], msg: msgNumber });
-    }
-
-    for (let index = 0; index < result.length; index++) {
-      if (result[index].msg[result[index].msg.length - 1]?.receiverId != undefined) {
-        result[index].msg = [];
-      }
-    }
-
-    result.sort((a, b) => {
-      if (a.msg.length === 0 && b.msg.length === 0) {
-        return 0;
-      } else if (a.msg.length === 0) {
-        return 1;
-      } else if (b.msg.length === 0) {
-        return -1;
-      } else {
-        const aDate = new Date(a.msg[a.msg.length - 1].createdAt.toDate())
-        const bDate = new Date(b.msg[b.msg.length - 1].createdAt.toDate())
-        
-        return aDate - bDate;
-      }
-    });
-
-    setUsersData(result);
-  }
-}, [users, messages]);
-
-
   return (
     <div>
-      {!loading ?
-      
-      usersData.length > 0 ?
-      usersData.map(
+      {usersData.map(
         (user, index) =>
-          !user.admin && user.msg.length > 0 && (
+          !user.admin && (
             <div
               key={index}
-              className="card p-3 m-0 border pointer user__card d-flex flex-row"
+              className="card p-3 m-0 border text-center pointer user__card"
               type="button"
               data-toggle="modal"
               data-target="#exampleModal"
-              onClick={(e) => activeModal(user.data.uid)}
+              onClick={(e) => activeModal(user.uid)}
             >
-              <div className="w-25 d-flex justify-content-center align-items-center"> <img className="rounded-pill" style={{width: "50px", height: "50px"}} src={user.data.photoURL} /> </div>
-
-              <div className="w-50 d-flex justify-content-center align-items-center">
-                <span>{user.data.displayName}</span>
-              </div>
-
-              <div className="w-25 d-flex justify-content-center align-items-center">
-                <span className="msg__number rounded-pill"> {user.msg.length} </span>
-              </div>
+              <span>{user.displayName}</span>
             </div>
           )
-      ) : 
-      <div className="text-center w-100">
-      <h5 className="p-5">Aucun nouveau message!</h5>
-    </div>
-
-    : <div className="text-center w-100">
-    <h5 className="p-5">chargement....</h5>
-  </div>
-    
-    
-    }
+      )}
 
       <div
         className="modal fade"

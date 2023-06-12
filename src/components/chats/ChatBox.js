@@ -37,6 +37,13 @@ const ChatBox = () => {
     }
   };
 
+
+  useEffect(()=>{
+    if (activeChat) {
+      scroll.current.scrollIntoView({ behavior: "smooth" });
+    }
+  },[activeChat])
+
   useEffect(() => {
     const q = query(
       collection(db, "messages"),
@@ -118,10 +125,10 @@ const ChatBox = () => {
                 <div className="card card-bordered fix_boderChat">
                   <div className="card-header">
                     <h4 className="card-title">
-                      <strong>Customer Support</strong>
+                      <strong>Service client</strong>
                     </h4>
                     <span className="btn btn-xs btn-secondary">
-                      leave a feedback
+                      laissez un commentaire
                     </span>
                   </div>
                   <div className="ps-container ps-theme-default ps-active-y fix_scoll">

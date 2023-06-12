@@ -45,11 +45,15 @@ const SendMessage = ({ scroll }) => {
         name="messageInput"
         type="text"
         className="form-input__input"
-        placeholder="type message..."
+        placeholder="tapez un message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button type="submit">Send</button>
+      <button type="submit">
+        <span className="" style={{fontSize: 13}}>
+         Envoyer
+        </span>
+      </button>
     </form>
   );
 };

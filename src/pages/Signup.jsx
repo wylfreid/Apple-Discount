@@ -40,50 +40,55 @@ const Signup = () => {
     e.preventDefault();
 
     if (file != null) {
-      
-      setLoading(true);
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-  
-        const user = await userCredential.user;
-  
-        const storageRef = ref(storage, `images/${Date.now() + username}`);
-  
-        const uploadTask = uploadBytesResumable(storageRef, file).then(
-          
-          () => {
-            getDownloadURL(storageRef).then(async (downloadURL) => {
-              //update user profile
-              await updateProfile(user, {
-                displayName: username,
-                photoURL: downloadURL,
+
+      if (password.length < 6) {
+        toast.error("Le mot de passe doit avoir au moins 06 caractères");
+      }else{
+        setLoading(true);
+        try {
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+    
+          const user = await userCredential.user;
+    
+          const storageRef = ref(storage, `images/${Date.now() + username}`);
+    
+          const uploadTask = uploadBytesResumable(storageRef, file).then(
+            
+            () => {
+              getDownloadURL(storageRef).then(async (downloadURL) => {
+                //update user profile
+                await updateProfile(user, {
+                  displayName: username,
+                  photoURL: downloadURL,
+                });
+    
+                //store user data in firestore database
+                await setDoc(doc(db, "users", user.uid), {
+                  admin: false,
+                  participant: false,
+                  uid: user.uid,
+                  displayName: username,
+                  email,
+                  photoURL: downloadURL,
+                });
               });
-  
-              //store user data in firestore database
-              await setDoc(doc(db, "users", user.uid), {
-                admin: false,
-                participant: false,
-                uid: user.uid,
-                displayName: username,
-                email,
-                photoURL: downloadURL,
-              });
-            });
-          }
-        );
-  
-        setLoading(false);
-  
-        toast.success("Compte créé avec succès");
-        navigate("/login");
-      } catch (error) {
-        setLoading(false);
-        toast.error("quelque chose n'a pas fonctionné");
+            }
+          );
+    
+          setLoading(false);
+    
+          toast.success("Compte créé avec succès");
+          navigate("/login");
+        } catch (error) {
+          setLoading(false);
+          toast.error("quelque chose n'a pas fonctionné");
+        }
       }
+      
     }else{
       toast.error("Veuillez choisir une photo de profil");
     }
