@@ -44,3 +44,7 @@
     margin-top: 50px;
     text-align: center;
 }
+
+.footer__quick-links a:hover{
+    color: #fff;
+}

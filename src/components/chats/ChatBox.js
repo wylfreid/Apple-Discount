@@ -62,6 +62,19 @@ const ChatBox = () => {
   }, []);
 
 
+  const verifyMessage = () => {
+    let test = false;
+    for (let index = 0; index < messages.length; index++) {
+      if (messages[index].uid === currentUser.uid || (messages[index].receiverId === currentUser.uid)) {
+        test = true;
+      }
+      
+    }
+
+    return test;
+  };
+
+
   return (
     <div className="wrapper_chat">
       <motion.div
@@ -128,15 +141,20 @@ const ChatBox = () => {
                       <strong>Service client</strong>
                     </h4>
                     <span className="btn btn-xs btn-secondary">
-                      laissez un commentaire
+                      Discutez avec nous
                     </span>
                   </div>
                   <div className="ps-container ps-theme-default ps-active-y fix_scoll">
                     <main className="chat-box ">
                       <div className="messages-wrapper">
-                        {messages?.map((message) => (
+                        {verifyMessage() ? messages?.map((message) => (
                         (message.uid === currentUser.uid || (message.receiverId === currentUser.uid)) &&  <Message key={message.id} message={message} />
-                        ))}
+                        ))
+                        : 
+                        <h5 style={{color: "#e4e7ea"}} className="text-center">
+                          Aucun message...
+                        </h5>
+                      }
                       </div>
                       {/* when a new message enters the chat, the screen scrolls dowwn to the scroll div */}
                       <span ref={scroll}></span>

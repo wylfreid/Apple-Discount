@@ -111,6 +111,7 @@ const Home = () => {
         localStorage.setItem("AllowAuction", "true")
         setAllowAuction(true)
         btnRef.current.click();
+        handleNotification();
       }else{
         localStorage.setItem("AllowAuction", "false")
         setAllowAuction(false)
@@ -177,6 +178,25 @@ const Home = () => {
     
 
 
+  };
+
+
+
+  const handleNotification = () => {
+    if ("Notification" in window) {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          const newNotification = new Notification("Apple Discount", {
+            body: "Une nouvelle vente aux enchères a démarée !",
+            icon: "./favicon.ico"
+          });
+          newNotification.onclick = () => {
+            window.open("https://applediscount237.com");
+          };
+          /* setNotification(newNotification); */
+        }
+      });
+    }
   };
 
 
@@ -363,7 +383,7 @@ const Home = () => {
             </div>
             <div className="modal-body p-4">
               <div className="text-center">
-                <h5>Une nouvelle vente aux enchères a commencé !</h5>
+                <h5>Une nouvelle vente aux enchères a démarré !</h5>
               </div>
 
               <div className="d-flex justify-content-center p-2">

@@ -66,7 +66,7 @@ const Cart = () => {
               <div className="cart__subTotal">
                 <h6 className="d-flex align-items-center justify-content-between">
                 Sous-total:
-                  <span className="fs-4 fw-bold">{totalAmount}XAF</span>
+                  <span className="fs-4 fw-bold">{totalAmount.toLocaleString('fr-FR')}XAF</span>
                   </h6>
               </div>
               <p className="fs-6 py-2 mt-2 blink_me d-flex align-items-center gap-1"><i className="fs-5 ri-error-warning-line"></i> Le paiement se fera à la livraison</p>

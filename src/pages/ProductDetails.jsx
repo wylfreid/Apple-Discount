@@ -171,15 +171,47 @@ const ProductDetails = () => {
         
       }
     }else{
-      dispatch(
-        cartActions.addItem({
-          id: id,
-          productName: productName,
-          price: priceForSize ? priceForSize : price,
-          imgUrl: imgUrl,
-        })
-      );
-      toast.success('produit ajouté au panier');
+
+      if (product.colors?.length > 0) {
+        if ((!color || color === "default")) {
+          toast.error('Veuillez choisir une couleur');
+        }else{
+          dispatch(
+            cartActions.addItem({
+              id: id,
+              productName: productName,
+              color: getColor(),
+              price: priceForSize ? priceForSize : price,
+              imgUrl: imgUrl,
+            })
+          );
+          toast.success('produit ajouté au panier');
+        }
+      }else if(product.storage){
+        dispatch(
+          cartActions.addItem({
+            id: id,
+            productName: productName,
+            storage: storage ? storage : "Aucun",
+            price: priceForSize ? priceForSize : price,
+            imgUrl: imgUrl,
+          })
+        );
+        toast.success('produit ajouté au panier');
+      }
+      else{
+        dispatch(
+          cartActions.addItem({
+            id: id,
+            productName: productName,
+            price: priceForSize ? priceForSize : price,
+            imgUrl: imgUrl,
+          })
+        );
+        toast.success('produit ajouté au panier');
+      }
+
+      
     }
 
 
@@ -187,6 +219,9 @@ const ProductDetails = () => {
 
   useEffect(()=>{
     window.scrollTo(0, 0);
+    setColor(null);
+    setStorage(null);
+    setColorPreview(null)
   }, [id])
 
   const handleChangeStorage = (e) =>{
