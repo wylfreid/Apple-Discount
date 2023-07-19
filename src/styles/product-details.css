@@ -28,6 +28,7 @@
 .product__price{
     font-size: 1.3rem;
     font-weight: 500;
+    line-height: 27px;
 }
 
 .tab__wrapper {
@@ -121,6 +122,11 @@
     border-radius: 40px;
 }
 
+.product__finance{
+    font-size: 15px;
+    color: coral;
+}
+
 
 @media only screen and (max-width:768px){
     .img_product-details{
@@ -151,6 +157,12 @@
     }
     .col__tab-wrapper{
         margin-top: 50px;
+    }
+    .product__price{
+        line-height: 25px;
+    }
+    .product__finance{
+        font-size: 11px;
     }
 }
 

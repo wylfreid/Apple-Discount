@@ -59,7 +59,7 @@ const AddProducts = () => {
               trending: trending,
               bestSales: bestSales,
               newProduct: newProduct,
-              popular: populary
+              popular: populary,
             });
           });
 
@@ -213,7 +213,7 @@ const handleSetColor = (e, id) =>{
                   <div className="d-flex align-items-center gap-5">
 
                     <div className="form-check mb-3 mt-2" >
-                      <label className="form-check-label" htmlFor="flexCheckDefault" style={{cursor: "pointer"}}>
+                      <label className="form-check-label" htmlFor="flexCheckDefault1" style={{cursor: "pointer"}}>
                         Trending Product
                       </label>
                       <input
@@ -221,7 +221,7 @@ const handleSetColor = (e, id) =>{
                         className="form-check-input"
                         type="checkbox"
                         checked = {trending}
-                        id="flexCheckDefault"
+                        id="flexCheckDefault1"
 
                         onChange={e => setTrending(!trending)}
                       />
@@ -229,7 +229,7 @@ const handleSetColor = (e, id) =>{
                     </div>
 
                     <div className="form-check mb-3 mt-2" >
-                      <label className="form-check-label" htmlFor="flexCheckDefault" style={{cursor: "pointer"}}>
+                      <label className="form-check-label" htmlFor="flexCheckDefault3" style={{cursor: "pointer"}}>
                         Best Sales
                       </label>
                       <input
@@ -237,7 +237,7 @@ const handleSetColor = (e, id) =>{
                         className="form-check-input"
                         type="checkbox"
                         checked = {bestSales}
-                        id="flexCheckDefault"
+                        id="flexCheckDefault3"
 
                         onChange={e => setBestSales(!bestSales)}
                       />
@@ -245,7 +245,7 @@ const handleSetColor = (e, id) =>{
                     </div>
 
                     <div className="form-check mb-3 mt-2" >
-                      <label className="form-check-label" htmlFor="flexCheckDefault" style={{cursor: "pointer"}}>
+                      <label className="form-check-label" htmlFor="flexCheckDefault4" style={{cursor: "pointer"}}>
                         New Product
                       </label>
                       <input
@@ -253,7 +253,7 @@ const handleSetColor = (e, id) =>{
                         className="form-check-input"
                         type="checkbox"
                         checked = {newProduct}
-                        id="flexCheckDefault"
+                        id="flexCheckDefault4"
 
                         onChange={e => setNewProduct(!newProduct)}
                       />
@@ -261,7 +261,7 @@ const handleSetColor = (e, id) =>{
                     </div>
 
                     <div className="form-check mb-3 mt-2" >
-                      <label className="form-check-label" htmlFor="flexCheckDefault" style={{cursor: "pointer"}}>
+                      <label className="form-check-label" htmlFor="flexCheckDefault5" style={{cursor: "pointer"}}>
                         Popular
                       </label>
                       <input
@@ -269,7 +269,7 @@ const handleSetColor = (e, id) =>{
                         className="form-check-input"
                         type="checkbox"
                         checked = {populary}
-                        id="flexCheckDefault"
+                        id="flexCheckDefault5"
 
                         onChange={e => setPopulary(!populary)}
                       />
@@ -277,7 +277,7 @@ const handleSetColor = (e, id) =>{
                     </div>
 
                     <div className="form-check mb-3 mt-2" >
-                      <label className="form-check-label" htmlFor="flexCheckDefault1" style={{cursor: "pointer"}}>
+                      <label className="form-check-label" htmlFor="flexCheckDefault6" style={{cursor: "pointer"}}>
                         Storage
                       </label>
                       <input
@@ -286,7 +286,7 @@ const handleSetColor = (e, id) =>{
                         type="checkbox"
                         checked = {active}
                         onChange={e=>setActive(true)}
-                        id="flexCheckDefault1"
+                        id="flexCheckDefault6"
                         data-toggle="modal"
                         data-target="#exampleModal"
                       />
@@ -294,7 +294,7 @@ const handleSetColor = (e, id) =>{
                     </div>
 
                     <div className="form-check mb-3 mt-2" >
-                      <label className="form-check-label" htmlFor="flexCheckDefault2" style={{cursor: "pointer"}}>
+                      <label className="form-check-label" htmlFor="flexCheckDefault7" style={{cursor: "pointer"}}>
                         Color
                       </label>
                       <input
@@ -303,7 +303,7 @@ const handleSetColor = (e, id) =>{
                         type="checkbox"
                         checked = {active1}
                         onChange={e=>setActive1(true)}
-                        id="flexCheckDefault2"
+                        id="flexCheckDefault7"
                         data-toggle="modal"
                         data-target="#exampleModal1"
                       />

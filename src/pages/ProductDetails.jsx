@@ -134,13 +134,13 @@ const ProductDetails = () => {
   
           await addDoc(docRef,  reviewObj);
       
-          toast.success('Review Submitted');
+          toast.success('Commentaire soumis');
   
       } catch (error) {
-        toast.error("Review not Submitted");
+        toast.error("Commentaire non soumis");
       }
     }else{
-      toast.error("please rate!");
+      toast.error("Veuillez noter s'il vous plaît!");
     }
     
     
@@ -279,7 +279,7 @@ const ProductDetails = () => {
         })
       );
 
-      toast.success('produit ajouté aux favories');
+      toast.success('produit ajouté aux favoris');
 
     } else {
 
@@ -289,7 +289,7 @@ const ProductDetails = () => {
       dispatch(
         favoritesActions.deleteItem(id)
       );
-      toast.success('produit supprimé de la liste favorites!');
+      toast.success('produit supprimé de la liste favoris!');
     }
   }
 
@@ -345,8 +345,8 @@ const ProductDetails = () => {
                     {/* {<span>({productReview.length} ratings)</span>} */}
                   </p>
                 </div>
-                <div className="d-flex align-items-center gap-5">
-                  <span className="product__price"> { priceForSize ? priceForSize : price}XAF</span>
+                <div className={ category != "accessory" ? "d-flex" : "d-flex align-items-center gap-5" } >
+                  {price && <span className="product__price"> { priceForSize ? priceForSize : price}XAF { category != "accessory"  && <><br /><span className="product__finance"> ou {priceForSize ? ((Math.ceil(((Number(priceForSize?.split(".").join("")) * 1.19) / 12) / 1000)) * 1000)?.toLocaleString('fr-FR') : ((Math.ceil(((Number(price?.split(".").join("")) * 1.19) / 12) / 1000)) * 1000)?.toLocaleString('fr-FR')} XAF / mois sur un an</span></> }  </span>}
                   <span>Categorie : {category?.toUpperCase()} </span>
                 </div>
                 

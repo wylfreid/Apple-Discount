@@ -21,7 +21,7 @@ const Favourites = () => {
 
   return (
     <Helmet title="Favorites List">
-      <CommonSection title="Liste des favories" />
+      <CommonSection title="Liste des favoris" />
 
       <section>
         <Container>
@@ -74,7 +74,7 @@ const Tr = ({ item }) => {
 
     dispatch(favoritesActions.deleteItem(item.id));
 
-    toast.success("produit supprimé de la liste favories!");
+    toast.success("produit supprimé de la liste favoris!");
   };
 
   /* const addToCart = (item) => {
