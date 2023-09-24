@@ -12,6 +12,7 @@ import ProtectedRoute from "./ProtectedRoute";
 
 import AddProducts from "./../admin/AddProducts";
 
+
 import AllProducts from "./../admin/AllProducts";
 import Dashboard from './../admin/Dashboard';
 import Users from './../admin/Users';
@@ -23,6 +24,13 @@ import AdminRoute from './AdminRoute';
 import Auction from './../pages/Auction';
 import Favourites from './../pages/Favourites';
 import AdminAuction from '../admin/AdminAuction';
+
+import UpdateProducts from '../admin/UpdateProducts';
+
+
+
+
+
 
 
 
@@ -47,6 +55,7 @@ const Routers = () => {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="dashboard/all-products" element={<AllProducts />} />
         <Route path="dashboard/add-product" element={<AddProducts />} />
+        <Route path="dashboard/update-product/:id" element={<UpdateProducts />} />
         <Route path="dashboard/auction" element={<AdminAuction />} />
         <Route path="dashboard/users" element={<Users />} />
         <Route path="dashboard/orders" element={<Orders />} />

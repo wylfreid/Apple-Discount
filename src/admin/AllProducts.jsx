@@ -10,13 +10,22 @@ import { Link } from "react-router-dom";
 
 import { motion } from "framer-motion";
 
+import { useNavigate } from "react-router-dom";
+
 const AllProducts = () => {
   const { data: productsData, loading } = useGetData("products");
+
+  const navigate = useNavigate();
 
   const deleteProduct = async (id) => {
     await deleteDoc(doc(db, "products", id));
 
     toast.success("Deleted!");
+  };
+
+  const handleUpdate = (id) => {
+    navigate(`/dashboard/update-product/${id}`)
+    
   };
 
   return (
@@ -66,7 +75,17 @@ const AllProducts = () => {
                       <td>{item.category}</td>
                       <td>{item.trending ? "activated" : "disabled"}</td>
                       <td>{item.price}XAF</td>
-                      <td>
+                      <td className="d-flex gap-2">
+
+                        <button
+                          onClick={() => {
+                            handleUpdate(item.id);
+                          }}
+                          className="btn btn-success"
+                        >
+                          update
+                        </button>
+
                         <button
                           onClick={() => {
                             deleteProduct(item.id);
@@ -75,6 +94,8 @@ const AllProducts = () => {
                         >
                           Delete
                         </button>
+
+                        
                       </td>
                     </tr>
                   ))
