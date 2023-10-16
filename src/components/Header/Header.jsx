@@ -68,7 +68,7 @@ const Header = () => {
 
   const totalFavouritesQuantity = useSelector((state) => state.favorites.totalQuantity);
 
-  
+  const [isSticky, setIsSticky] = useState(false);
 
   const headerRef = useRef(null);
 
@@ -153,15 +153,17 @@ const Header = () => {
   }
 
 
-  const stickyHeaderFunc = () => {
+  /* const stickyHeaderFunc = () => {
     window.addEventListener("scroll", () => {
       if (
-        document.body.scrollTop > 80 ||
-        document.documentElement.scrollTop > 80
+        document.body.scrollTop > 0 ||
+        document.documentElement.scrollTop > 0
       ) {
         headerRef.current?.classList.add("sticky__header");
+        setIsSticky(true);
       } else {
         headerRef.current?.classList.remove("sticky__header");
+        setIsSticky(false);
       }
     });
   };
@@ -170,7 +172,7 @@ const Header = () => {
     stickyHeaderFunc();
 
     return () => window.removeEventListener("scroll", stickyHeaderFunc);
-  });
+  }); */
 
   const menuToggle = () => menuRef.current.classList.toggle("active__menu");
 
@@ -260,7 +262,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="header shadow-sm" ref={headerRef}>
+    <header className="header sticky__header" ref={headerRef}>
       <Container>
         <Row>
           <div className="nav__wrapper">

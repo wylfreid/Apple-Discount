@@ -64,7 +64,7 @@ const ProductCard = ({ item }) => {
          justify-content-between p-2"
          style={{height: item.imgUrl ? "15%" : "50%"}}
         >
-          <span className="price"> {item.price}XAF </span>
+          <span className="price"> {Number(item.price?.split(".").join("")).toLocaleString('fr-FR')}XAF </span>
           <motion.span whileTap={{ scale: 1.2 }} onClick={addToCart}>
             <i className="ri-add-line"></i>
           </motion.span>

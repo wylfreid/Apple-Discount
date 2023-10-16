@@ -346,7 +346,7 @@ const ProductDetails = () => {
                   </p>
                 </div>
                 <div className={ category != "accessory" ? "d-flex" : "d-flex align-items-center gap-5" } >
-                  {price && <span className="product__price"> { priceForSize ? priceForSize : price}XAF { category != "accessory"  && <><br /><span className="product__finance"> ou {priceForSize ? ((Math.ceil(((Number(priceForSize?.split(".").join("")) * 1.19) / 12) / 1000)) * 1000)?.toLocaleString('fr-FR') : ((Math.ceil(((Number(price?.split(".").join("")) * 1.19) / 12) / 1000)) * 1000)?.toLocaleString('fr-FR')} XAF / mois sur un an</span></> }  </span>}
+                  {price && <span className="product__price"> { priceForSize ? Number(priceForSize?.split(".").join("")).toLocaleString('fr-FR') : Number(price?.split(".").join("")).toLocaleString('fr-FR')}XAF { category != "accessory"  && <><br /><span className="product__finance"> ou {priceForSize ? ((Math.ceil(((Number(priceForSize?.split(".").join("")) * 1.19) / 12) / 1000)) * 1000)?.toLocaleString('fr-FR') : ((Math.ceil(((Number(price?.split(".").join("")) * 1.19) / 12) / 1000)) * 1000)?.toLocaleString('fr-FR')} XAF / mois sur un an</span></> }  </span>}
                   <span>Categorie : {category?.toUpperCase()} </span>
                 </div>
                 

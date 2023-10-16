@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { toast } from "react-toastify";
 import { db } from "./../firebase.config";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import UseAuth from './../custom-hooks/useAuth';
 
@@ -39,19 +39,26 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let cartProducts = [{}];
-    for (let index = 0; index < cartItems.length; index++) {
-      cartProducts[index] = {
-        id: cartItems[index].id,
-        productName: cartItems[index].productName,
-        quantity: cartItems[index].quantity,
-        price: cartItems[index].price,
-        storage: cartItems[index].storage,
-        color: cartItems[index].color,
-      };
+
+    if (cartItems?.length != 0) {
+      
+      let cartProducts = [{}];
+      for (let index = 0; index < cartItems.length; index++) {
+        cartProducts[index] = {
+          id: cartItems[index].id,
+          productName: cartItems[index].productName,
+          quantity: cartItems[index].quantity,
+          price: cartItems[index].price,
+          storage: cartItems[index].storage,
+          color: cartItems[index].color,
+        };
+      }
+      setProducts(cartProducts);
+    }else{
+      navigate("/")
     }
 
-    setProducts(cartProducts);
+    
 
   }, [cartItems]);
 
@@ -82,6 +89,7 @@ const Checkout = () => {
           totalQty,
           totalAmount,
           status: "in progress",
+          createdAt: serverTimestamp(),
         };
   
         await addDoc(docRef,  order);
@@ -99,10 +107,10 @@ const Checkout = () => {
       }
   
         }else{
-          toast.error("Veuillez remplir tous les champs!")
+          toast.error("Veuillez remplir tous les champs")
         }
     }else{
-      toast.error("Le panier est vide!")
+      toast.error("Le panier est vide")
     }
 
   };
@@ -155,7 +163,7 @@ const Checkout = () => {
                     <FormGroup className="form__group">
                       <input
                         required
-                        type="number"
+                        type="text"
                         placeholder="Numéro de téléphone"
                         value={enterPhone}
                         onChange={(e) => setEnterPhone(e.target.value)}
@@ -196,10 +204,10 @@ const Checkout = () => {
                 <Col lg="4">
                   <div className="checkout__cart">
                     <h6>
-                      Quantité totale: <span> {totalQty} articles</span>
+                      Quantité totale: <span> {totalQty} article(s)</span>
                     </h6>
                     <h6>
-                      Sous-total: <span>{totalAmount}XAF </span>
+                      Sous-total: <span>{totalAmount.toLocaleString('fr-FR')}XAF </span>
                     </h6>
                     <h6>
                       <span>
@@ -208,7 +216,7 @@ const Checkout = () => {
                       <span>0XAF</span>
                     </h6>
                     <h4>
-                    Coût total: <span>{totalAmount}XAF</span>
+                    Coût total: <span>{totalAmount.toLocaleString('fr-FR')}XAF</span>
                     </h4>
 
                     <motion.button

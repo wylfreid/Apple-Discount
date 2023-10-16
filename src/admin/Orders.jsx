@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { db } from "../firebase.config";
 
@@ -9,8 +9,38 @@ import DataTable from "react-data-table-component";
 import { Container, Col } from "reactstrap";
 import { toast } from "react-toastify";
 
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
+
 const AdminHistory = () => {
   const { data: orders, loading } = useGetData("orders");
+
+  const [ordersData, setOrdersData] = useState([]);
+
+  useEffect(()=>{
+
+    let result = orders
+
+    result.sort((a, b) => {
+      if (!a.createdAt === 0 && !b.createdAt) {
+        return 0;
+      } else if (!a.createdAt) {
+        return 1;
+      } else if (!b.createdAt) {
+        return -1;
+      } else {
+        const aDate = new Date(a.createdAt.toDate())
+        const bDate = new Date(b.createdAt.toDate())
+        
+        return  bDate - aDate;
+      }
+    });
+
+    setOrdersData(result)
+
+  },[orders])
+
+  console.log(orders);
 
   const ExpandedComponent = ({ data }) => (
     <pre>{JSON.stringify(data, null, 2)}</pre>
@@ -18,8 +48,9 @@ const AdminHistory = () => {
 
   const columns = [
     {
-      name: "userId",
-      selector: (row) => row.userId,
+      name: "Date",
+      selector: (row) => row.createdAt && format(row.createdAt?.toDate(), "dd MMMM yyyy HH:mm", { locale: fr }),
+      width: "175px"
     },
     {
       name: "userName",
@@ -120,7 +151,7 @@ const AdminHistory = () => {
         ) : (
           <DataTable
             columns={columns}
-            data={orders}
+            data={ordersData}
             expandableRows
             expandableRowsComponent={ExpandedComponent}
             defaultSortFieldId="userName"

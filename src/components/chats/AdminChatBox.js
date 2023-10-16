@@ -106,13 +106,15 @@ useEffect(() => {
         const aDate = new Date(a.msg[a.msg.length - 1].createdAt.toDate())
         const bDate = new Date(b.msg[b.msg.length - 1].createdAt.toDate())
         
-        return aDate - bDate;
+        return  bDate - aDate;
       }
     });
 
     setUsersData(result);
   }
 }, [users, messages]);
+
+console.log(messages);
 
 
   return (
